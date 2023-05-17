@@ -7,7 +7,7 @@ jobs:
     name:  Server đang khởi chạy
     runs-on: ubuntu-latest
     steps:
-    - name:  📂 Code gần nhất
+    - name: Lấy code gần nhất
       uses: actions/checkout@v3
     - name: Run react build script
       run: yarn && yarn build  #npm thì đổi thành npm
@@ -19,7 +19,4 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD}}
-        private-key: ${{ secrets.FTP_SSH_KEY }}
-        port: 22
         local-dir: build/
-        server-dir: /var/www/queuing-system/
