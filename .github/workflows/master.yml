@@ -31,6 +31,6 @@ jobs:
         remote-password: ${{secrets.FTP_PASSWORD}}
         ssh-private-key: ${{secrets.FTP_SSH_KEY}}
         remote-port: 22
-        local-path: "build" # Vite là dist còn CRA là build nha
+        local-path: "build/" # Vite là dist còn CRA là build nha
         sync: "delta"
         remote-path: "/var/www/queuing-system"
