@@ -23,4 +23,4 @@ jobs:
         port: 22
         local-dir: build/
         protocol: ftps
-        server-dir: /var/www/queuing-system
+        server-dir: /var/www/queuing-system/
