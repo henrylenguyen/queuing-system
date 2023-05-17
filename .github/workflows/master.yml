@@ -22,4 +22,3 @@ jobs:
         port: 22
         local-dir: build/ # Vite là dist còn CRA là build nha
         server-dir: /var/www/queuing-system/
-        timeout: '-O ConnectTimeOut=5'
