@@ -14,11 +14,13 @@ jobs:
       env:
           CI: false
     - name: FTP đang deploy
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: milanmk/actions-file-deployer@master
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD}}
-        port: 22
-        local-dir: build/ # Vite là dist còn CRA là build nha
-        server-dir: /var/www/queuing-system/
+        remote-protocol: "sftp"
+        remote-host: ${{ secrets.FTP_SERVER }}
+        remote-user: ${{ secrets.FTP_USERNAME }}
+        remote-password: ${{secrets.FTP_PASSWORD}}
+        ssh-private-key: ${{secrets.LAMP}}
+        remote-port: 22
+        local-path: build/ # Vite là dist còn CRA là build nha
+        remote-path: /var/www/queuing-system/
