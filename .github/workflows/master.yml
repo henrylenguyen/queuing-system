@@ -22,5 +22,5 @@ jobs:
         private-key: ${{ secrets.FTP_SSH_KEY }}
         port: 22
         local-dir: build/
-        protocol: sftp
+        protocol: ftps
         server-dir: /var/www/queuing-system
