@@ -1,9 +1,16 @@
+name: Deploy Files
 on:
   push:
     branches:
       - master
+  workflow_dispatch:
+    inputs:
+      sync:
+        description: "File synchronization"
+        required: true
+        default: "delta"
 jobs:
-  build_and_deploy:
+  deploy-master:
     name:  Server đang khởi chạy
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +29,8 @@ jobs:
         remote-host: ${{ secrets.FTP_SERVER }}
         remote-user: ${{ secrets.FTP_USERNAME }}
         remote-password: ${{secrets.FTP_PASSWORD}}
-        ssh-private-key: ${{secrets.LAMP}}
+        ssh-private-key: ${{secrets.FTP_SSH_KEY}}
         remote-port: 22
-        local-path: build/ # Vite là dist còn CRA là build nha
-        remote-path: /var/www/queuing-system/
+        local-path: "build" # Vite là dist còn CRA là build nha
+        sync: "delta"
+        remote-path: "/var/www/queuing-system"
