@@ -9,6 +9,8 @@ jobs:
     steps:
     - name: Lấy code gần nhất
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - name: Run react build script
       run: yarn && yarn build  #npm thì đổi thành npm
       env:
