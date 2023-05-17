@@ -2,8 +2,8 @@ import React from 'react'
 
 type Props = {}
 
-const DashboardByDay = (props: Props) => {
+const Dashboard = (props: Props) => {
   return <div>DashboardByDay</div>
 }
 
-export default DashboardByDay
+export default Dashboard

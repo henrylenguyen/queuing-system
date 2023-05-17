@@ -4,17 +4,20 @@ import Form from 'components/form/Form'
 import { LoginShema } from 'schemas/Login.schema'
 import { loginField } from 'constants/fields/login.fields'
 import login from 'assets/images/login.png'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 type Props = {}
 
 const data = {
   username: 'thaile',
   password: '123456'
 }
-const handleSubmitForm = (data: any) => {
-  console.log(data)
-}
+
 const LoginPage = (props: Props) => {
+  const navigate = useNavigate()
+  const handleSubmitForm = (data: any) => {
+    console.log(data)
+    navigate('/')
+  }
   return (
     <div>
       <LoginLayout src={login}>

@@ -4,19 +4,19 @@ on:
       - master
 jobs:
   build_and_deploy:
-    name:  Server đang khởi chạy
+    name: Server đang khởi chạy
     runs-on: ubuntu-latest
     steps:
-    - name: Lấy code gần nhất
-      uses: actions/checkout@v3
-    - name: Run react build script
-      run: yarn && yarn build  #npm thì đổi thành npm
-      env:
+      - name: Lấy code gần nhất
+        uses: actions/checkout@v3
+      - name: Run react build script
+        run: yarn && yarn build #npm thì đổi thành npm
+        env:
           CI: false
-    - name: FTP đang deploy
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-      with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD}}
-        local-dir: build/
+      - name: FTP đang deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD}}
+          local-dir: build/

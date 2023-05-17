@@ -17,8 +17,8 @@ export const newPassSchema = yup
       .string()
       .required('Mật khẩu là bắt buộc')
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,10}$/,
-        'Mật khẩu phải có ít nhất 1 in hoa, 1 in thường, 1 số và 1 ký tự đặt biệt và từ 6-10 ký tự'
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
+        'Mật khẩu phải có ít nhất 1 in hoa, 1 in thường, 1 số và 1 ký tự đặt biệt và từ 6-20 ký tự'
       ),
     rePassword: yup
       .string()

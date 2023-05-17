@@ -7,7 +7,7 @@ export const loginField: IFields[] = [
     placeholder: 'abc',
     label: 'Tên đăng nhập *',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-    classNameDiv: 'col-span-3 w-full h-full'
+    classNameDiv: 'col-span-4 w-full h-full'
   },
   {
     name: 'password',
@@ -15,7 +15,7 @@ export const loginField: IFields[] = [
     placeholder: '*****',
     label: 'Mật khẩu *',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-    classNameDiv: 'col-span-3 w-full h-full'
+    classNameDiv: 'col-span-4 w-full h-full'
   }
 ]
 export const resetPassField: IFields[] = [
@@ -25,7 +25,7 @@ export const resetPassField: IFields[] = [
     type: 'email',
     placeholder: 'example@abc.com',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-    classNameDiv: 'col-span-3 w-full h-full'
+    classNameDiv: 'col-span-4 w-full h-full'
   }
 ]
 export const newPassField: IFields[] = [
@@ -35,7 +35,7 @@ export const newPassField: IFields[] = [
     type: 'password',
     placeholder: '*****',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-    classNameDiv: 'col-span-3 w-full h-full'
+    classNameDiv: 'col-span-4 w-full h-full'
   },
 
   {
@@ -44,6 +44,6 @@ export const newPassField: IFields[] = [
     type: 'password',
     placeholder: '*****',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-    classNameDiv: 'col-span-3 w-full h-full'
+    classNameDiv: 'col-span-4 w-full h-full'
   }
 ]

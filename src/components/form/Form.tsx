@@ -104,13 +104,15 @@ const Form = ({
   const onSubmit = async (data: any) => {
     try {
       if (isValid) {
-        handleSubmitForm(data)
-        return new Promise<void>((resolve) => {
-          setTimeout(() => {
-            resolve()
-            reset()
-          }, 1000)
-        })
+        if (handleSubmitForm) {
+          handleSubmitForm(data)
+          return new Promise<void>((resolve) => {
+            setTimeout(() => {
+              resolve()
+              reset()
+            }, 1000)
+          })
+        }
       }
     } catch (error: any) {}
   }
@@ -129,7 +131,7 @@ const Form = ({
     <>
       {title && <h3 className='text-center text-[30px] font-semibold uppercase'>{title}</h3>}
 
-      <form onSubmit={handleSubmit(onSubmit)} className={`mt-2 grid w-full grid-cols-3 `} style={{ gap: gap }}>
+      <form onSubmit={handleSubmit(onSubmit)} className={`mt-2 grid w-full grid-cols-4 `} style={{ gap: gap }}>
         {newFields?.length > 0
           ? newFields?.map(
               ({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }, index) => (

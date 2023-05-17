@@ -27,12 +27,12 @@ export interface IFormProps {
   schema: yup.AnyObjectSchema
   dataValidate?: any
   fields: IFields[]
-  handleSubmitForm: (data: any) => void
+  handleSubmitForm?: (data: any) => void
   title?: string
   initialValues?: DynamicObject
   gap?: string
   color?: string
-  titleButton: string
+  titleButton?: string
   titleButtonCancel?: string
   errors?: Record<string, string>
   readOnly?: boolean
