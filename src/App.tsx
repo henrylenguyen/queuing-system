@@ -1,4 +1,4 @@
-import useRouteElement from "hooks/useRouteElement"
+import useRouteElement from 'hooks/useRouteElement'
 
 function App() {
   const route = useRouteElement()

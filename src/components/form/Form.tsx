@@ -1,8 +1,10 @@
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import Dropdown from '../select/Dropdown'
-import DateTimePickerField from '../datetime/DateTimePickerField'
 import { IFormProps } from 'constants/interface/formInterface'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import DateTimePickerField from '../datetime/DateTimePickerField'
+import Dropdown from '../select/Dropdown'
 
 const Form = ({
   schema,
@@ -13,7 +15,10 @@ const Form = ({
   initialValues,
   title,
   readOnly,
-  titleButton
+  titleButton,
+  titleButtonCancel,
+  dataValidate,
+  to
 }: IFormProps) => {
   const {
     control,
@@ -25,16 +30,89 @@ const Form = ({
     resolver: yupResolver(schema),
     shouldUnregister: true
   })
-  const onSubmit = (data: any) => {
-    handleSubmitForm(data)
-    if (!isValid) return
-    // để hiển thị loading trên nút
-    return new Promise<void>((resolve) => {
-      setTimeout(() => {
-        resolve()
-        reset()
-      }, 1000)
+  const navigate = useNavigate()
+  const [passwordFields, setPasswordFields] = useState<boolean[]>([])
+
+  const togglePasswordVisibility = (index: number) => {
+    setPasswordFields((prevFields) => {
+      const updatedFields = [...prevFields]
+      updatedFields[index] = !updatedFields[index]
+      return updatedFields
     })
+  }
+
+  const renderPasswordInput = (index: number, name: string, placeholder: string, className?: string) => {
+    const isPasswordVisible = passwordFields[index]
+
+    return (
+      <>
+        <div className='relative'>
+          <input
+            type={isPasswordVisible ? 'text' : 'password'}
+            placeholder={placeholder}
+            {...register(name)}
+            name={name}
+            className={`${
+              errors[name]
+                ? 'border-2 border-red-500 focus:ring-0'
+                : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
+            } ${className}`}
+            readOnly={readOnly}
+          />
+          <span className='absolute right-2 top-2 cursor-pointer' onClick={() => togglePasswordVisibility(index)}>
+            {isPasswordVisible ? (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='icon icon-tabler icon-tabler-eye'
+                width={24}
+                height={24}
+                viewBox='0 0 24 24'
+                strokeWidth={2}
+                stroke='currentColor'
+                fill='none'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+              >
+                <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+                <path d='M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0' />
+                <path d='M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6' />
+              </svg>
+            ) : (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='icon icon-tabler icon-tabler-eye-off'
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                stroke-width='2'
+                stroke='currentColor'
+                fill='none'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+              >
+                <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
+                <path d='M10.585 10.587a2 2 0 0 0 2.829 2.828'></path>
+                <path d='M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87'></path>
+                <path d='M3 3l18 18'></path>
+              </svg>
+            )}
+          </span>
+        </div>
+      </>
+    )
+  }
+  const onSubmit = async (data: any) => {
+    try {
+      if (isValid) {
+        handleSubmitForm(data)
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve()
+            reset()
+          }, 1000)
+        })
+      }
+    } catch (error: any) {}
   }
 
   const newFields = fields?.reduce((acc: any[], field) => {
@@ -53,121 +131,169 @@ const Form = ({
 
       <form onSubmit={handleSubmit(onSubmit)} className={`mt-2 grid w-full grid-cols-3 `} style={{ gap: gap }}>
         {newFields?.length > 0
-          ? newFields?.map(({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }) => (
-              <div key={name} className={classNameDiv}>
-                <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
-                  {label}
-                </label>
-                {type === 'select' ? (
-                  <Dropdown
-                    control={control}
-                    name={name}
-                    options={options}
-                    errors={errors[name]}
-                    defaultValue={value}
-                  />
-                ) : type === 'date' ? (
-                  <DateTimePickerField control={control} name={name} errors={errors} type='date' defaultValue={value} />
-                ) : type === 'time' ? (
-                  <DateTimePickerField control={control} name={name} errors={errors} type='time' defaultValue={value} />
-                ) : type === 'datetime' ? (
-                  <DateTimePickerField
-                    control={control}
-                    name={name}
-                    errors={errors}
-                    type='datetime'
-                    defaultValue={value}
-                  />
-                ) : (
-                  <input
-                    type={type}
-                    placeholder={placeholder}
-                    {...register(name)}
-                    name={name}
-                    defaultValue={value}
-                    className={`${errors[name] ? 'border-buttonColor border' : ''} ${className}`}
-                    readOnly={readOnly}
-                  />
-                )}
-
-                {errors[name] && (
-                  <span className='text-buttonColor text-sm italic'>{String(errors[name]?.message)}</span>
-                )}
-              </div>
-            ))
-          : fields?.map(({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }) => (
-              <div key={name} className={classNameDiv}>
-                <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
-                  {label}
-                </label>
-                {type === 'select' ? (
-                  onChange ? (
+          ? newFields?.map(
+              ({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }, index) => (
+                <div key={name} className={classNameDiv}>
+                  <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
+                    {label}
+                  </label>
+                  {type === 'select' ? (
                     <Dropdown
                       control={control}
                       name={name}
                       options={options}
                       errors={errors[name]}
-                      SelectOption={onChange}
-                      className={className}
+                      defaultValue={value}
                     />
+                  ) : type === 'date' ? (
+                    <DateTimePickerField
+                      control={control}
+                      name={name}
+                      errors={errors}
+                      type='date'
+                      defaultValue={value}
+                    />
+                  ) : type === 'time' ? (
+                    <DateTimePickerField
+                      control={control}
+                      name={name}
+                      errors={errors}
+                      type='time'
+                      defaultValue={value}
+                    />
+                  ) : type === 'datetime' ? (
+                    <DateTimePickerField
+                      control={control}
+                      name={name}
+                      errors={errors}
+                      type='datetime'
+                      defaultValue={value}
+                    />
+                  ) : type === 'password' ? (
+                    renderPasswordInput(index, name, placeholder, className)
                   ) : (
-                    <Dropdown
+                    <input
+                      type={type}
+                      placeholder={placeholder}
+                      {...register(name)}
+                      name={name}
+                      defaultValue={value}
+                      className={`${
+                        errors[name]
+                          ? 'border-2 border-red-500 focus:ring-0'
+                          : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
+                      } ${className}`}
+                      readOnly={readOnly}
+                    />
+                  )}
+
+                  {errors[name] && (
+                    <span className='text-buttonColor text-sm italic'>{String(errors[name]?.message)}</span>
+                  )}
+                </div>
+              )
+            )
+          : fields?.map(
+              ({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }, index) => (
+                <div key={name} className={classNameDiv}>
+                  <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
+                    {label}
+                  </label>
+                  {type === 'select' ? (
+                    onChange ? (
+                      <Dropdown
+                        control={control}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        SelectOption={onChange}
+                        className={className}
+                      />
+                    ) : (
+                      <Dropdown
+                        control={control}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        className={className}
+                      />
+                    )
+                  ) : type === 'date' ? (
+                    <DateTimePickerField
+                      defaultValue={value}
                       control={control}
                       name={name}
-                      options={options}
-                      errors={errors[name]}
-                      className={className}
+                      errors={errors}
+                      type='date'
                     />
-                  )
-                ) : type === 'date' ? (
-                  <DateTimePickerField defaultValue={value} control={control} name={name} errors={errors} type='date' />
-                ) : type === 'time' ? (
-                  <DateTimePickerField defaultValue={value} control={control} name={name} errors={errors} type='time' />
-                ) : type === 'datetime' ? (
-                  <DateTimePickerField
-                    control={control}
-                    name={name}
-                    errors={errors}
-                    type='datetime'
-                    defaultValue={value}
-                  />
-                ) : type === 'number' ? (
-                  <input
-                    type={type}
-                    placeholder={placeholder}
-                    {...register(name)}
-                    name={name}
-                    className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
-                    min={1}
-                    max={10}
-                  />
-                ) : type === 'textarea' ? (
-                  <textarea
-                    placeholder={placeholder}
-                    {...register(name)}
-                    name={name}
-                    className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
-                    rows={2}
-                  />
-                ) : (
-                  <input
-                    type={type}
-                    placeholder={placeholder}
-                    {...register(name)}
-                    name={name}
-                    className={`${errors[name] ? 'border-2 border-red-500 focus:ring-0' : ''} ${className}`}
-                  />
-                )}
+                  ) : type === 'time' ? (
+                    <DateTimePickerField
+                      defaultValue={value}
+                      control={control}
+                      name={name}
+                      errors={errors}
+                      type='time'
+                    />
+                  ) : type === 'datetime' ? (
+                    <DateTimePickerField
+                      control={control}
+                      name={name}
+                      errors={errors}
+                      type='datetime'
+                      defaultValue={value}
+                    />
+                  ) : type === 'number' ? (
+                    <input
+                      type={type}
+                      placeholder={placeholder}
+                      {...register(name)}
+                      name={name}
+                      className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
+                      min={1}
+                      max={10}
+                    />
+                  ) : type === 'textarea' ? (
+                    <textarea
+                      placeholder={placeholder}
+                      {...register(name)}
+                      name={name}
+                      className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
+                      rows={2}
+                    />
+                  ) : type === 'password' ? (
+                    renderPasswordInput(index, name, placeholder, className)
+                  ) : (
+                    <input
+                      type={type}
+                      placeholder={placeholder}
+                      {...register(name)}
+                      name={name}
+                      className={`${
+                        errors[name]
+                          ? 'border-2 border-red-500 focus:ring-0'
+                          : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
+                      } ${className}`}
+                    />
+                  )}
 
-                {errors[name] && <span className='text-sm italic text-red-500'>{String(errors[name]?.message)}</span>}
-              </div>
-            ))}
+                  {errors[name] && <span className='text-sm italic text-red-500'>{String(errors[name]?.message)}</span>}
+                </div>
+              )
+            )}
 
-        <div className='col-span-3 mt-10 text-center'>
+        <div className='col-span-3 mt-10 flex w-full justify-center gap-5'>
+          {titleButtonCancel && (
+            <button
+              className=' w-[200px] rounded-md border border-primary  p-[10px] text-[18px] font-medium text-primary'
+              onClick={() => navigate(`${to}`)}
+            >
+              {titleButtonCancel}
+            </button>
+          )}
           {titleButton && (
             <button
               type='submit'
-              className='shadow-secondShadow w-[200px] rounded-md bg-primary p-[10px] text-[18px] font-medium text-white'
+              className=' w-[200px] rounded-md bg-primary p-[10px] text-[18px] font-medium text-white'
             >
               {isSubmitting ? (
                 <div className='mx-auto h-[20px] w-[20px] animate-spin rounded-full border-2 border-t-2 border-white border-t-transparent'></div>
@@ -178,6 +304,7 @@ const Form = ({
           )}
         </div>
       </form>
+      {/* {errorMessage && <div className='text-red-500'>{errorMessage}</div>} */}
     </>
   )
 }

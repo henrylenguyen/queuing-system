@@ -25,6 +25,7 @@ interface DynamicObject {
 
 export interface IFormProps {
   schema: yup.AnyObjectSchema
+  dataValidate?: any
   fields: IFields[]
   handleSubmitForm: (data: any) => void
   title?: string
@@ -32,6 +33,8 @@ export interface IFormProps {
   gap?: string
   color?: string
   titleButton: string
+  titleButtonCancel?: string
   errors?: Record<string, string>
   readOnly?: boolean
+  to?: string
 }

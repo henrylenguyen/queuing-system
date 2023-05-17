@@ -1,5 +1,7 @@
 {
   "name": "queuing-system",
+  "start_url": ".",
+  "homepage": "https://queuing-system.henlladev.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

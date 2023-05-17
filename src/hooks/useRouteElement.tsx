@@ -2,6 +2,7 @@ import DashBoardLayout from 'layouts/dashboard/DashBoardLayout'
 import { useRoutes } from 'react-router-dom'
 import ProfilePage from '../pages/auth/ProfilePage'
 import LoginPage from 'pages/auth/LoginPage'
+import ResetPassPage from 'pages/auth/ResetPassPage'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -15,6 +16,10 @@ export default function useRouteElement() {
           <ProfilePage />
         </DashBoardLayout>
       )
+    },
+    {
+      path: '/login/reset-password',
+      element: <ResetPassPage />
     }
   ])
   return routeElement

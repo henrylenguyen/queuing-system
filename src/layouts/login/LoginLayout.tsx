@@ -9,7 +9,7 @@ type Props = {
 
 const LoginLayout = ({ children, src }: Props) => {
   return (
-    <div className='flex'>
+    <div className='flex '>
       <LoginLeft>{children}</LoginLeft>
       <LoginRight src={src} />
     </div>
