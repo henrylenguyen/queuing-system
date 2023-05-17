@@ -20,9 +20,6 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD}}
         port: 22
-        ssh_primary_key: ${{secrets.LAMP }}
         local-dir: build/ # Vite là dist còn CRA là build nha
-        local_path: queuing-system/
-        remote_path: /var/www
-
-        arg: '-O ConnectTimeOut=5'
+        server-dir: /var/www/queuing-system/
+        timeout: '-O ConnectTimeOut=5'
