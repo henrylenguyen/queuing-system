@@ -1,36 +1,26 @@
-name: Deploy Files
 on:
   push:
     branches:
       - master
-  workflow_dispatch:
-    inputs:
-      sync:
-        description: "File synchronization"
-        required: true
-        default: "delta"
 jobs:
-  deploy-master:
+  build_and_deploy:
     name:  Server đang khởi chạy
     runs-on: ubuntu-latest
     steps:
-    - name: Lấy code gần nhất
+    - name:  📂 Code gần nhất
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
     - name: Run react build script
       run: yarn && yarn build  #npm thì đổi thành npm
       env:
           CI: false
     - name: FTP đang deploy
-      uses: milanmk/actions-file-deployer@master
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        remote-protocol: "sftp"
-        remote-host: ${{ secrets.FTP_SERVER }}
-        remote-user: ${{ secrets.FTP_USERNAME }}
-        remote-password: ${{secrets.FTP_PASSWORD}}
-        ssh-private-key: ${{secrets.FTP_SSH_KEY}}
-        remote-port: 22
-        local-path: "build/" # Vite là dist còn CRA là build nha
-        sync: "delta"
-        remote-path: "/var/www/queuing-system"
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD}}
+        private-key: ${{ secrets.FTP_SSH_KEY }}
+        port: 22
+        local-dir: build/
+        protocol: sftp
+        server-dir: /var/www/queuing-system
