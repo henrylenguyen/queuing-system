@@ -6,7 +6,7 @@ import navbar from 'constants/navbar'
 type Props = {}
 const Navbar = (props: Props) => {
   return (
-    <div className='flex h-screen w-[250px] flex-shrink-0 flex-col items-center justify-between bg-white py-8'>
+    <div className='flex h-screen w-[15%] flex-shrink-0 flex-col items-center justify-between bg-white py-8'>
       <div className='flex w-full flex-col items-center'>
         <NavLink to='/'>
           <img src={logo} alt='logo' className='w-[150px]' />

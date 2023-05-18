@@ -1,4 +1,4 @@
-import { IFields } from "constants/interface/formInterface"
+import { IFields } from 'constants/interface/formInterface'
 
 const profileFields: IFields[] = [
   {

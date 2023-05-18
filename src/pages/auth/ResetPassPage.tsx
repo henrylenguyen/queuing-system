@@ -10,14 +10,14 @@ type Props = {}
 
 const ResetPassPage = (props: Props) => {
   const [value, setValue] = useState('')
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const handleSubmitForm = (data: any) => {
     console.log(data)
     setValue(data)
   }
   const handleResetPass = (data: any) => {
     console.log(data)
-    navigate("/login")
+    navigate('/login')
   }
   return (
     <div>

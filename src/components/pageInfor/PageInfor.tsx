@@ -6,9 +6,9 @@ type Props = {
   title: string
 }
 
-const PageInfor = ({title}: Props) => {
+const PageInfor = ({ title }: Props) => {
   return (
-    <div className='flex w-full items-center justify-between'>
+    <div className='relative z-40 flex w-full items-center  justify-between px-10'>
       <h3 className='text-[20px] font-bold text-primary'>{title}</h3>
       <div className='flex gap-5'>
         <button className='rounded-full bg-[#FFF2E7] p-2'>

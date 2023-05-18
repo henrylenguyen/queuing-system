@@ -34,7 +34,7 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 1;
-  @apply bg-secondary
+  @apply bg-secondary 
 }
 .parent-color {
   fill: currentColor; /* Sử dụng màu hiện tại của thẻ cha */
