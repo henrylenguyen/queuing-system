@@ -18,6 +18,7 @@ export interface IFields {
   defaultValue?: any
   options?: RestProps
   value?: any
+  readOnly?: boolean
 }
 interface DynamicObject {
   [key: string]: any
@@ -35,6 +36,5 @@ export interface IFormProps {
   titleButton?: string
   titleButtonCancel?: string
   errors?: Record<string, string>
-  readOnly?: boolean
   to?: string
 }

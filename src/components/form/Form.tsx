@@ -14,7 +14,6 @@ const Form = ({
   color = 'text-gray-700',
   initialValues,
   title,
-  readOnly,
   titleButton,
   titleButtonCancel,
   dataValidate,
@@ -41,7 +40,13 @@ const Form = ({
     })
   }
 
-  const renderPasswordInput = (index: number, name: string, placeholder: string, className?: string) => {
+  const renderPasswordInput = (
+    index: number,
+    name: string,
+    placeholder: string,
+    className?: string,
+    readOnly?: boolean
+  ) => {
     const isPasswordVisible = passwordFields[index]
 
     return (
@@ -52,12 +57,14 @@ const Form = ({
             placeholder={placeholder}
             {...register(name)}
             name={name}
+            readOnly={readOnly}
             className={`${
               errors[name]
                 ? 'border-2 border-red-500 focus:ring-0'
+                : readOnly
+                ? 'bg-gray-200 focus:ring-0'
                 : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
             } ${className}`}
-            readOnly={readOnly}
           />
           <span className='absolute right-2 top-2 cursor-pointer' onClick={() => togglePasswordVisibility(index)}>
             {isPasswordVisible ? (
@@ -134,7 +141,10 @@ const Form = ({
       <form onSubmit={handleSubmit(onSubmit)} className={`mt-2 grid w-full grid-cols-4 `} style={{ gap: gap }}>
         {newFields?.length > 0
           ? newFields?.map(
-              ({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }, index) => (
+              (
+                { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
+                index
+              ) => (
                 <div key={name} className={classNameDiv}>
                   <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
                     {label}
@@ -172,7 +182,7 @@ const Form = ({
                       defaultValue={value}
                     />
                   ) : type === 'password' ? (
-                    renderPasswordInput(index, name, placeholder, className)
+                    renderPasswordInput(index, name, placeholder, className, readOnly)
                   ) : (
                     <input
                       type={type}
@@ -183,6 +193,8 @@ const Form = ({
                       className={`${
                         errors[name]
                           ? 'border-2 border-red-500 focus:ring-0'
+                          : readOnly
+                          ? 'bg-gray-200 focus:ring-0'
                           : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
                       } ${className}`}
                       readOnly={readOnly}
@@ -196,7 +208,10 @@ const Form = ({
               )
             )
           : fields?.map(
-              ({ name, type, placeholder, onChange, className, classNameDiv, label, options, value }, index) => (
+              (
+                { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
+                index
+              ) => (
                 <div key={name} className={classNameDiv}>
                   <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
                     {label}
@@ -263,16 +278,19 @@ const Form = ({
                       rows={2}
                     />
                   ) : type === 'password' ? (
-                    renderPasswordInput(index, name, placeholder, className)
+                    renderPasswordInput(index, name, placeholder, className, readOnly)
                   ) : (
                     <input
                       type={type}
+                      readOnly={readOnly}
                       placeholder={placeholder}
                       {...register(name)}
                       name={name}
                       className={`${
                         errors[name]
                           ? 'border-2 border-red-500 focus:ring-0'
+                          : readOnly
+                          ? 'bg-gray-200 focus:ring-0'
                           : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
                       } ${className}`}
                     />
@@ -283,7 +301,7 @@ const Form = ({
               )
             )}
 
-        <div className='col-span-3 mt-10 flex w-full justify-center gap-5'>
+        <div className='col-span-4 mt-10 flex w-full justify-center gap-5'>
           {titleButtonCancel && (
             <button
               className=' w-[200px] rounded-md border border-primary  p-[10px] text-[18px] font-medium text-primary'
