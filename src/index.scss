@@ -39,3 +39,7 @@ body {
 .parent-color {
   fill: currentColor; /* Sử dụng màu hiện tại của thẻ cha */
 }
+.active-bar{
+  transform: translateX(-100%);
+  display:none;
+}
