@@ -2,6 +2,7 @@ import React from 'react'
 import Badge from '@mui/material/Badge'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { Avatar } from 'antd'
+import { NavLink } from 'react-router-dom'
 type Props = {
   title: string
 }
@@ -16,13 +17,13 @@ const PageInfor = ({ title }: Props) => {
             <NotificationsActiveIcon sx={{ color: '#FFAC6A' }} fontSize='medium' />
           </Badge>
         </button>
-        <div className='flex gap-4'>
+        <NavLink className='flex gap-4' to='/'>
           <Avatar src='https://i.pinimg.com/originals/48/ef/76/48ef764d8ce6b93fdf27628cc9e86e2f.jpg' size='large' />
           <div className='flex flex-col gap-2'>
             <span className='text-[13px] font-semibold text-gray-500'>Xin chào</span>
             <span className='font-semibold'>Lê Nguyễn Phương Thái</span>
           </div>
-        </div>
+        </NavLink>
       </div>
     </div>
   )

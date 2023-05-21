@@ -34,7 +34,7 @@ const Dropdown = ({ control, name, options, ...props }) => {
         if (props.SelectOption) props.SelectOption(selectedOption)
       }}
       {...props}
-      className={`${props.errors ? 'border-red-500 border' : 'border-gray-300 border'} ${props.className} border-none`}
+      className={`${props.errors ? 'border border-red-500' : 'border border-gray-300'} ${props.className} border-none`}
     />
   )
 }
