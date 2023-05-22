@@ -25,7 +25,7 @@ const navbar = [
   },
   {
     name: 'Thiết bị',
-    to: '/device-list',
+    to: '/device/device-list',
     icon: (
       <svg
         xmlns='http://www.w3.org/2000/svg'

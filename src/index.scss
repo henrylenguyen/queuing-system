@@ -66,3 +66,40 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   border-radius: 10px;
   background: #ff7506 !important;
 }
+
+//------------------------scroll bar-----------------------------
+/* cho Chrome, Safari và Opera */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ed7200;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #e49f0c;
+}
+/* cho Edge */
+::-ms-scrollbar {
+  width: 5px;
+}
+
+::-ms-track {
+  background-color: #f1f1f1;
+}
+
+::-ms-thumb {
+  background-color: #ed7200;
+  border-radius: 5px;
+}
+
+::-ms-thumb:hover {
+  background-color: #e49f0c;
+}
+

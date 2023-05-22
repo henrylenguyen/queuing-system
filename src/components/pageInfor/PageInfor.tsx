@@ -1,16 +1,63 @@
-import React from 'react'
 import Badge from '@mui/material/Badge'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { Avatar } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 type Props = {
-  title: string
+  activePage: string
+  prevPage?: string
 }
 
-const PageInfor = ({ title }: Props) => {
+const PageInfor = ({ activePage, prevPage }: Props) => {
+  const location = useLocation()
+  const pathname = location.pathname
+  // Tách đường dẫn hiện tại thành các phần riêng biệt sau mỗi dấu '/'
+  const pathParts = pathname.split('/').filter((part) => part !== '')
+
+  // Dùng các phần đã tách để tạo breadcrumb
+  const handleConvert = (part: string) => {
+    switch (part) {
+      case 'device':
+        part = 'Dịch vụ'
+        break
+      case 'device-list':
+        part = 'Danh sách dịch vụ'
+        break
+
+      default:
+        break
+    }
+    return part
+  }
   return (
     <div className='relative z-40 flex w-full items-center  justify-between px-10'>
-      <h3 className='text-[20px] font-bold text-primary'>{title}</h3>
+      <nav className='text-sm' aria-label='Breadcrumb'>
+        <ol className='flex list-none gap-2 p-0'>
+          {pathParts.map((part, index) => (
+            <li key={index} className={`flex items-center gap-2`}>
+              <NavLink
+                to={`/${pathParts.slice(0, index + 1).join('/')}`}
+                className={`text-[20px] font-semibold  ${
+                  index === pathParts.length - 1 ? 'text-primary' : 'text-[#7E7D88]'
+                }`}
+              >
+                {String(handleConvert(part))}
+              </NavLink>
+              {index !== pathParts.length - 1 && (
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={3}
+                  stroke='#7E7D88'
+                  className='h-5 w-5'
+                >
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
+                </svg>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
       <div className='flex gap-5'>
         <button className='rounded-full bg-[#FFF2E7] p-2'>
           <Badge badgeContent={4} color='primary'>
