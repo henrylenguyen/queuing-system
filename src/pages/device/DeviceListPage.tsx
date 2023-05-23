@@ -15,7 +15,9 @@ const data = [
     trangThaiHoatDong: 'Ngưng hoạt động',
     trangThaiKetNoi: 'Mất kết nối',
     dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?'
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?',
+    chiTiet: 'Chi tiết',
+    tuyChinh: 'Cập nhật'
   },
   {
     maThietBi: 'KO03',
@@ -59,22 +61,19 @@ const connectionOptions = [
   }
 ]
 const DeviceListPage = (props: Props) => {
-  const [newData, setNewData] = useState(data)
-  console.log("file: DeviceListPage.tsx:63 ~ newData:", newData)
-  useEffect(() => {
-    const newDataState = data?.map((item) => {
-      return {
-        ...item,
-        chiTiet: 'Chi tiết',
-        tuyChinh: 'Cập nhật'
-      }
-    })
-    setNewData(newDataState)
-  }, [])
+  // useEffect(() => {
+  //   const newDataState = data?.map((item) => {
+  //     return {
+  //       ...item,
+
+  //     }
+  //   })
+  //   setNewData(newDataState)
+  // }, [])
   // 1. Lấy ra tất cả các key của object
   const getKeys = useCallback(() => {
-    return newData && Object.keys(newData[0])
-  }, [newData])
+    return data && Object.keys(data[0])
+  }, [])
 
   /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
   ví dụ: [
@@ -86,7 +85,7 @@ const DeviceListPage = (props: Props) => {
 */
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
-    console.log("file: DeviceListPage.tsx:89 ~ keys:", keys)
+    console.log('file: DeviceListPage.tsx:89 ~ keys:', keys)
 
     return keys?.map((item) => {
       return {
@@ -99,14 +98,14 @@ const DeviceListPage = (props: Props) => {
 
   // 3. Tạo ra mảng title chứa các đối tượng title khác nhau, do mình nhập
   const dataTitle = [
-    { title: 'Mã thiết bị' },
-    { title: 'Tên thiết bị' },
-    { title: 'Địa chỉ IP' },
-    { title: 'Trạng thái hoạt động' },
-    { title: 'Trạng thái kết nối' },
-    { title: 'Dịch vụ sử dụng' },
-    { title: 'Chi tiết' },
-    { title: 'Tùy chỉnh' }
+    'Mã thiết bị',
+    'Tên thiết bị',
+    'Địa chỉ IP',
+    'Trạng thái hoạt động',
+    'Trạng thái kết nối',
+    'Dịch vụ sử dụng',
+    'Chi tiết',
+    'Tùy chỉnh'
   ]
 
   /**
@@ -122,18 +121,19 @@ const DeviceListPage = (props: Props) => {
  */
   const columns = dataTitle.map((title) => {
     // biến chữ tiếng việt có dấu thành không dấu
-    const removeTone = removeVietnameseTones(title.title)
+    const removeTone = removeVietnameseTones(title)
     /* Loại bỏ hết các khoảng trống ở giữa và biến thành in thường
    ví dụ: Mã lịch chiếu ->malichchieu
   */
     const newTitle = removeTone.replace(/\s+/g, '').toLowerCase()
+    console.log('file: DeviceListPage.tsx:130 ~ newTitle:', newTitle)
     // dùng hàm find để tìm từ mảng các đối tượng dataIndexKey, so sánh giữa key với newTitle phía trên. Lưu ý là phải chuyển về in thường để so sánh
     const dataIndexKeyItem = dataIndexKey.find((item) => item?.key.toLowerCase() === newTitle)
-  
+
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
   })
-  console.log("file: DeviceListPage.tsx:136 ~ columns:", columns)
+  console.log('file: DeviceListPage.tsx:136 ~ columns:', columns)
 
   //---------------------------Tìm kiếm trạng thái hoạt động------------------
   const handleStatusChange = (data: any) => {
@@ -188,7 +188,7 @@ const DeviceListPage = (props: Props) => {
                 </div>
               </div>
             </div>
-            <CustomTable data={newData} columns={columns} Key={'maThietBi'}></CustomTable>
+            <CustomTable data={data} columns={columns} Key={'maThietBi'}></CustomTable>
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>

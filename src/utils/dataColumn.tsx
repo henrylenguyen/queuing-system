@@ -10,7 +10,7 @@ interface ColumnType {
 }
 
 const getColumnDeviceConfig = (
-  title: { title: string },
+  title: string,
   dataIndexKeyItem: { dataIndex: string; key: string } | undefined,
   newTitle: string,
   handleEdit?: (record: Device) => void,
@@ -23,7 +23,7 @@ const getColumnDeviceConfig = (
     width = 200
   }
   const columnConfig: ColumnType = {
-    title: title.title,
+    title,
     dataIndex: dataIndexKeyItem?.dataIndex ?? '',
     key: dataIndexKeyItem?.key ?? '',
     width,
