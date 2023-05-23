@@ -29,6 +29,7 @@ const Dropdown = ({ control, name, options, ...props }) => {
           (option) => option.value === (value || props.defaultValue) // Sử dụng defaultValue nếu value không tồn tại
         ) || null // Trả về null nếu không tìm thấy giá trị phù hợp
       }
+      
       onChange={(selectedOption) => {
         onChange(selectedOption?.value)
         if (props.SelectOption) props.SelectOption(selectedOption)

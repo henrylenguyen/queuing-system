@@ -4,7 +4,7 @@ import React from 'react'
 
 interface RestProps {
   label: string
-  options: any
+  options?: any
   value: any
 }
 export interface IFields {
@@ -16,7 +16,7 @@ export interface IFields {
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   label: string
   defaultValue?: any
-  options?: RestProps
+  options?: RestProps[]
   value?: any
   readOnly?: boolean
 }

@@ -1,8 +1,7 @@
-import React from 'react'
+import soDaBoQua from 'assets/images/soDaBoQua.svg'
 import soDaCap from 'assets/images/soDaCap.svg'
 import soDaSuDung from 'assets/images/soDaSuDung.svg'
 import soDangCho from 'assets/images/soDangCho.svg'
-import soDaBoQua from 'assets/images/soDaBoQua.svg'
 type Props = {
   title: string
   amountInMonth: number
@@ -45,11 +44,11 @@ const NumberChart = ({ title, amountInMonth, statistical, increase }: Props) => 
               width='16'
               height='16'
               viewBox='0 0 24 24'
-              stroke-width='2'
+              strokeWidth='2'
               stroke='currentColor'
               fill='none'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeLinecap='round'
+              strokeLinejoin='round'
             >
               <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
               <path d='M12 5l0 14'></path>
@@ -66,11 +65,11 @@ const NumberChart = ({ title, amountInMonth, statistical, increase }: Props) => 
               width='16'
               height='16'
               viewBox='0 0 24 24'
-              stroke-width='2'
+              strokeWidth='2'
               stroke='currentColor'
               fill='none'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeLinecap='round'
+              strokeLinejoin='round'
             >
               <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
               <path d='M12 5l0 14'></path>

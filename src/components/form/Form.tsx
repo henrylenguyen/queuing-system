@@ -91,11 +91,11 @@ const Form = ({
                 width='24'
                 height='24'
                 viewBox='0 0 24 24'
-                stroke-width='2'
+                strokeWidth='2'
                 stroke='currentColor'
                 fill='none'
-                stroke-linecap='round'
-                stroke-linejoin='round'
+                strokeLinecap='round'
+                strokeLinejoin='round'
               >
                 <path stroke='none' d='M0 0h24v24H0z' fill='none'></path>
                 <path d='M10.585 10.587a2 2 0 0 0 2.829 2.828'></path>
@@ -136,7 +136,7 @@ const Form = ({
 
   return (
     <>
-      {title && <h3 className='text-center text-[30px] font-semibold uppercase'>{title}</h3>}
+      {title && <h3 className=' mb-10 text-[20px] font-bold text-primary'>{title}</h3>}
 
       <form onSubmit={handleSubmit(onSubmit)} className={`mt-2 grid w-full grid-cols-4 `} style={{ gap: gap }}>
         {newFields?.length > 0
@@ -220,6 +220,7 @@ const Form = ({
                     onChange ? (
                       <Dropdown
                         control={control}
+                        placeholder={placeholder}
                         name={name}
                         options={options}
                         errors={errors[name]}
@@ -229,6 +230,7 @@ const Form = ({
                     ) : (
                       <Dropdown
                         control={control}
+                        placeholder={placeholder}
                         name={name}
                         options={options}
                         errors={errors[name]}

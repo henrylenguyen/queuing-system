@@ -45,10 +45,9 @@ const chart = [
   }
 ]
 const Dashboard = (props: Props) => {
-  
   return (
     <div className=' w-full pt-10'>
-      <PageInfor activePage='Dashboard' />
+      <PageInfor  />
       <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
         <div className=' flex w-[70%] flex-col justify-between'>
           <div>

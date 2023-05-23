@@ -118,11 +118,11 @@ const AreaChart: React.FC<ApexChartProps> = () => {
   }
   return (
     <div>
-      <div id='chart' className='mr-5 rounded-xl bg-white p-5 shadow-md my-10'>
+      <div id='chart' className='my-10 mr-5 rounded-xl bg-white p-5 shadow-md'>
         <div className='flex gap-3'>
           <div className='flex w-full items-center justify-end gap-3'>
             <h3 className='font-bold'>Xem theo</h3>
-            <Select options={optionsSelect} onChange={handleViewByChange}  />
+            <Select options={optionsSelect} onChange={handleViewByChange} />
           </div>
         </div>
         <ReactApexChart options={options} series={series} type='area' height={500} />

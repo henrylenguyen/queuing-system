@@ -6,6 +6,7 @@ interface ColumnType {
   width?: number | string
   align?: string
   sorter?: any
+
 }
 
 const getColumnDeviceConfig = (

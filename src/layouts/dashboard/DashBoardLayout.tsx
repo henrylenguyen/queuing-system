@@ -13,7 +13,7 @@ const DashBoardLayout = ({ children }: Props) => {
   return (
     <div className='flex'>
       <Navbar />
-      <div className='relative flex-grow'>
+      <div className={`relative ${isActive ? 'w-[97%]' : 'w-[85%]'}`}>
         {children}
         <button className='absolute top-0 bg-primary text-white' onClick={() => dispatch(changeStateNav(!isActive))}>
           {isActive ? (
