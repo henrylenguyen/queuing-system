@@ -11,7 +11,7 @@ const Navbar = (props: Props) => {
 
   return (
     <div
-      className={`flex  w-[15%] flex-shrink-0 flex-col items-center justify-between bg-white py-8 ${
+      className={`flex min-[1500px]:h-screen w-[15%] flex-shrink-0 flex-col items-center justify-between bg-white py-8 ${
         isActive ? 'active-bar' : 'inactive-bar'
       }`}
     >

@@ -9,7 +9,18 @@ interface RestProps {
 }
 export interface IFields {
   name: string
-  type: 'text' | 'email' | 'tel' | 'textarea' | 'select' | 'date' | 'time' | 'datetime' | 'number' | 'password'
+  type:
+    | 'text'
+    | 'email'
+    | 'tel'
+    | 'textarea'
+    | 'select'
+    | 'date'
+    | 'time'
+    | 'datetime'
+    | 'number'
+    | 'password'
+    | 'selectmuti'
   placeholder: string
   className?: string
   classNameDiv?: string

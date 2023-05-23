@@ -23,16 +23,20 @@ textarea {
   background-color: transparent;
   outline: none;
 }
+textarea{
+  resize: none
+}
 button {
   cursor: pointer;
   background-color: transparent;
   outline: none;
   // border: 0;
 }
-body {
+body,#root {
   min-height: 100vh;
   font-weight: 400;
   font-size: 16px;
+  height: 100%;
   line-height: 1;
   @apply bg-secondary;
 }
@@ -104,4 +108,9 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
 }
 
 .ant-table-cell{
+}
+
+.disabled {
+  pointer-events: none; /* Disable click events */
+  opacity: 0.5; /* Make it visually appear disabled */
 }

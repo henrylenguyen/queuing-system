@@ -5,7 +5,9 @@ import React from 'react'
 import { DeviceShema } from 'schemas/Device.schema'
 
 type Props = {}
-
+const handleSubmit = (data:any)=>{
+console.log(data)
+}
 const AddDevicePage = (props: Props) => {
   return (
     <div className='pt-10 '>
@@ -14,7 +16,7 @@ const AddDevicePage = (props: Props) => {
         <div className=' flex flex-grow flex-col justify-between overflow-hidden'>
           <div className='w-full'>
             <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý thiết bị</h3>
-            <div className='mt-10 w-full rounded-xl bg-white p-5'>
+            <div className='my-10 w-full rounded-xl bg-white p-5'>
               <Form
                 schema={DeviceShema}
                 fields={deviceField}
@@ -22,6 +24,7 @@ const AddDevicePage = (props: Props) => {
                 gap='30px'
                 titleButtonCancel='Hủy bỏ'
                 titleButton='Thêm thiết bị'
+                handleSubmitForm={handleSubmit}
               />
             </div>
           </div>

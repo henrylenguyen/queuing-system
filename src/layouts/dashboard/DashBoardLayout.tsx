@@ -11,7 +11,7 @@ const DashBoardLayout = ({ children }: Props) => {
   const { isActive } = useSelector((state: RootState) => state.navbar)
   const dispatch = useDispatch<AppDispatch>()
   return (
-    <div className='flex'>
+    <div className='flex h-auto'>
       <Navbar />
       <div className={`relative ${isActive ? 'w-[97%]' : 'w-[85%]'}`}>
         {children}

@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import DateTimePickerField from '../datetime/DateTimePickerField'
 import Dropdown from '../select/Dropdown'
+import TreeSelect from 'components/select/TreeSelect'
 
 const Form = ({
   schema,
@@ -39,13 +40,24 @@ const Form = ({
       return updatedFields
     })
   }
+  const newFields = fields?.reduce((acc: any[], field) => {
+    if (initialValues?.hasOwnProperty(field.name)) {
+      acc.push({
+        ...field,
+        value: initialValues[field.name]
+      })
+    }
+    return acc
+  }, [])
+  console.log('file: Form.tsx:51 ~ newFields:', newFields)
 
   const renderPasswordInput = (
     index: number,
     name: string,
     placeholder: string,
     className?: string,
-    readOnly?: boolean
+    readOnly?: boolean,
+    value?: string
   ) => {
     const isPasswordVisible = passwordFields[index]
 
@@ -53,6 +65,7 @@ const Form = ({
       <>
         <div className='relative'>
           <input
+            defaultValue={value}
             type={isPasswordVisible ? 'text' : 'password'}
             placeholder={placeholder}
             {...register(name)}
@@ -124,16 +137,6 @@ const Form = ({
     } catch (error: any) {}
   }
 
-  const newFields = fields?.reduce((acc: any[], field) => {
-    if (initialValues?.hasOwnProperty(field.name)) {
-      acc.push({
-        ...field,
-        value: initialValues[field.name]
-      })
-    }
-    return acc
-  }, [])
-
   return (
     <>
       {title && <h3 className=' mb-10 text-[20px] font-bold text-primary'>{title}</h3>}
@@ -150,12 +153,37 @@ const Form = ({
                     {label}
                   </label>
                   {type === 'select' ? (
-                    <Dropdown
+                    onChange ? (
+                      <Dropdown
+                        defaultValue={value}
+                        control={control}
+                        placeholder={placeholder}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        SelectOption={onChange}
+                        className={className}
+                      />
+                    ) : (
+                      <Dropdown
+                        defaultValue={value}
+                        control={control}
+                        placeholder={placeholder}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        className={className}
+                      />
+                    )
+                  ) : type === 'selectmuti' ? (
+                    <TreeSelect
+                      defaultValue={value}
                       control={control}
+                      placeholder={placeholder}
                       name={name}
                       options={options}
                       errors={errors[name]}
-                      defaultValue={value}
+                      className={className}
                     />
                   ) : type === 'date' ? (
                     <DateTimePickerField
@@ -181,8 +209,17 @@ const Form = ({
                       type='datetime'
                       defaultValue={value}
                     />
+                  ) : type === 'textarea' ? (
+                    <textarea
+                      placeholder={placeholder}
+                      {...register(name)}
+                      name={name}
+                      className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
+                      rows={3}
+                      defaultValue={value}
+                    />
                   ) : type === 'password' ? (
-                    renderPasswordInput(index, name, placeholder, className, readOnly)
+                    renderPasswordInput(index, name, placeholder, className, readOnly, value)
                   ) : (
                     <input
                       type={type}
@@ -226,9 +263,11 @@ const Form = ({
                         errors={errors[name]}
                         SelectOption={onChange}
                         className={className}
+                        defaultValue={value}
                       />
                     ) : (
                       <Dropdown
+                        defaultValue={value}
                         control={control}
                         placeholder={placeholder}
                         name={name}
@@ -237,6 +276,16 @@ const Form = ({
                         className={className}
                       />
                     )
+                  ) : type === 'selectmuti' ? (
+                    <TreeSelect
+                      defaultValue={value}
+                      control={control}
+                      placeholder={placeholder}
+                      name={name}
+                      options={options}
+                      errors={errors[name]}
+                      className={className}
+                    />
                   ) : type === 'date' ? (
                     <DateTimePickerField
                       defaultValue={value}

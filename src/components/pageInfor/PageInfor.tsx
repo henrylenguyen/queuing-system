@@ -2,12 +2,14 @@ import Badge from '@mui/material/Badge'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { Avatar } from 'antd'
 import { NavLink, useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 const PageInfor = () => {
   const location = useLocation()
   const pathname = location.pathname
   // Tách đường dẫn hiện tại thành các phần riêng biệt sau mỗi dấu '/'
   const pathParts = pathname.split('/').filter((part) => part !== '')
+  const [firstNavLinkDisabled, setFirstNavLinkDisabled] = useState(true)
 
   // Dùng các phần đã tách để tạo breadcrumb
   const handleConvert = (part: string) => {
@@ -21,13 +23,25 @@ const PageInfor = () => {
       case 'add-new-device':
         part = 'Thêm thiết bị'
         break
-
+      case 'device-detail':
+        part = 'Danh sách thiết bị'
+        break
+      case 'update-device':
+        part = 'Cập nhật thiết bị'
+        break
       default:
-        part = 'Dashboard'
+        part = ''
         break
     }
     return part
   }
+  const handleFirstNavLinkClick = (event:any) => {
+    if (firstNavLinkDisabled) {
+      event.preventDefault() // Prevent navigation
+    }
+  }
+
+
   return (
     <div className='relative z-40 flex w-full items-center  justify-between px-10'>
       {pathParts.length === 0 ? (
@@ -41,12 +55,14 @@ const PageInfor = () => {
               <li key={index} className={`flex items-center gap-2`}>
                 <NavLink
                   to={`/${pathParts.slice(0, index + 1).join('/')}`}
-                  className={`text-[20px] font-semibold  ${
+                  className={`text-[20px] font-semibold ${
                     index === pathParts.length - 1 ? 'text-primary' : 'text-[#7E7D88]'
-                  }`}
+                  } ${index === 0 && firstNavLinkDisabled ? 'disabled' : ''}`}
+                  onClick={handleFirstNavLinkClick}
                 >
                   {String(handleConvert(part))}
                 </NavLink>
+
                 {index !== pathParts.length - 1 && (
                   <svg
                     xmlns='http://www.w3.org/2000/svg'

@@ -9,6 +9,8 @@ import ServiceListPage from 'pages/service/ServiceListPage'
 import NumberListPage from 'pages/number/NumberListPage'
 import ReportPage from 'pages/report/ReportPage'
 import AddDevicePage from 'pages/device/AddDevicePage'
+import DeviceDetailPage from 'pages/device/DeviceDetailPage'
+import UpdateDevicePage from 'pages/device/UpdateDevicePage'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -48,6 +50,22 @@ export default function useRouteElement() {
       element: (
         <DashBoardLayout>
           <AddDevicePage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/device/device-list/device-detail',
+      element: (
+        <DashBoardLayout>
+          <DeviceDetailPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/device/device-list/update-device',
+      element: (
+        <DashBoardLayout>
+          <UpdateDevicePage />
         </DashBoardLayout>
       )
     },

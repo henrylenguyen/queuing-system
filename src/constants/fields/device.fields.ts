@@ -61,7 +61,25 @@ export const deviceField: IFields[] = [
   },
   {
     name: 'dichVuSuDung',
-    type: 'text',
+    type: 'selectmuti',
+    options: [
+      {
+        value: 'kiosk',
+        label: 'Kiosk'
+      },
+      {
+        value: 'display',
+        label: 'Display counter'
+      },
+      {
+        value: 'khamRang',
+        label: 'Khám răng'
+      },
+      {
+        value: 'khamVu',
+        label: 'Khám Vú'
+      }
+    ],
     placeholder: 'Nhập dịch vụ sử dụng',
     label: 'Dịch vụ sử dụng *',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
