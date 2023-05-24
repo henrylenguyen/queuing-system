@@ -11,7 +11,7 @@ const data = {
   taiKhoan: 'xcvxcvxcv',
   diaChiIP: '192.168.1.1',
   matKhau: 'adsasdasd',
-  dichVuSuDung:  ['kiosk', 'display'],
+  dichVuSuDung: ['kiosk', 'display'],
   loaiThietBi: 'kiosk'
 }
 const handleSubmit = (data: any) => {

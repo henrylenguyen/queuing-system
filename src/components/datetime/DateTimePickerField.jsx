@@ -14,7 +14,7 @@ const DatePickerField = ({ value, onChange, onBlur, defaultValue, name, errors }
       <DatePicker
         className={`w-full ${
           errors && errors[name] ? 'border-red-500' : 'border-gray-300'
-        } focus:border-blue-400 focus:ring-blue-400 text-black mt-2 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2`}
+        } mt-2 block w-full rounded-md border px-3 py-2 text-black focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400`}
         value={defaultValue || value}
         minDate={new Date()}
         onChange={onChange}
@@ -47,7 +47,7 @@ const TimePickerField = ({ value, onChange, onBlur, errors, name, defaultValue }
           readOnly
           className={`${
             errors && errors[name] ? 'border-red-500' : 'border-gray-300'
-          } focus:border-blue-400 focus:ring-blue-400 text-black mt-2 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2`}
+          } mt-2 block w-full rounded-md border px-3 py-2 text-black focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400`}
         />
         {open && (
           <StaticTimePicker
@@ -79,7 +79,14 @@ const DateTimePickerField = ({ control, name, errors, type, defaultValue }) => {
       <LocalizationProvider dateAdapter={AdapterDateFns} locale={vi}>
         <div className='w-full'>
           {type === 'date' ? (
-            <DatePickerField value={value} onChange={onChange} onBlur={onBlur} errors={errors} name={name} />
+            <DatePickerField
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              errors={errors}
+              name={name}
+              defaultValue={defaultValue}
+            />
           ) : type === 'time' ? (
             <TimePickerField
               value={value}
@@ -93,7 +100,7 @@ const DateTimePickerField = ({ control, name, errors, type, defaultValue }) => {
             <DateTimePicker
               className={`w-full ${
                 errors && errors[name] ? 'border-red-500' : 'border-gray-300'
-              } focus:border-blue-400 focus:ring-blue-400 text-black mt-2 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2`}
+              } mt-2 block w-full rounded-md border px-3 py-2 text-black focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400`}
               value={value}
               onChange={onChange}
               onBlur={onBlur}

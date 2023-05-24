@@ -5,8 +5,8 @@ import React from 'react'
 import { DeviceShema } from 'schemas/Device.schema'
 
 type Props = {}
-const handleSubmit = (data:any)=>{
-console.log(data)
+const handleSubmit = (data: any) => {
+  console.log(data)
 }
 const AddDevicePage = (props: Props) => {
   return (
@@ -25,6 +25,7 @@ const AddDevicePage = (props: Props) => {
                 titleButtonCancel='Hủy bỏ'
                 titleButton='Thêm thiết bị'
                 handleSubmitForm={handleSubmit}
+                to='/device/device-list/'
               />
             </div>
           </div>

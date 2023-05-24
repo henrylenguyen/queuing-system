@@ -29,18 +29,23 @@ const PageInfor = () => {
       case 'update-device':
         part = 'Cập nhật thiết bị'
         break
+      case 'service':
+        part = 'Dịch vụ'
+        break
+      case 'service-list':
+        part = 'Danh sách dịch vụ'
+        break
       default:
         part = ''
         break
     }
     return part
   }
-  const handleFirstNavLinkClick = (event:any) => {
+  const handleFirstNavLinkClick = (event: any) => {
     if (firstNavLinkDisabled) {
       event.preventDefault() // Prevent navigation
     }
   }
-
 
   return (
     <div className='relative z-40 flex w-full items-center  justify-between px-10'>

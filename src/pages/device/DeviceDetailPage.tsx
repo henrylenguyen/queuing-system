@@ -58,10 +58,7 @@ const DeviceDetailPage = (props: Props) => {
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
           <button className='rounded-lg bg-[#FFF2E7] px-5 py-2 shadow'>
-            <NavLink
-              to='/device/device-list/update-device'
-              className={'flex flex-col items-center gap-2 text-primary'}
-            >
+            <NavLink to='/device/device-list/update-device' className={'flex flex-col items-center gap-2 text-primary'}>
               <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
