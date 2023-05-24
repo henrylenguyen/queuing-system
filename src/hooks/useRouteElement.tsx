@@ -11,6 +11,9 @@ import ReportPage from 'pages/report/ReportPage'
 import AddDevicePage from 'pages/device/AddDevicePage'
 import DeviceDetailPage from 'pages/device/DeviceDetailPage'
 import UpdateDevicePage from 'pages/device/UpdateDevicePage'
+import AddServicePage from 'pages/service/AddServicePage'
+import ServiceDetailPage from 'pages/service/ServiceDetailPage'
+import AddNumberPage from 'pages/number/AddNumberPage'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -81,15 +84,31 @@ export default function useRouteElement() {
       path: '/service/service-list/add-new-service',
       element: (
         <DashBoardLayout>
-          <ServiceListPage />
+          <AddServicePage />
         </DashBoardLayout>
       )
     },
     {
-      path: '/number-list',
+      path: '/service/service-list/service-detail',
+      element: (
+        <DashBoardLayout>
+          <ServiceDetailPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/number/number-list',
       element: (
         <DashBoardLayout>
           <NumberListPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/number/number-list/add-new-number',
+      element: (
+        <DashBoardLayout>
+          <AddNumberPage />
         </DashBoardLayout>
       )
     },

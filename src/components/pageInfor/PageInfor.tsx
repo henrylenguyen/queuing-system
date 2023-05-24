@@ -35,6 +35,24 @@ const PageInfor = () => {
       case 'service-list':
         part = 'Danh sách dịch vụ'
         break
+      case 'add-new-service':
+        part = 'Thêm dịch vụ'
+        break
+      case 'service-detail':
+        part = 'Thông tin dịch vụ'
+        break
+      case 'number':
+        part = 'Cấp số'
+        break
+      case 'number-list':
+        part = 'Danh sách cấp số'
+        break
+      case 'add-new-number':
+        part = 'Cấp số mới'
+        break
+      case 'number-detail':
+        part = 'Thông tin dịch vụ'
+        break
       default:
         part = ''
         break

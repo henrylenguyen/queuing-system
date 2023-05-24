@@ -148,8 +148,8 @@ const Form = ({
                 { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
                 index
               ) => (
-                <div key={name} className={classNameDiv}>
-                  <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
+                <div key={name} className={`${classNameDiv} flex flex-col gap-2`}>
+                  <label className={` block font-medium ${color}`} htmlFor={name}>
                     {label}
                   </label>
                   {type === 'select' ? (
@@ -214,7 +214,13 @@ const Form = ({
                       placeholder={placeholder}
                       {...register(name)}
                       name={name}
-                      className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
+                      className={`${
+                        errors[name]
+                          ? 'border-2 border-red-500 focus:ring-0'
+                          : readOnly
+                          ? 'bg-gray-200 focus:ring-0'
+                          : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
+                      } ${className} h-full p-2`}
                       rows={3}
                       defaultValue={value}
                     />
@@ -249,8 +255,8 @@ const Form = ({
                 { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
                 index
               ) => (
-                <div key={name} className={classNameDiv}>
-                  <label className={`mb-2 block font-medium ${color}`} htmlFor={name}>
+                <div key={name} className={`${classNameDiv} flex flex-col gap-2`}>
+                  <label className={`block font-medium ${color}`} htmlFor={name}>
                     {label}
                   </label>
                   {type === 'select' ? (
@@ -325,7 +331,13 @@ const Form = ({
                       placeholder={placeholder}
                       {...register(name)}
                       name={name}
-                      className={`${errors[name] ? 'border-buttonColor border ' : ''} ${className} `}
+                      className={`${
+                        errors[name]
+                          ? 'border-2 border-red-500 focus:ring-0'
+                          : readOnly
+                          ? 'bg-gray-200 focus:ring-0'
+                          : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
+                      } ${className} h-full p-2`}
                       rows={2}
                     />
                   ) : type === 'password' ? (

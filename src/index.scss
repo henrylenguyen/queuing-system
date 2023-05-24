@@ -116,3 +116,8 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   pointer-events: none; /* Disable click events */
   opacity: 0.5; /* Make it visually appear disabled */
 }
+
+
+:where(.css-dev-only-do-not-override-15rg2km).ant-table-wrapper .ant-table-column-title{
+  z-index: 0;
+}

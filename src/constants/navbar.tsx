@@ -61,7 +61,7 @@ const navbar = [
   },
   {
     name: 'Cấp số',
-    to: '/number-list',
+    to: '/number/number-list',
     icon: (
       <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 256 256'>
         <g fill='currentColor'>
