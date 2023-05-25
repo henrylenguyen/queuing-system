@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import DateTimePickerField from '../datetime/DateTimePickerField'
 import Dropdown from '../select/Dropdown'
 import TreeSelect from 'components/select/TreeSelect'
+import CheckboxGroup from '../checkbox/Checkbox';
+import IOption from 'constants/interface/option.interface'
 
 const Form = ({
   schema,
@@ -299,6 +301,14 @@ const Form = ({
                       name={name}
                       errors={errors}
                       type='date'
+                    />
+                  ) : type === 'checkbox' ? (
+                    <CheckboxGroup
+                      control={control}
+                      options={options as IOption[]}
+                      name={name}
+                      errors={errors[name]}
+                      defaultValue={value}
                     />
                   ) : type === 'time' ? (
                     <DateTimePickerField

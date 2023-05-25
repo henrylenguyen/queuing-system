@@ -22,6 +22,7 @@ export interface IFields {
     | 'password'
     | 'selectmuti'
     | 'daterange'
+    | 'checkbox'
 
   placeholder: string
   className?: string
