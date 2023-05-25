@@ -12,6 +12,7 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
   const [checkedValues, setCheckedValues] = useState(() => {
     return options.filter((option) => option.checked).map((option) => option.value)
   })
+  console.log("file: Checkbox.jsx:15 ~ checkedValues:", checkedValues)
 
   const [inputValues, setInputValues] = useState(() =>
     options.map((option) => {
@@ -21,6 +22,7 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
       return null
     })
   )
+  console.log("file: Checkbox.jsx:25 ~ inputValues:", inputValues)
   const handleCheckboxChange = (value) => {
     setCheckedValues((prevValues) => {
       const isChecked = prevValues.includes(value)

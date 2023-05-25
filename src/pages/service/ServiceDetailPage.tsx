@@ -4,56 +4,63 @@ import { NavLink } from 'react-router-dom'
 
 type Props = {}
 const data = {
-  maThietBi: 'KO_01',
-  tenThietBi: 'Kiosk',
-  taiKhoan: 'xcvxcvxcv',
-  diaChiIP: '192.168.1.1',
-  matKhau: 'adsasdasd',
-  dichVuSuDung: 'ádasdsđjlhkjhdgdfada',
-  loaiThietBi: 'kiosk'
+  maDichVu: '201',
+  tenDichVu: 'Khám tim mạch',
+  moTa: 'Chuyên các bệnh lý về tim',
+  quyTacCapSo: [['0001', '9999'], '0001', true]
 }
 const ServiceDetailPage = (props: Props) => {
   return (
     <div className='pt-10 '>
       <PageInfor />
       <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
-        <div className=' flex w-full  flex-col justify-between overflow-hidden'>
-          <div>
-            <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý thiết bị</h3>
-            <div className='mt-10 h-[500px] w-full rounded-xl bg-white p-5'>
-              <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin thiết bị</h3>
-              <div className='mt-10 grid w-full grid-cols-2 gap-y-10'>
-                <div className='grid grid-cols-3 '>
-                  <h4 className='#282739 font-bold'>Mã thiết bị:</h4>
-                  <span className='#535261'>{data.maThietBi}</span>
-                </div>
-                <div className='grid grid-cols-3'>
-                  <h4 className='#282739 font-bold'>Loại thiết bị:</h4>
-                  <span className='#535261'>{data.loaiThietBi}</span>
-                </div>
-                <div className='grid grid-cols-3'>
-                  <h4 className='#282739 font-bold'>Tên thiết bị:</h4>
-                  <span className='#535261'>{data.tenThietBi}</span>
-                </div>
-                <div className='grid grid-cols-3'>
-                  <h4 className='#282739 font-bold'>Tên đăng nhập:</h4>
-                  <span className='#535261'>{data.taiKhoan}</span>
-                </div>
-                <div className='grid grid-cols-3'>
-                  <h4 className='#282739 font-bold'>Địa chỉ IP:</h4>
-                  <span className='#535261'>{data.diaChiIP}</span>
-                </div>
-                <div className='grid grid-cols-3'>
-                  <h4 className='#282739 font-bold'>Mật khẩu:</h4>
-                  <span className='#535261'>{data.matKhau}</span>
-                </div>
-                <div className='grid grid-cols-3'>
-                  <h4 className='#282739 font-bold'>Dịch vụ sử dụng:</h4>
-                  <span className='#535261'>{data.dichVuSuDung}</span>
+        <div className='w-full  flex-col justify-between overflow-hidden'>
+          <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý dịch vụ</h3>
+          <div className='flex gap-5'>
+            <div className='mt-10 flex h-[500px]  w-[40%] flex-shrink-0 rounded-xl bg-white p-5'>
+              <div>
+                <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin dịch vụ</h3>
+                <div className='mt-10  flex w-full flex-col gap-5'>
+                  <div className='grid grid-cols-2'>
+                    <h4 className='font-bold text-[#282739]'>Mã dịch vụ:</h4>
+                    <span className='text-[#535261]'>{data.maDichVu}</span>
+                  </div>
+                  <div className='grid grid-cols-2'>
+                    <h4 className='font-bold text-[#282739]'>Tên dịch vụ:</h4>
+                    <span className='text-[#535261]'>{data.tenDichVu}</span>
+                  </div>
+                  <div className='grid grid-cols-2'>
+                    <h4 className='font-bold text-[#282739]'>Mô tả:</h4>
+                    <span className='text-[#535261]'>{data.moTa}</span>
+                  </div>
+                  <div>
+                    <h4 className='font-semibold text-primary text-[20px]'>Quy tắc cấp số:</h4>
+                    <div className='grid grid-cols-2'>
+                      <span className='text-[#535261]'>{data.moTa}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div></div>
+            <div className='mt-10 flex h-[500px] flex-grow  rounded-xl bg-white p-5'>
+              <div>
+                <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin dịch vụ</h3>
+                <div className='mt-10 grid w-full grid-cols-2 gap-y-10'>
+                  <div className='grid grid-cols-3 '>
+                    <h4 className='#282739 font-bold'>Mã thiết bị:</h4>
+                    <span className='#535261'>{data.maDichVu}</span>
+                  </div>
+                  <div className='grid grid-cols-3'>
+                    <h4 className='#282739 font-bold'>Loại thiết bị:</h4>
+                    <span className='#535261'>{data.tenDichVu}</span>
+                  </div>
+                  <div className='grid grid-cols-3'>
+                    <h4 className='#282739 font-bold'>Tên thiết bị:</h4>
+                    <span className='#535261'>{data.moTa}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>

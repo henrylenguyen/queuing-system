@@ -44,13 +44,19 @@ const AddServicePage = (props: Props) => {
       options: [
         {
           label: 'Tăng tự động từ:',
-          value: ['0001', '9999'],
+          value: {
+            name: 'autoIncrement',
+            data: ['0001', '9999']
+          },
           input: true,
           numberOfInput: 2
         },
         {
           label: 'Prefix',
-          value: '0001',
+          value: {
+            name: 'prefix',
+            data: '0001'
+          },
           input: true,
           numberOfInput: 1
         }
