@@ -13,6 +13,14 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
     return options.filter((option) => option.checked).map((option) => option.value)
   })
 
+  const [inputValues, setInputValues] = useState(() =>
+    options.map((option) => {
+      if (option.input) {
+        return option.numberOfInput > 1 ? new Array(option.numberOfInput).fill('') : ''
+      }
+      return null
+    })
+  )
   const handleCheckboxChange = (value) => {
     setCheckedValues((prevValues) => {
       const isChecked = prevValues.includes(value)
@@ -27,7 +35,7 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
   return (
     <div className='mt-2'>
       {options.map((option, index) => (
-        <div key={index} className='grid grid-cols-4 items-center'>
+        <div key={index} className='mt-4 grid grid-cols-4 items-center'>
           <FormControlLabel
             control={
               <Checkbox
@@ -54,10 +62,27 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
           />
           {option.input && (
             <div className='flex items-center gap-4'>
-              
-              <input type='text' className='w-[100px] rounded-lg border bg-white p-2' />
-              <span className='font-semibold'>Đến</span>
-              <input type='text' className='w-[100px] rounded-lg border bg-white p-2' />
+              {Array.from({ length: option.numberOfInput }).map((_, i) => (
+                <input
+                  key={i}
+                  type='number'
+                  className='w-[100px] rounded-lg border bg-white p-2 '
+                  defaultValue={option.value}
+                  value={Array.isArray(inputValues[index]) ? inputValues[index][i] : inputValues[index]}
+                  onChange={(event) => {
+                    const value = event.target.value
+                    setInputValues((prevValues) => {
+                      const newValues = [...prevValues]
+                      if (Array.isArray(newValues[index])) {
+                        newValues[index][i] = value
+                      } else {
+                        newValues[index] = value
+                      }
+                      return newValues
+                    })
+                  }}
+                />
+              ))}
             </div>
           )}
         </div>

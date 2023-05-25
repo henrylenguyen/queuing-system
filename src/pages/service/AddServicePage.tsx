@@ -50,7 +50,9 @@ const AddServicePage = (props: Props) => {
         },
         {
           label: 'Prefix',
-          value: '0001'
+          value: '0001',
+          input: true,
+          numberOfInput: 1
         }
       ],
       label: 'Quy tắc cấp số',
