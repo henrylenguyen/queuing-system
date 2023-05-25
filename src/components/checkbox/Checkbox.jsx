@@ -25,33 +25,42 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
   }
 
   return (
-    <div className='-mt-5'>
+    <div className='mt-2'>
       {options.map((option, index) => (
-        <FormControlLabel
-          key={index}
-          control={
-            <Checkbox
-              checked={checkedValues.includes(option.value)}
-              onChange={() => {
-                handleCheckboxChange(option.value)
-                const updatedValues = checkedValues.includes(option.value)
-                  ? checkedValues.filter((item) => item !== option.value)
-                  : [...checkedValues, option.value]
-                field.onChange(updatedValues)
-              }}
-              sx={{
-                color: orange[400],
-                '&.Mui-checked': {
-                  color: orange[400]
-                }
-              }}
-              name={name}
-              value={option.value}
-            />
-          }
-          label={option.label}
-          {...props}
-        />
+        <div key={index} className='grid grid-cols-4 items-center'>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkedValues.includes(option.value)}
+                onChange={() => {
+                  handleCheckboxChange(option.value)
+                  const updatedValues = checkedValues.includes(option.value)
+                    ? checkedValues.filter((item) => item !== option.value)
+                    : [...checkedValues, option.value]
+                  field.onChange(updatedValues)
+                }}
+                sx={{
+                  color: orange[400],
+                  '&.Mui-checked': {
+                    color: orange[400]
+                  }
+                }}
+                name={name}
+                value={option.value}
+              />
+            }
+            label={option.label}
+            {...props}
+          />
+          {option.input && (
+            <div className='flex items-center gap-4'>
+              
+              <input type='text' className='w-[100px] rounded-lg border bg-white p-2' />
+              <span className='font-semibold'>Đến</span>
+              <input type='text' className='w-[100px] rounded-lg border bg-white p-2' />
+            </div>
+          )}
+        </div>
       ))}
     </div>
   )

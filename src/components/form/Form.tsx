@@ -203,6 +203,14 @@ const Form = ({
                       type='time'
                       defaultValue={value}
                     />
+                  ) : type === 'checkbox' ? (
+                    <CheckboxGroup
+                      control={control}
+                      options={options as IOption[]}
+                      name={name}
+                      errors={errors[name]}
+                      defaultValue={value}
+                    />
                   ) : type === 'datetime' ? (
                     <DateTimePickerField
                       control={control}

@@ -11,7 +11,6 @@ const handleSubmit = (data: any) => {
   console.log(data)
 }
 const AddServicePage = (props: Props) => {
-
   const [autoIncrement, setAutoIncrement] = useState([])
   const serviceField: IFields[] = [
     {
@@ -41,18 +40,20 @@ const AddServicePage = (props: Props) => {
     {
       name: 'quyTacCapSo',
       type: 'checkbox',
-      placeholder: 'Khám tim mạch',
+      placeholder: '',
       options: [
         {
           label: 'Tăng tự động từ:',
-          value: '[0001,9999]'
+          value: ['0001', '9999'],
+          input: true,
+          numberOfInput: 2
         },
         {
           label: 'Prefix',
           value: '0001'
         }
       ],
-      label: 'Tên dịch vụ *',
+      label: 'Quy tắc cấp số',
       className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
       classNameDiv: 'col-span-2 w-full h-full'
     }

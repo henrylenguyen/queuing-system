@@ -6,6 +6,8 @@ interface RestProps {
   label: string
   options?: any
   value: any
+  input?: boolean
+  numberOfInput?: number
 }
 export interface IFields {
   name: string
