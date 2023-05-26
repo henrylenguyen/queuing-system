@@ -1,4 +1,4 @@
-const navbar = [
+export const navbar = [
   {
     name: 'Dashboard',
     to: '/dashboard',
@@ -74,7 +74,7 @@ const navbar = [
   },
   {
     name: 'Báo cáo',
-    to: '/report',
+    to: '/report/report-list',
     icon: (
       <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
         <g fill='currentColor'>
@@ -84,4 +84,17 @@ const navbar = [
     )
   }
 ]
-export default navbar
+export const settingNav = [
+  {
+    name: 'Quản lý vai trò',
+    to: '/setting/role-manegement'
+  },
+  {
+    name: 'Quản lý tài khoản',
+    to: '/setting/account-manegement'
+  },
+  {
+    name: 'Quản lý người dùng',
+    to: '/setting/user-diary'
+  }
+]

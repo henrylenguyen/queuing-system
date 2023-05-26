@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import DateTimePickerField from '../datetime/DateTimePickerField'
 import Dropdown from '../select/Dropdown'
 import TreeSelect from 'components/select/TreeSelect'
-import CheckboxGroup from '../checkbox/Checkbox';
+import CheckboxGroup from '../checkbox/Checkbox'
 import IOption from 'constants/interface/option.interface'
 
 const Form = ({
@@ -147,7 +147,20 @@ const Form = ({
         {newFields?.length > 0
           ? newFields?.map(
               (
-                { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
+                {
+                  name,
+                  type,
+                  placeholder,
+                  onChange,
+                  className,
+                  classNameDiv,
+                  label,
+                  options,
+                  value,
+                  readOnly,
+                  inputValues,
+                  onInputChange
+                },
                 index
               ) => (
                 <div key={name} className={`${classNameDiv} flex flex-col gap-2`}>
@@ -210,6 +223,8 @@ const Form = ({
                       name={name}
                       errors={errors[name]}
                       defaultValue={value}
+                      onInputChange={onInputChange}
+                      inputValues={inputValues}
                     />
                   ) : type === 'datetime' ? (
                     <DateTimePickerField
@@ -262,7 +277,20 @@ const Form = ({
             )
           : fields?.map(
               (
-                { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
+                {
+                  name,
+                  type,
+                  placeholder,
+                  onChange,
+                  className,
+                  classNameDiv,
+                  label,
+                  options,
+                  value,
+                  readOnly,
+                  inputValues,
+                  onInputChange
+                },
                 index
               ) => (
                 <div key={name} className={`${classNameDiv} flex flex-col gap-2`}>
@@ -317,6 +345,8 @@ const Form = ({
                       name={name}
                       errors={errors[name]}
                       defaultValue={value}
+                      onInputChange={onInputChange}
+                      inputValues={inputValues}
                     />
                   ) : type === 'time' ? (
                     <DateTimePickerField

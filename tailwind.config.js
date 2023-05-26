@@ -7,7 +7,9 @@ module.exports = {
         primary: '#FF9138',
         secondary: ' #F6F6F6'
       },
-      
+      boxShadow: {
+        nav: '5px 5px 10px 2px rgba(0,0,0,0.2);'
+      }
     }
   },
   plugins: []

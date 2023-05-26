@@ -38,6 +38,9 @@ const PageInfor = () => {
       case 'add-new-service':
         part = 'Thêm dịch vụ'
         break
+      case 'update-service':
+        part = 'Cập nhật dịch vụ'
+        break
       case 'service-detail':
         part = 'Thông tin dịch vụ'
         break
@@ -51,18 +54,40 @@ const PageInfor = () => {
         part = 'Cấp số mới'
         break
       case 'number-detail':
-        part = 'Thông tin dịch vụ'
+        part = 'Thông tin cấp số'
+        break
+      case 'report':
+        part = 'Báo cáo'
+        break
+      case 'report-list':
+        part = 'Lập báo cáo'
+        break
+      case 'setting':
+        part = 'Cài đặt hệ thống'
+        break
+      case 'role-manegement':
+        part = 'Quản lý vai trò'
+        break
+      case 'add-role-manegement':
+        part = 'Thêm vai trò'
+        break
+      case 'account-manegement':
+        part = 'Quản lý tài khoản'
+        break
+      case 'add-new-account':
+        part = 'Thêm tài khoản'
+        break
+      case 'update-account':
+        part = 'Cập nhật tài khoản'
+        break
+      case 'user-diary':
+        part = 'Nhật ký hoạt động'
         break
       default:
         part = ''
         break
     }
     return part
-  }
-  const handleFirstNavLinkClick = (event: any) => {
-    if (firstNavLinkDisabled) {
-      event.preventDefault() // Prevent navigation
-    }
   }
 
   return (
@@ -81,7 +106,6 @@ const PageInfor = () => {
                   className={`text-[20px] font-semibold ${
                     index === pathParts.length - 1 ? 'text-primary' : 'text-[#7E7D88]'
                   } ${index === 0 && firstNavLinkDisabled ? 'disabled' : ''}`}
-                  onClick={handleFirstNavLinkClick}
                 >
                   {String(handleConvert(part))}
                 </NavLink>

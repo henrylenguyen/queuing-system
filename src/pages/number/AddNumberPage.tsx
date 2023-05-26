@@ -23,7 +23,7 @@ const statusOptions = [
     label: 'Ngưng hoạt động'
   }
 ]
-const handleChange = (data:any)=>{
+const handleChange = (data: any) => {
   console.log(data)
 }
 const AddNumberPage = (props: Props) => {
@@ -40,9 +40,9 @@ const AddNumberPage = (props: Props) => {
               <h4 className='mt-5  text-[18px] font-semibold text-[#535261] min-[1500px]:text-[20px]'>
                 Dịch vụ khách hàng lựa chọn
               </h4>
-              <div className='w-[400px] mt-5'>
+              <div className='mt-5 w-[400px]'>
                 <Select options={statusOptions} onChange={handleChange} placeholder='Chọn dịch vụ' />
-               </div>
+              </div>
               <div className='col-span-4 mt-10 flex w-full justify-center gap-5'>
                 <button
                   className=' w-[200px] rounded-md border border-primary  p-[10px] text-[18px] font-medium text-primary'

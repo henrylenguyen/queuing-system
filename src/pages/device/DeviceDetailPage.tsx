@@ -24,31 +24,31 @@ const DeviceDetailPage = (props: Props) => {
               <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin thiết bị</h3>
               <div className='mt-10 grid w-full grid-cols-2 gap-y-10'>
                 <div className='grid grid-cols-3 '>
-                  <h4 className='text-[#282739] font-bold'>Mã thiết bị:</h4>
+                  <h4 className='font-bold text-[#282739]'>Mã thiết bị:</h4>
                   <span className='text-[#535261]'>{data.maThietBi}</span>
                 </div>
                 <div className='grid grid-cols-3'>
-                  <h4 className='text-[#282739] font-bold'>Loại thiết bị:</h4>
+                  <h4 className='font-bold text-[#282739]'>Loại thiết bị:</h4>
                   <span className='text-[#535261]'>{data.loaiThietBi}</span>
                 </div>
                 <div className='grid grid-cols-3'>
-                  <h4 className='text-[#282739] font-bold'>Tên thiết bị:</h4>
+                  <h4 className='font-bold text-[#282739]'>Tên thiết bị:</h4>
                   <span className='text-[#535261]'>{data.tenThietBi}</span>
                 </div>
                 <div className='grid grid-cols-3'>
-                  <h4 className='text-[#282739] font-bold'>Tên đăng nhập:</h4>
+                  <h4 className='font-bold text-[#282739]'>Tên đăng nhập:</h4>
                   <span className='text-[#535261]'>{data.taiKhoan}</span>
                 </div>
                 <div className='grid grid-cols-3'>
-                  <h4 className='text-[#282739] font-bold'>Địa chỉ IP:</h4>
+                  <h4 className='font-bold text-[#282739]'>Địa chỉ IP:</h4>
                   <span className='text-[#535261]'>{data.diaChiIP}</span>
                 </div>
                 <div className='grid grid-cols-3'>
-                  <h4 className='text-[#282739] font-bold'>Mật khẩu:</h4>
+                  <h4 className='font-bold text-[#282739]'>Mật khẩu:</h4>
                   <span className='text-[#535261]'>{data.matKhau}</span>
                 </div>
                 <div className='grid grid-cols-3'>
-                  <h4 className='text-[#282739] font-bold'>Dịch vụ sử dụng:</h4>
+                  <h4 className='font-bold text-[#282739]'>Dịch vụ sử dụng:</h4>
                   <span className='text-[#535261]'>{data.dichVuSuDung}</span>
                 </div>
               </div>

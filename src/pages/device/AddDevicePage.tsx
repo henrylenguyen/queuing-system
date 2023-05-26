@@ -1,7 +1,6 @@
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { deviceField } from 'constants/fields/device.fields'
-import React from 'react'
 import { DeviceShema } from 'schemas/Device.schema'
 
 type Props = {}

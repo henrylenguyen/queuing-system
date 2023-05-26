@@ -1,14 +1,12 @@
 import PageInfor from 'components/pageInfor/PageInfor'
+import ServiceDetailLeft from 'layouts/service/ServiceDetailLeft'
+import ServiceDetailRight from 'layouts/service/ServiceDetailRight'
+
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 type Props = {}
-const data = {
-  maDichVu: '201',
-  tenDichVu: 'Khám tim mạch',
-  moTa: 'Chuyên các bệnh lý về tim',
-  quyTacCapSo: [['0001', '9999'], '0001', true]
-}
+
 const ServiceDetailPage = (props: Props) => {
   return (
     <div className='pt-10 '>
@@ -17,54 +15,12 @@ const ServiceDetailPage = (props: Props) => {
         <div className='w-full  flex-col justify-between overflow-hidden'>
           <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý dịch vụ</h3>
           <div className='flex gap-5'>
-            <div className='mt-10 flex h-[500px]  w-[40%] flex-shrink-0 rounded-xl bg-white p-5'>
-              <div>
-                <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin dịch vụ</h3>
-                <div className='mt-10  flex w-full flex-col gap-5'>
-                  <div className='grid grid-cols-2'>
-                    <h4 className='font-bold text-[#282739]'>Mã dịch vụ:</h4>
-                    <span className='text-[#535261]'>{data.maDichVu}</span>
-                  </div>
-                  <div className='grid grid-cols-2'>
-                    <h4 className='font-bold text-[#282739]'>Tên dịch vụ:</h4>
-                    <span className='text-[#535261]'>{data.tenDichVu}</span>
-                  </div>
-                  <div className='grid grid-cols-2'>
-                    <h4 className='font-bold text-[#282739]'>Mô tả:</h4>
-                    <span className='text-[#535261]'>{data.moTa}</span>
-                  </div>
-                  <div>
-                    <h4 className='font-semibold text-primary text-[20px]'>Quy tắc cấp số:</h4>
-                    <div className='grid grid-cols-2'>
-                      <span className='text-[#535261]'>{data.moTa}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='mt-10 flex h-[500px] flex-grow  rounded-xl bg-white p-5'>
-              <div>
-                <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin dịch vụ</h3>
-                <div className='mt-10 grid w-full grid-cols-2 gap-y-10'>
-                  <div className='grid grid-cols-3 '>
-                    <h4 className='#282739 font-bold'>Mã thiết bị:</h4>
-                    <span className='#535261'>{data.maDichVu}</span>
-                  </div>
-                  <div className='grid grid-cols-3'>
-                    <h4 className='#282739 font-bold'>Loại thiết bị:</h4>
-                    <span className='#535261'>{data.tenDichVu}</span>
-                  </div>
-                  <div className='grid grid-cols-3'>
-                    <h4 className='#282739 font-bold'>Tên thiết bị:</h4>
-                    <span className='#535261'>{data.moTa}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ServiceDetailLeft />
+            <ServiceDetailRight />
           </div>
         </div>
-        <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
-          <button className='rounded-lg bg-[#FFF2E7] px-5 py-2 shadow'>
+        <div className=' flex-shink-0 flex h-[250px] flex-col items-end gap-5 p-5'>
+          <button className='h-[80px] w-[150px] rounded-lg bg-[#FFF2E7] shadow'>
             <NavLink to='/device/device-list/update-device' className={'flex flex-col items-center gap-2 text-primary'}>
               <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
                 <svg
@@ -83,6 +39,23 @@ const ServiceDetailPage = (props: Props) => {
                 </svg>
               </div>
               <span>Cập nhật danh sách</span>
+            </NavLink>
+          </button>
+          <button className='h-[80px] w-[150px] rounded-lg bg-[#FFF2E7] shadow'>
+            <NavLink to='/service/service-list' className={'flex flex-col items-center gap-2 text-primary'}>
+              <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='#fff'
+                  className='h-6 w-6'
+                >
+                  <path strokeLinecap='round' strokeLinejoin='round' d='M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3' />
+                </svg>
+              </div>
+              <span>Quay lại</span>
             </NavLink>
           </button>
         </div>

@@ -35,6 +35,8 @@ export interface IFields {
   options?: RestProps[]
   value?: any
   readOnly?: boolean
+  inputValues?: any
+  onInputChange?: any
 }
 interface DynamicObject {
   [key: string]: any

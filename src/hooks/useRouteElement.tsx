@@ -14,6 +14,14 @@ import UpdateDevicePage from 'pages/device/UpdateDevicePage'
 import AddServicePage from 'pages/service/AddServicePage'
 import ServiceDetailPage from 'pages/service/ServiceDetailPage'
 import AddNumberPage from 'pages/number/AddNumberPage'
+import UpdateServicePage from 'pages/service/UpdateServicePage'
+import NumberDetailPage from 'pages/number/NumberDetailPage'
+import RoleListPage from 'pages/role/RoleListPage'
+import AddRolePage from 'pages/role/AddRolePage'
+import AddUsernamePage from 'pages/username/AddUsernamePage'
+import UsernameListPage from 'pages/username/UsernameListPage'
+import UpdateUsernamePage from 'pages/username/UpdateUsernamePage'
+import UserLog from 'pages/userLog/UserLog'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -89,6 +97,14 @@ export default function useRouteElement() {
       )
     },
     {
+      path: '/service/service-list/update-service',
+      element: (
+        <DashBoardLayout>
+          <UpdateServicePage />
+        </DashBoardLayout>
+      )
+    },
+    {
       path: '/service/service-list/service-detail',
       element: (
         <DashBoardLayout>
@@ -113,10 +129,66 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/report',
+      path: '/number/number-list/number-detail',
+      element: (
+        <DashBoardLayout>
+          <NumberDetailPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/report/report-list',
       element: (
         <DashBoardLayout>
           <ReportPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/setting/role-manegement',
+      element: (
+        <DashBoardLayout>
+          <RoleListPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/setting/role-manegement/add-role-manegement',
+      element: (
+        <DashBoardLayout>
+          <AddRolePage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/setting/account-manegement',
+      element: (
+        <DashBoardLayout>
+          <UsernameListPage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/setting/account-manegement/add-new-account',
+      element: (
+        <DashBoardLayout>
+          <AddUsernamePage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/setting/account-manegement/update-account',
+      element: (
+        <DashBoardLayout>
+          <UpdateUsernamePage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/setting/user-diary',
+      element: (
+        <DashBoardLayout>
+          <UserLog />
         </DashBoardLayout>
       )
     }
