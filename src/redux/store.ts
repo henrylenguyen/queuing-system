@@ -1,8 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
-import rootReducer from './rootReducer'
+import navSlice from './slice/navSlice'
+import usersReducer from './slice/userSlice'
+import authReducer from './slice/authSlice'
 
 const store = configureStore({
-  reducer: rootReducer
+  reducer: {
+    navbar: navSlice,
+    user: usersReducer,
+    auth: authReducer
+  }
 })
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

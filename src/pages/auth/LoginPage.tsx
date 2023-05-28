@@ -3,20 +3,22 @@ import React from 'react'
 import Form from 'components/form/Form'
 import { LoginShema } from 'schemas/Login.schema'
 import { loginField } from 'constants/fields/login.fields'
-import login from 'assets/images/login.png'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from 'redux/store'
+import { loginAction } from 'redux/action/users/auth.action'
+import login from 'assets/images/login.png';
 type Props = {}
 
-const data = {
-  username: 'thaile',
-  password: '123456'
-}
+
 
 const LoginPage = (props: Props) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
   const handleSubmitForm = (data: any) => {
     console.log(data)
-    navigate('/')
+    // dispatch(loginAction(data))
+    // navigate('/')
   }
   return (
     <div>

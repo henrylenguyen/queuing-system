@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 export const LoginShema = yup
   .object({
-    username: yup.string().required('Tên đăng nhập là bắt buộc'),
-    password: yup.string().required('Mật khẩu là bắt buộc')
+    taiKhoan: yup.string().required('Tài khoản là bắt buộc'),
+    matKhau: yup.string().required('Mật khẩu là bắt buộc')
   })
   .required()
 export const resetSchema = yup
