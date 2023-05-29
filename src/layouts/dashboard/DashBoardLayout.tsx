@@ -1,8 +1,11 @@
 import Navbar from 'components/navbar/Navbar'
 import { useSelector, useDispatch } from 'react-redux'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RootState, AppDispatch } from '../../redux/store'
 import { changeStateNav } from 'redux/slice/navSlice'
+import { useLocalStorage } from 'usehooks-ts'
+import { useNavigate } from 'react-router-dom'
+
 type Props = {
   children?: React.ReactNode
 }
@@ -10,42 +13,61 @@ type Props = {
 const DashBoardLayout = ({ children }: Props) => {
   const { isActive } = useSelector((state: RootState) => state.navbar)
   const dispatch = useDispatch<AppDispatch>()
+  const [isLogin] = useLocalStorage('islogin', false)
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!isLogin) {
+      navigate('/login')
+    }
+  }, [isLogin, navigate])
+
   return (
-    <div className='flex h-auto'>
-      <Navbar />
-      <div className={`relative ${isActive ? 'w-[97%]' : 'w-[85%]'}`}>
-        {children}
-        <button className='absolute top-0 bg-primary text-white' onClick={() => dispatch(changeStateNav(!isActive))}>
-          {isActive ? (
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='h-6 w-6'
+    <>
+      {isLogin && (
+        <div className='flex h-auto'>
+          <Navbar />
+          <div className={`relative ${isActive ? 'w-[97%]' : 'w-[85%]'}`}>
+            {children}
+            <button
+              className='absolute top-0 bg-primary text-white'
+              onClick={() => dispatch(changeStateNav(!isActive))}
             >
-              <path strokeLinecap='round' strokeLinejoin='round' d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5' />
-            </svg>
-          ) : (
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='h-6 w-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5'
-              />
-            </svg>
-          )}
-        </button>
-      </div>
-    </div>
+              {isActive ? (
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='h-6 w-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5'
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='h-6 w-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5'
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

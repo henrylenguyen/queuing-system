@@ -2,7 +2,7 @@ import { IFields } from 'constants/interface/formInterface'
 
 export const loginField: IFields[] = [
   {
-    name: 'username',
+    name: 'taiKhoan',
     type: 'text',
     placeholder: 'abc',
     label: 'Tên đăng nhập *',
@@ -10,7 +10,7 @@ export const loginField: IFields[] = [
     classNameDiv: 'col-span-4 w-full h-full'
   },
   {
-    name: 'password',
+    name: 'matKhau',
     type: 'password',
     placeholder: '*****',
     label: 'Mật khẩu *',

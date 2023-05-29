@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { IFormProps } from 'constants/interface/formInterface'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import DateTimePickerField from '../datetime/DateTimePickerField'
@@ -34,6 +34,7 @@ const Form = ({
   })
   const navigate = useNavigate()
   const [passwordFields, setPasswordFields] = useState<boolean[]>([])
+  const timeoutRef = useRef<number | null>(null)
 
   const togglePasswordVisibility = (index: number) => {
     setPasswordFields((prevFields) => {
@@ -51,7 +52,6 @@ const Form = ({
     }
     return acc
   }, [])
-  console.log('file: Form.tsx:51 ~ newFields:', newFields)
 
   const renderPasswordInput = (
     index: number,
@@ -127,12 +127,16 @@ const Form = ({
     try {
       if (isValid) {
         if (handleSubmitForm) {
+          clearTimeout(timeoutRef.current ?? undefined)
+
           handleSubmitForm(data)
+
           return new Promise<void>((resolve) => {
             setTimeout(() => {
               resolve()
-              reset()
             }, 1000)
+          }).then(() => {
+            clearTimeout(timeoutRef.current ?? undefined)
           })
         }
       }

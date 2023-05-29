@@ -1,34 +1,35 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IAuth } from 'constants/interface/auth.interface';
-import db from 'service/db.connect';
-
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { IAuth } from 'constants/interface/auth.interface'
+import db from 'service/db.connect'
+import { collection, query, where, limit, getDocs } from 'firebase/firestore'
+import bcrypt from 'bcryptjs'
 interface LoginPayload {
-  taiKhoan: string;
-  matKhau: string;
+  taiKhoan: string
+  matKhau: string
 }
 
 export const loginAction = createAsyncThunk('auth/login', async (payload: LoginPayload) => {
   try {
-    const { taiKhoan, matKhau } = payload;
+    const { taiKhoan, matKhau } = payload
 
     // Check account or email
-    const usersSnapshot = await db.collection('users').where('taiKhoan', '==', taiKhoan).limit(1).get();
+    const querySnapshot = await getDocs(query(collection(db, 'users'), where('taiKhoan', '==', taiKhoan), limit(1)))
 
-    if (usersSnapshot.empty) {
-      throw new Error('Tài khoản không hợp lệ');
+    if (querySnapshot.empty) {
+      throw new Error('Tài khoản không hợp lệ')
     }
 
-    const userDoc = usersSnapshot.docs[0];
-    const userData = userDoc.data() as IAuth;
+    const userDoc = querySnapshot.docs[0]
+    const userData = userDoc.data() as IAuth
 
-    // Check password only if the account is valid
-    if (matKhau !== userData.matKhau) {
-      throw new Error('Mật khẩu không hợp lệ');
+    const isPasswordValid = await bcrypt.compare(matKhau, userData.matKhau)
+    if (!isPasswordValid) {
+      throw new Error('Mật khẩu không hợp lệ')
     }
 
-    return userData;
+    return userData
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-});
+})

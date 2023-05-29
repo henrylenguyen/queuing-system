@@ -1,5 +1,4 @@
 import React from 'react'
-
 import ProfileLayout from 'layouts/user/ProfileLayout'
 import PageInfor from 'components/pageInfor/PageInfor'
 type Props = {}
