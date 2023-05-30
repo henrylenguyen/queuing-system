@@ -3,7 +3,7 @@ import { IFields } from 'constants/interface/formInterface'
 const profileFields: IFields[] = [
   {
     label: 'Tên người dùng',
-    name: 'name',
+    name: 'hoTen',
     type: 'text',
     placeholder: 'abc',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -13,7 +13,7 @@ const profileFields: IFields[] = [
 
   {
     label: 'Tên đăng nhập',
-    name: 'username',
+    name: 'taiKhoan',
     type: 'text',
     placeholder: 'abc',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -22,7 +22,7 @@ const profileFields: IFields[] = [
   },
   {
     label: 'Số điện thoại',
-    name: 'phone',
+    name: 'soDienThoai',
     type: 'tel',
     placeholder: '0123456789',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -31,7 +31,7 @@ const profileFields: IFields[] = [
   },
   {
     label: 'Mật khẩu',
-    name: 'password',
+    name: 'matKhau',
     type: 'password',
     placeholder: '***********',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -49,7 +49,7 @@ const profileFields: IFields[] = [
   },
   {
     label: 'Vai trò',
-    name: 'role',
+    name: 'vaiTro',
     type: 'text',
     placeholder: 'Kế toán',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',

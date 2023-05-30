@@ -12,13 +12,13 @@ import { getAuth } from 'firebase/auth'
 // }
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCQiU7T7pTX5un8s1PkS7FK3SF0YcWz2q0',
-  authDomain: 'queuing-system-8258d.firebaseapp.com',
-  projectId: 'queuing-system-8258d',
-  storageBucket: 'queuing-system-8258d.appspot.com',
-  messagingSenderId: '987648151922',
-  appId: '1:987648151922:web:afd1ff1c588418d480cdeb',
-  measurementId: 'G-M02REBVWHM'
+  apiKey: 'AIzaSyCbmsEYU0AsR2-u708wzYweBzA9eZ6tJ4o',
+  authDomain: 'queuing-system-47714.firebaseapp.com',
+  projectId: 'queuing-system-47714',
+  storageBucket: 'queuing-system-47714.appspot.com',
+  messagingSenderId: '238363372968',
+  appId: '1:238363372968:web:f2abf58fbfc6bdb947819d',
+  measurementId: 'G-G82N1D3B1T'
 }
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)

@@ -38,7 +38,7 @@ export interface IFields {
   inputValues?: any
   onInputChange?: any
 }
-interface DynamicObject {
+export interface DynamicObject {
   [key: string]: any
 }
 

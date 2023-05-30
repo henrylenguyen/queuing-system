@@ -7,4 +7,5 @@ export interface IAuth {
   taiKhoan: string
   trangThai: string
   vaiTro: string
+  avatar: string
 }

@@ -1,15 +1,21 @@
 import React, { useState } from 'react'
 import logo from 'assets/images/Logo-alta.svg'
 import setting from 'assets/images/setting.svg'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { settingNav, navbar } from 'constants/navbar'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocalStorage } from 'usehooks-ts'
+import { AppDispatch, RootState } from 'redux/store'
+import { logOut } from 'redux/slice/authSlice'
+import { message } from 'antd'
 type Props = {}
 const Navbar = (props: Props) => {
   const { isActive } = useSelector((state: RootState) => state.navbar)
   const [forcus, setForcus] = useState(false)
   const [isSettingButtonHovered, setIsSettingButtonHovered] = useState(false)
+  const [logged] = useLocalStorage('islogin', { islogin: false, id: '' })
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
   const handleChangeMouseEnter = () => {
     setIsSettingButtonHovered(true)
     setForcus(true)
@@ -17,6 +23,14 @@ const Navbar = (props: Props) => {
   const handleMouseOver = () => {
     setIsSettingButtonHovered(false)
     setForcus(!forcus)
+  }
+  const handleLogout = () => {
+    if (logged) {
+      localStorage.removeItem('islogin')
+      dispatch(logOut())
+      message.info('Đăng xuất thành công')
+    }
+    navigate('/login')
   }
   return (
     <div
@@ -114,7 +128,7 @@ const Navbar = (props: Props) => {
                   onMouseLeave={() => handleMouseOver()}
                 >
                   {settingNav?.map(({ name, to }) => (
-                    <NavLink to={to} key={name} >
+                    <NavLink to={to} key={name}>
                       <div className='flex w-full items-center gap-2 p-5 hover:bg-primary hover:text-white'>{name}</div>
                     </NavLink>
                   ))}
@@ -122,7 +136,10 @@ const Navbar = (props: Props) => {
               )}
             </nav>
           </div>
-          <button className='flex w-[90%] items-center gap-3 rounded-lg bg-[#FFF2E7] p-3 text-primary'>
+          <button
+            className='flex w-[90%] items-center gap-3 rounded-lg bg-[#FFF2E7] p-3 text-primary'
+            onClick={() => handleLogout()}
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'

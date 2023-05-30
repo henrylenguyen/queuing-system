@@ -1,5 +1,5 @@
 import LoginLayout from 'layouts/login/LoginLayout'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Form from 'components/form/Form'
 import { LoginShema } from 'schemas/Login.schema'
 import { loginField } from 'constants/fields/login.fields'
@@ -16,32 +16,31 @@ type Props = {}
 const LoginPage = (props: Props) => {
   const navigate = useNavigate()
   const { user, isLoading, error } = useSelector((state: RootState) => state.auth)
-  const [isLogin, setIsLogin] = useLocalStorage('islogin', false)
+  const [logged, setLogged] = useLocalStorage('islogin', { islogin: false, id: '' })
   const dispatch = useDispatch<AppDispatch>()
   const handleSubmitForm = (data: any) => {
     dispatch(loginAction(data))
   }
+  const isShownSuccessMessage = useRef(false) // Use ref to track if success message has been shown
+
   useEffect(() => {
-    const handleLoginSuccess = () => {
-      if (isLogin && user) {
-        message.success('Đăng nhập thành công')
+    if (user && !isShownSuccessMessage.current) {
+      message.success('Đăng nhập thành công')
+      setLogged({ islogin: true, id: user.id })
+      isShownSuccessMessage.current = true // Nếu mà đã show thông báo thì không show nữa
+      setTimeout(() => {
+        navigate('/') // chuyển hướng về trang chủ sau 1 giây
+      }, 1000)
+    } else {
+      if (logged.islogin && !isShownSuccessMessage.current) {
+        message.info('Bạn đã đăng nhập, tự động chuyển hướng sau 3s')
+        isShownSuccessMessage.current = true 
         setTimeout(() => {
-          navigate('/') // chuyển hướng về trang chủ sau 1 giây
-        }, 1000)
-      } else if (isLogin && !user) {
-        setIsLogin(false) // Đặt lại isLogin thành false nếu không có user (để tránh hiển thị thông báo khi người dùng tải lại trang)
-      } else {
-        if (isLogin) {
-          message.info('Bạn đã đăng nhập, tự động chuyển hướng sau 3s')
-          setTimeout(() => {
-            navigate('/') // chuyển hướng về trang chủ sau 3 giây
-          }, 3000)
-        }
+          navigate('/') // chuyển hướng về trang chủ sau 3 giây
+        }, 3000)
       }
     }
-
-    handleLoginSuccess()
-  }, [isLogin, navigate, setIsLogin, user])
+  }, [logged, navigate, setLogged, user])
 
   return (
     <div>

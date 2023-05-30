@@ -1,16 +1,15 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+  image?: string
+  name?: string
+}
 
-const ProfileImage = (props: Props) => {
+const ProfileImage = ({ image, name }: Props) => {
   return (
     <div className='flex flex-shrink-0 flex-col items-center gap-10'>
       <div className='relative'>
-        <img
-          src='https://i.pinimg.com/originals/48/ef/76/48ef764d8ce6b93fdf27628cc9e86e2f.jpg'
-          alt='avatar'
-          className='h-[250px] w-[250px] rounded-full object-cover'
-        />
+        <img src={image} alt='avatar' className='h-[250px] w-[250px] rounded-full object-cover' />
         <button
           className='absolute bottom-[2%] right-[10%] flex h-[40px] w-[40px] items-center justify-center
             rounded-full border-2 border-white bg-[#FF7506] text-white'
@@ -37,7 +36,7 @@ const ProfileImage = (props: Props) => {
         </button>
       </div>
 
-      <span className='text-[30px] font-semibold text-[#282739]'>Lê Nguyễn Phương Thái</span>
+      <span className='text-[30px] font-semibold text-[#282739]'>{name}</span>
     </div>
   )
 }

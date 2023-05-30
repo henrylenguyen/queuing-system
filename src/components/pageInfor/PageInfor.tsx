@@ -3,14 +3,16 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { Avatar } from 'antd'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-
+import { useSelector } from 'react-redux'
+import { RootState } from 'redux/store'
+import { DynamicObject } from 'constants/interface/formInterface'
 const PageInfor = () => {
   const location = useLocation()
   const pathname = location.pathname
   // Tách đường dẫn hiện tại thành các phần riêng biệt sau mỗi dấu '/'
   const pathParts = pathname.split('/').filter((part) => part !== '')
   const [firstNavLinkDisabled, setFirstNavLinkDisabled] = useState(true)
-
+  const { user } = useSelector((state: RootState) => state.auth)
   // Dùng các phần đã tách để tạo breadcrumb
   const handleConvert = (part: string) => {
     switch (part) {
@@ -134,10 +136,10 @@ const PageInfor = () => {
           </Badge>
         </button>
         <NavLink className='flex gap-4' to='/'>
-          <Avatar src='https://i.pinimg.com/originals/48/ef/76/48ef764d8ce6b93fdf27628cc9e86e2f.jpg' size='large' />
+          <Avatar src={user?.avatar} size='large' />
           <div className='flex flex-col gap-2'>
             <span className='text-[13px] font-semibold text-gray-500'>Xin chào</span>
-            <span className='font-semibold'>Lê Nguyễn Phương Thái</span>
+            <span className='font-semibold'>{user?.hoTen}</span>
           </div>
         </NavLink>
       </div>
