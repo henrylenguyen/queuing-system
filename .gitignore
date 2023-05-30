@@ -11,7 +11,8 @@
 # production
 /build
 
-craco.config.js
+/craco.config.js
+
 # misc
 .DS_Store
 .env.local
