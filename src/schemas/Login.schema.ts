@@ -13,16 +13,16 @@ export const resetSchema = yup
 
 export const newPassSchema = yup
   .object({
-    password: yup
+    matKhau: yup
       .string()
       .required('Mật khẩu là bắt buộc')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,20}$/,
         'Mật khẩu phải có ít nhất 1 in hoa, 1 in thường, 1 số và 1 ký tự đặt biệt và từ 6-20 ký tự'
       ),
-    rePassword: yup
+    nhapLaiMatKhau: yup
       .string()
       .required('Nhập lại mật khẩu là bắt buộc')
-      .oneOf([yup.ref('password')], 'Mật khẩu nhập lại không khớp!')
+      .oneOf([yup.ref('matKhau')], 'Mật khẩu nhập lại không khớp!')
   })
   .required()

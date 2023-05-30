@@ -31,7 +31,7 @@ export const resetPassField: IFields[] = [
 export const newPassField: IFields[] = [
   {
     label: 'Mật khẩu',
-    name: 'password',
+    name: 'matKhau',
     type: 'password',
     placeholder: '*****',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -40,7 +40,7 @@ export const newPassField: IFields[] = [
 
   {
     label: 'Nhập lại mật khẩu',
-    name: 'rePassword',
+    name: 'nhapLaiMatKhau',
     type: 'password',
     placeholder: '*****',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',

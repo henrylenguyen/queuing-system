@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IAuth } from 'constants/interface/auth.interface'
+import { IAuth, IChangePass } from 'constants/interface/auth.interface'
 import db from 'service/db.connect'
-import { collection, query, where, limit, getDocs, getDoc, doc } from 'firebase/firestore'
+import { collection, query, where, limit, getDocs, getDoc, doc, updateDoc } from 'firebase/firestore'
 import bcrypt from 'bcryptjs'
 interface LoginPayload {
   taiKhoan: string
@@ -45,6 +45,55 @@ export const fetchUserLogin = createAsyncThunk('auth/fetchUserLogin', async (id:
       return { ...userData, id }
     } else {
       throw new Error('Tài khoản không tồn tại')
+    }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+})
+
+// -----------------------KIỂM TRA TỒN TẠI CỦA EMAIL---------------------------
+export const checkEmailExistence = createAsyncThunk('auth/checkEmail', async (email: string) => {
+  try {
+    const querySnapshot = await getDocs(query(collection(db, 'users'), where('email', '==', email), limit(1)))
+
+    if (!querySnapshot.empty) {
+      // Email tồn tại
+      console.log('Đã xác nhận email')
+      return true
+    }
+
+    // Email không tồn tại
+    throw new Error('Email không hợp lệ')
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+})
+// -------------------------------ĐỔI MẬT KHẨU DỰA VÀO EMAIL-------------------
+export const changePasswordAction = createAsyncThunk('auth/changePassword', async (payload: IChangePass) => {
+  try {
+    const { email, matKhau } = payload
+    console.log('file: auth.action.ts:79 ~ matKhau:', matKhau)
+    console.log('file: auth.action.ts:79 ~ email:', email)
+
+    // Kiểm tra xem email có tồn tại trong bảng "users" hay không
+    const querySnapshot = await getDocs(query(collection(db, 'users'), where('email', '==', email), limit(1)))
+
+    if (!querySnapshot.empty) {
+      // Email tồn tại, cập nhật mật khẩu mới
+      const userDoc = querySnapshot.docs[0]
+      const userId = userDoc.id
+
+      // Hash mật khẩu mới sử dụng bcrypt
+      const hashedPassword = await bcrypt.hash(matKhau, 10)
+
+      // Cập nhật mật khẩu mới vào Firestore
+      await updateDoc(doc(db, 'users', userId), {
+        matKhau: hashedPassword
+      })
+
+      return true // Trả về true để biểu thị rằng mật khẩu đã được thay đổi thành công
     }
   } catch (error) {
     console.error(error)

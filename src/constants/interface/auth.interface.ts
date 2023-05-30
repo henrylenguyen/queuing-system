@@ -9,3 +9,7 @@ export interface IAuth {
   vaiTro: string
   avatar: string
 }
+export interface IChangePass {
+  email: string
+  matKhau: string
+}
