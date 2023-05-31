@@ -21,8 +21,7 @@ const LoginPage = (props: Props) => {
   const handleSubmitForm = (data: any) => {
     dispatch(loginAction(data))
   }
-  const isShownSuccessMessage = useRef(false) // Use ref to track if success message has been shown
-
+  const isShownSuccessMessage = useRef(false) // dùng ref để kiểm tra thông báo
   useEffect(() => {
     if (user && !isShownSuccessMessage.current) {
       message.success('Đăng nhập thành công')

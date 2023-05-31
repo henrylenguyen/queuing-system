@@ -1,5 +1,5 @@
 import LoginLayout from 'layouts/login/LoginLayout'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import forgot from 'assets/images/forgotPass.svg'
 import * as yup from 'yup'
 import { newPassSchema, resetSchema } from 'schemas/Login.schema'
@@ -22,6 +22,7 @@ const ResetPassPage = (props: Props) => {
   const [messageApi, contextHolder] = message.useMessage()
   const { isChangedPass, emailValid, error } = useSelector((state: RootState) => state.auth)
 
+  const isShownSuccessMessage = useRef(false)
   useEffect(() => {
     if (isEmailValidating) {
       messageApi.open({
@@ -33,10 +34,11 @@ const ResetPassPage = (props: Props) => {
   }, [isEmailValidating, messageApi])
 
   useEffect(() => {
-    if (emailValid && isEmailValidating && !isChangedPass) {
+    if (emailValid && isEmailValidating && !isShownSuccessMessage.current) {
       setTimeout(() => {
         message.success('Đã xác nhận email', 2.5).then(() => {
           setIsValid(true)
+          isShownSuccessMessage.current = true
         })
       }, 2000)
     }
