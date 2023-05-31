@@ -1,11 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Avatar, Image } from 'antd'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import removeVietnameseTones from 'utils/convertVietnamese'
 import CustomTable from 'components/table/CustomTable'
 import getColumnDeviceConfig from 'utils/dataColumn'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { NavLink } from 'react-router-dom'
 import Select from 'react-select'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'redux/store'
+import { fetchDevices } from 'redux/action/devices/deviceList.action'
+import Loading from 'components/loading/Loading'
+import { onChangeConnection, onChangeStatus } from 'redux/slice/devices.slice'
+import { IDeviceManagement } from 'constants/interface/device.interface'
 type Props = {}
 const data = [
   {
@@ -61,31 +66,53 @@ const connectionOptions = [
   }
 ]
 const DeviceListPage = (props: Props) => {
-  // useEffect(() => {
-  //   const newDataState = data?.map((item) => {
-  //     return {
-  //       ...item,
+  const { devices, isLoading, error, selectedStatus, selectedConnection } = useSelector(
+    (state: RootState) => state.device
+  )
+  const dispatch = useDispatch<AppDispatch>()
+  const [filteredData, setFilteredData] = useState<IDeviceManagement[]>(devices)
+  const [renderCount, setRenderCount] = useState(0)
+  const filteredDevices = useMemo(() => {
+    let filteredDevices = devices
 
-  //     }
-  //   })
-  //   setNewData(newDataState)
-  // }, [])
+    if (selectedStatus !== 'Tất cả') {
+      filteredDevices = filteredDevices.filter((device) => device.trangThaiHoatDong === selectedStatus)
+    }
+
+    if (selectedConnection !== 'Tất cả') {
+      filteredDevices = filteredDevices.filter((device) => device.trangThaiKetNoi === selectedConnection)
+    }
+
+    return filteredDevices
+  }, [devices, selectedStatus, selectedConnection])
+
+  useEffect(() => {
+    dispatch(fetchDevices())
+  }, [dispatch])
+
+  useEffect(() => {
+    setFilteredData(filteredDevices) // Cập nhật state khi danh sách thiết bị thay đổi
+    setRenderCount((prevCount) => prevCount + 1)
+  }, [filteredDevices])
   // 1. Lấy ra tất cả các key của object
   const getKeys = useCallback(() => {
-    return data && Object.keys(data[0])
-  }, [])
+    if (devices && devices.length > 0) {
+      return Object.keys(devices[0])
+    } else {
+      return []
+    }
+  }, [devices])
 
   /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
   ví dụ: [
     {
-      dataIndex: "maLichChieu",
-      key: "maLichChieu"
+      dataIndex: "",
+      key: ""
     }
   ]
 */
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
-    console.log('file: DeviceListPage.tsx:89 ~ keys:', keys)
 
     return keys?.map((item) => {
       return {
@@ -126,23 +153,28 @@ const DeviceListPage = (props: Props) => {
    ví dụ: Mã lịch chiếu ->malichchieu
   */
     const newTitle = removeTone.replace(/\s+/g, '').toLowerCase()
-    console.log('file: DeviceListPage.tsx:130 ~ newTitle:', newTitle)
     // dùng hàm find để tìm từ mảng các đối tượng dataIndexKey, so sánh giữa key với newTitle phía trên. Lưu ý là phải chuyển về in thường để so sánh
     const dataIndexKeyItem = dataIndexKey.find((item) => item?.key.toLowerCase() === newTitle)
 
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
   })
-  console.log('file: DeviceListPage.tsx:136 ~ columns:', columns)
 
   //---------------------------Tìm kiếm trạng thái hoạt động------------------
-  const handleStatusChange = (data: any) => {
-    console.log(data)
-  }
-  //---------------------------Tìm kiếm trạng thái kết nối------------------
-  const handleConnectionChange = (data: any) => {
-    console.log(data)
-  }
+  const handleStatusChange = useCallback(
+    (data: any) => {
+      dispatch(onChangeStatus(data.label))
+    },
+    [dispatch]
+  )
+
+  const handleConnectionChange = useCallback(
+    (data: any) => {
+      dispatch(onChangeConnection(data.label))
+    },
+    [dispatch]
+  )
+
   // ----------------------------Thêm cột chi tiết và tùy chỉn ----------------
 
   return (
@@ -188,7 +220,11 @@ const DeviceListPage = (props: Props) => {
                 </div>
               </div>
             </div>
-            <CustomTable data={data} columns={columns} Key={'maThietBi'}></CustomTable>
+            {devices.length > 0 ? (
+              <CustomTable key={renderCount} data={filteredData} columns={columns} Key={'maThietBi'}></CustomTable>
+            ) : (
+              ''
+            )}
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>

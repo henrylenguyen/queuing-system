@@ -12,7 +12,6 @@ const handleSubmit = (data: any) => {
   console.log(data)
 }
 const AddServicePage = (props: Props) => {
-  const [autoIncrement, setAutoIncrement] = useState([])
   const getServiceField = useCallback((): IFields[] => {
     return [
       {

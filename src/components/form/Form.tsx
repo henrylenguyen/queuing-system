@@ -19,14 +19,12 @@ const Form = ({
   title,
   titleButton,
   titleButtonCancel,
-  dataValidate,
   to
 }: IFormProps) => {
   const {
     control,
     handleSubmit,
     register,
-    reset,
     formState: { errors, isSubmitting, isValid }
   } = useForm({
     resolver: yupResolver(schema),
@@ -162,8 +160,6 @@ const Form = ({
                   options,
                   value,
                   readOnly,
-                  inputValues,
-                  onInputChange
                 },
                 index
               ) => (
@@ -227,8 +223,6 @@ const Form = ({
                       name={name}
                       errors={errors[name]}
                       defaultValue={value}
-                      onInputChange={onInputChange}
-                      inputValues={inputValues}
                     />
                   ) : type === 'datetime' ? (
                     <DateTimePickerField
@@ -292,8 +286,6 @@ const Form = ({
                   options,
                   value,
                   readOnly,
-                  inputValues,
-                  onInputChange
                 },
                 index
               ) => (
@@ -349,8 +341,6 @@ const Form = ({
                       name={name}
                       errors={errors[name]}
                       defaultValue={value}
-                      onInputChange={onInputChange}
-                      inputValues={inputValues}
                     />
                   ) : type === 'time' ? (
                     <DateTimePickerField

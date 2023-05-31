@@ -142,7 +142,7 @@ const CustomTable: React.FC<CustomTableProps> = ({ columns, data, Key }) => {
             if (
               col.key.toLowerCase() === 'diachiip' ||
               col.key.toLowerCase() === 'trangthaihoatdong' ||
-              col.key.toLowerCase() === 'trangthaiketnoi'
+              col.key.toLowerCase() === 'trangthaiketnoi' 
             ) {
               return {
                 ...col
