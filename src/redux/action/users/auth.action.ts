@@ -7,12 +7,12 @@ interface LoginPayload {
   taiKhoan: string
   matKhau: string
 }
-
+// -------------------------------------ĐĂNG NHẬP------------------------------
 export const loginAction = createAsyncThunk('auth/login', async (payload: LoginPayload) => {
   try {
     const { taiKhoan, matKhau } = payload
 
-    // Check account or email
+    // kiểm tra tài khoản hợp lệ
     const querySnapshot = await getDocs(query(collection(db, 'users'), where('taiKhoan', '==', taiKhoan), limit(1)))
 
     if (querySnapshot.empty) {
