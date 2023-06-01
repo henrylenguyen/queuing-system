@@ -9,7 +9,7 @@ export interface ColumnType {
   title: string
   dataIndex: string
   key: string
-  render?: (text: any, record: any) => React.ReactNode,
+  render?: (text: any, record: any) => React.ReactNode
   width?: string | number
 }
 
@@ -20,6 +20,7 @@ interface CustomTableProps {
 }
 
 const CustomTable: React.FC<CustomTableProps> = ({ columns, data, Key }) => {
+  console.log('file: CustomTable.tsx:23 ~ columns:', columns)
   const [searchText, setSearchText] = useState('')
   const [loading, setLoading] = useState(true)
   const [filteredData, setFilteredData] = useState(data)
@@ -147,14 +148,16 @@ const CustomTable: React.FC<CustomTableProps> = ({ columns, data, Key }) => {
               col.key.toLowerCase() === 'trangthaiketnoi'
             ) {
               return {
-                ...col
+                ...col,
+                render: col.render
               }
             }
             return {
               ...col,
               ...getColumnSearchProps(col.dataIndex),
               onFilter: (value: string | number | boolean, record: any) =>
-                record[col.dataIndex].toString().toLowerCase().includes(value.toString().toLowerCase())
+                record[col.dataIndex].toString().toLowerCase().includes(value.toString().toLowerCase()),
+              render: col.render
             }
           })}
         />

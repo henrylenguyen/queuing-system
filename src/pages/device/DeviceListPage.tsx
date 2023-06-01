@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from 'redux/store'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
 import { onChangeConnection, onChangeStatus } from 'redux/slice/devices.slice'
 import { IDeviceManagement } from 'constants/interface/device.interface'
-import type { ColumnsType } from 'antd/es/table'
+import type { TableColumnsType } from 'antd'
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
@@ -135,22 +135,27 @@ const DeviceListPage = (props: Props) => {
     const dataIndexKeyItem = dataIndexKey.find((item) => item?.key.toLowerCase() === newTitle)
 
     // trả về mảng các đối tượng
-    // return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
+    return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
 
-    if (newTitle === 'chitiet') {
-      return {
-        title: title,
-        dataIndex: dataIndexKeyItem?.dataIndex ?? '',
-        key: dataIndexKeyItem?.key ?? '',
-        render: (text: any, record: any) => <div>helo</div>
-      }
-    }
-    return {
-      title: title,
-      dataIndex: dataIndexKeyItem?.dataIndex ?? '',
-      key: dataIndexKeyItem?.key ?? '',
-      width: 200
-    }
+    // if (newTitle === 'chitiet') {
+    //   return {
+    //     title: title,
+    //     dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+    //     key: dataIndexKeyItem?.key ?? '',
+    //     render: (text: any, record: any) => {
+    //       console.log("file: DeviceListPage.tsx:149 ~ record:", record)
+    //       console.log("file: DeviceListPage.tsx:149 ~ text:", text)
+    //       return <NavLink to={`/devices/${record,}`}>Chi tiết</NavLink>
+    //     }
+    //   }
+    // }
+    // return {
+    //   title: title,
+    //   dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+    //   key: dataIndexKeyItem?.key ?? '',
+    //   width: 200,
+    
+    // }
   })
 
   //---------------------------Tìm kiếm trạng thái hoạt động------------------

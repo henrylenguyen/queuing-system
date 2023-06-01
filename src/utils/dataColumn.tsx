@@ -1,5 +1,6 @@
 import { Image } from 'antd'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 const getColumnConfig = (
   title: any,
@@ -16,14 +17,15 @@ const getColumnConfig = (
     width: 200,
     align: 'center'
   }
-  if (newTitle === 'mathietbi') {
-    columnConfig.render = (text: string, record: any) => (
-      <Image
-        src='https://khoinguonsangtao.vn/wp-content/uploads/2022/09/hinh-ve-don-gian-cute-dang-yeu-va-de-thuc-hien.jpg'
-        width='100px'
-        alt={'a'}
-      />
-    )
+  if (newTitle === 'chitiet') {
+    return {
+      title: title,
+      dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+      key: dataIndexKeyItem?.key ?? '',
+      render: (text: any, record: any) => (
+        <NavLink to={`/device/device-list/device-detail?${record.maThietBi}`}>Chi tiết</NavLink>
+      )
+    }
   }
 
   return columnConfig
