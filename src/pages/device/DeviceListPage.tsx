@@ -8,45 +8,22 @@ import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'redux/store'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
-import Loading from 'components/loading/Loading'
 import { onChangeConnection, onChangeStatus } from 'redux/slice/devices.slice'
 import { IDeviceManagement } from 'constants/interface/device.interface'
 type Props = {}
-const data = [
-  {
-    maThietBi: 'KO01',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?',
-    chiTiet: 'Chi tiết',
-    tuyChinh: 'Cập nhật'
-  },
-  {
-    maThietBi: 'KO03',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?'
-  }
-]
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
 const statusOptions = [
   {
-    value: 'all',
+    value: 'Tất cả',
     label: 'Tất cả'
   },
   {
-    value: 'active',
+    value: 'Hoạt động',
     label: 'Hoạt động'
   },
   {
-    value: 'inactive',
+    value: 'Ngưng hoạt động',
     label: 'Ngưng hoạt động'
   }
 ]
@@ -85,11 +62,11 @@ const DeviceListPage = (props: Props) => {
 
     return filteredDevices
   }, [devices, selectedStatus, selectedConnection])
-
+  // ----------- GỌI DANH SÁCH THIẾT BỊ TỪ FIRESTORE--------------------
   useEffect(() => {
     dispatch(fetchDevices())
   }, [dispatch])
-
+  // ------------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
   useEffect(() => {
     setFilteredData(filteredDevices) // Cập nhật state khi danh sách thiết bị thay đổi
     setRenderCount((prevCount) => prevCount + 1)
@@ -163,7 +140,7 @@ const DeviceListPage = (props: Props) => {
   //---------------------------Tìm kiếm trạng thái hoạt động------------------
   const handleStatusChange = useCallback(
     (data: any) => {
-      dispatch(onChangeStatus(data.label))
+      dispatch(onChangeStatus(data.value))
     },
     [dispatch]
   )

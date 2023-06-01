@@ -2,12 +2,28 @@ import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { deviceField } from 'constants/fields/device.fields'
 import { DeviceShema } from 'schemas/Device.schema'
+import { AppDispatch } from '../../redux/store'
+import { useDispatch } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
+import { postDevices } from 'redux/action/devices/deviceList.action'
 
 type Props = {}
-const handleSubmit = (data: any) => {
-  console.log(data)
-}
+
 const AddDevicePage = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+  const handleSubmit = (data: any) => {
+    console.log(data)
+    dispatch(postDevices(data))
+  }
+  const initialValue = {
+    maThietBi: uuidv4(),
+    tenThietBi: '',
+    taiKhoan: '',
+    diaChiIP: '',
+    matKhau: '',
+    dichVuSuDung: '',
+    loaiThietBi: ''
+  }
   return (
     <div className='pt-10 '>
       <PageInfor />
@@ -25,6 +41,7 @@ const AddDevicePage = (props: Props) => {
                 titleButton='Thêm thiết bị'
                 handleSubmitForm={handleSubmit}
                 to='/device/device-list/'
+                initialValues={initialValue}
               />
             </div>
           </div>

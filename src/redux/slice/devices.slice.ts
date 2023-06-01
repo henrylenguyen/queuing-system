@@ -33,6 +33,7 @@ const deviceSlice = createSlice({
       .addCase(fetchDevices.pending, handlePending)
       .addCase(fetchDevices.fulfilled, fetchDevicesFulfilled)
       .addCase(fetchDevices.rejected, handleError)
+      
   }
 })
 export const { onChangeStatus, onChangeConnection } = deviceSlice.actions

@@ -7,7 +7,8 @@ export const deviceField: IFields[] = [
     placeholder: 'Nhập mã thiết bị',
     label: 'Mã thiết bị *',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-    classNameDiv: 'col-span-2 w-full h-full'
+    classNameDiv: 'col-span-2 w-full h-full',
+    readOnly: true
   },
   {
     name: 'loaiThietBi',
@@ -82,7 +83,7 @@ export const deviceField: IFields[] = [
     ],
     placeholder: 'Nhập dịch vụ sử dụng',
     label: 'Dịch vụ sử dụng *',
-    className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+    className: 'bg-white w-full border border-[#D4D4D7] py-2 rounded-md ',
     classNameDiv: 'col-span-4 w-full h-full'
   }
 ]

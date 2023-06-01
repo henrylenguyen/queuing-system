@@ -334,3 +334,9 @@ yarn add @mui/lab
 ```bash
   yarn add usehooks-ts
 ```
+
+## UUID (thư viện tự sinh id)
+
+```bash
+yarn add uuid @type/uuid
+```
