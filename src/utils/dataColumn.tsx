@@ -1,34 +1,32 @@
-import { Device } from 'constants/interface/device.interface'
-interface ColumnType {
-  title: string
-  dataIndex: string
-  key: string
-  width?: number | string
-  align?: string
-  sorter?: any
-}
+import { Image } from 'antd'
+import React from 'react'
 
-const getColumnDeviceConfig = (
-  title: string,
-  dataIndexKeyItem: { dataIndex: string; key: string } | undefined,
+const getColumnConfig = (
+  title: any,
+  dataIndexKeyItem: any,
   newTitle: string,
-  handleEdit?: (record: Device) => void,
-  handleDelete?: (record: Device) => void,
-  handleUpdate?: (record: Device) => void
-): ColumnType => {
-  let width = 100 // Default width
-
-  if (newTitle.includes('dichvusudung')) {
-    width = 200
-  }
-  const columnConfig: ColumnType = {
-    title,
-    dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+  handleEdit?: (record: any) => void,
+  handleDelete?: (record: any) => void,
+  handleUpdate?: (record: any) => void
+) => {
+  const columnConfig: any = {
+    title: title,
+    dataIndex: dataIndexKeyItem?.dataIndex,
     key: dataIndexKeyItem?.key ?? '',
-    width,
+    width: 200,
     align: 'center'
   }
-  return columnConfig // Add this return statement
+  if (newTitle === 'mathietbi') {
+    columnConfig.render = (text: string, record: any) => (
+      <Image
+        src='https://khoinguonsangtao.vn/wp-content/uploads/2022/09/hinh-ve-don-gian-cute-dang-yeu-va-de-thuc-hien.jpg'
+        width='100px'
+        alt={'a'}
+      />
+    )
+  }
+
+  return columnConfig
 }
 
-export default getColumnDeviceConfig
+export default getColumnConfig

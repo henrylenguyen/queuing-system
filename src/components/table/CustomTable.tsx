@@ -5,10 +5,12 @@ import Highlighter from 'react-highlight-words'
 import { Device } from 'constants/interface/device.interface'
 const { Option } = Select
 
-interface ColumnType {
+export interface ColumnType {
   title: string
   dataIndex: string
   key: string
+  render?: (text: any, record: any) => React.ReactNode,
+  width?: string | number
 }
 
 interface CustomTableProps {
@@ -142,7 +144,7 @@ const CustomTable: React.FC<CustomTableProps> = ({ columns, data, Key }) => {
             if (
               col.key.toLowerCase() === 'diachiip' ||
               col.key.toLowerCase() === 'trangthaihoatdong' ||
-              col.key.toLowerCase() === 'trangthaiketnoi' 
+              col.key.toLowerCase() === 'trangthaiketnoi'
             ) {
               return {
                 ...col
