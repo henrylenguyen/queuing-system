@@ -8,7 +8,7 @@ const Dropdown = ({ control, name, options, defaultValue, ...props }) => {
   } = useController({
     control,
     name,
-    defaultValue: defaultValue  
+    defaultValue: defaultValue
   })
 
   const selectOptions = options.map((option) => ({
@@ -16,15 +16,15 @@ const Dropdown = ({ control, name, options, defaultValue, ...props }) => {
     value: option.value
   }))
 
+  const defaultOption = defaultValue ? { label: defaultValue, value: defaultValue } : null
+
   return (
     <Select
       options={selectOptions}
-      value={selectOptions.find((option) => option.value === (value || defaultValue)) || null}
+      defaultValue={defaultOption}
       onChange={(selectedOption) => {
         onChange(selectedOption?.value)
-        if (props.SelectOption) props.SelectOption(selectedOption)
       }}
-      {...props}
       className={`${props.errors ? 'border border-red-500' : 'border border-gray-300'} ${props.className} border-none`}
     />
   )

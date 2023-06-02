@@ -15,6 +15,15 @@
         "printWidth": 120,
         "jsxSingleQuote": true
       }
+    ],
+    "import/no-unused-modules": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false
+      }
     ]
   }
 }

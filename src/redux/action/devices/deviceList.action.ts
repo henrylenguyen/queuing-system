@@ -6,20 +6,22 @@ import { IDeviceManagement } from 'constants/interface/device.interface'
 // ------------------------LẤY DANH SÁCH THIẾT BỊ-------------------------
 export const fetchDevices = createAsyncThunk('device/fetchDevices', async () => {
   try {
-    // Lấy danh sách devices từ Firestore
     const devicesRef = collection(db, 'devices')
     const snapshot = await getDocs(devicesRef)
 
-    // Trích xuất dữ liệu từ snapshot
-    const devices = snapshot.docs.map((doc) => doc.data())
+    const devices = snapshot.docs.map((doc) => {
+      const deviceData = doc.data()
+      const deviceId = doc.id
+      return { id: deviceId, ...deviceData }
+    })
 
     return devices
   } catch (error) {
-    // Xử lý lỗi nếu có
     console.error('Lỗi khi lấy dữ liệu:', error)
     throw error
   }
 })
+
 
 export const postDevices = createAsyncThunk('device/postDevices', async (device: IDeviceManagement) => {
   try {
@@ -33,7 +35,7 @@ export const postDevices = createAsyncThunk('device/postDevices', async (device:
     await addDoc(devicesRef, newDevice)
 
     // Trả về dữ liệu đã được thêm
-    console.log("file: deviceList.action.ts:42 ~ newDevice:", newDevice)
+    console.log('file: deviceList.action.ts:42 ~ newDevice:', newDevice)
     return newDevice
   } catch (error) {
     // Xử lý lỗi nếu có

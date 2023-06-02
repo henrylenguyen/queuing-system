@@ -16,15 +16,21 @@ const TreeSelect = ({ control, name, options, defaultValue, ...props }) => {
     value: option.value
   }))
 
+  const defaultOptions = defaultValue
+  ? defaultValue?.map((option) => ({
+    label: option,
+    value: option
+  }))
+  : []
+
   return (
     <Select
+      defaultValue={defaultOptions}
       options={selectOptions}
       isMulti
-      value={selectOptions.filter((option) => value?.includes(option.value))}
       onChange={(selectedOptions) => {
         const selectedValues = selectedOptions ? selectedOptions.map((option) => option.value) : []
         onChange(selectedValues)
-        if (props.SelectOption) props.SelectOption(selectedOptions)
       }}
       {...props}
       className={`${props.errors ? 'border border-red-500' : 'border border-gray-300'} ${props.className} border-none`}

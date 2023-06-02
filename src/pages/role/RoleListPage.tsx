@@ -182,7 +182,7 @@ const RoleListPage = (props: Props) => {
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
-          <button className='rounded-lg w-[150px] h-[80px] bg-[#FFF2E7]  shadow'>
+          <button className='h-[80px] w-[150px] rounded-lg bg-[#FFF2E7]  shadow'>
             <NavLink
               to='/setting/role-manegement/add-role-manegement'
               className={'flex flex-col items-center gap-2 text-primary'}

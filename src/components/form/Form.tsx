@@ -149,18 +149,7 @@ const Form = ({
         {newFields?.length > 0
           ? newFields?.map(
               (
-                {
-                  name,
-                  type,
-                  placeholder,
-                  onChange,
-                  className,
-                  classNameDiv,
-                  label,
-                  options,
-                  value,
-                  readOnly,
-                },
+                { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
                 index
               ) => (
                 <div key={name} className={`${classNameDiv} flex flex-col gap-2`}>
@@ -168,28 +157,15 @@ const Form = ({
                     {label}
                   </label>
                   {type === 'select' ? (
-                    onChange ? (
-                      <Dropdown
-                        defaultValue={value}
-                        control={control}
-                        placeholder={placeholder}
-                        name={name}
-                        options={options}
-                        errors={errors[name]}
-                        SelectOption={onChange}
-                        className={className}
-                      />
-                    ) : (
-                      <Dropdown
-                        defaultValue={value}
-                        control={control}
-                        placeholder={placeholder}
-                        name={name}
-                        options={options}
-                        errors={errors[name]}
-                        className={className}
-                      />
-                    )
+                    <Dropdown
+                      defaultValue={value}
+                      control={control}
+                      placeholder={placeholder}
+                      name={name}
+                      options={options}
+                      errors={errors[name]}
+                      className={className}
+                    />
                   ) : type === 'selectmuti' ? (
                     <TreeSelect
                       defaultValue={value}
@@ -275,18 +251,7 @@ const Form = ({
             )
           : fields?.map(
               (
-                {
-                  name,
-                  type,
-                  placeholder,
-                  onChange,
-                  className,
-                  classNameDiv,
-                  label,
-                  options,
-                  value,
-                  readOnly,
-                },
+                { name, type, placeholder, onChange, className, classNameDiv, label, options, value, readOnly },
                 index
               ) => (
                 <div key={name} className={`${classNameDiv} flex flex-col gap-2`}>
@@ -294,28 +259,15 @@ const Form = ({
                     {label}
                   </label>
                   {type === 'select' ? (
-                    onChange ? (
-                      <Dropdown
-                        control={control}
-                        placeholder={placeholder}
-                        name={name}
-                        options={options}
-                        errors={errors[name]}
-                        SelectOption={onChange}
-                        className={className}
-                        defaultValue={value}
-                      />
-                    ) : (
-                      <Dropdown
-                        defaultValue={value}
-                        control={control}
-                        placeholder={placeholder}
-                        name={name}
-                        options={options}
-                        errors={errors[name]}
-                        className={className}
-                      />
-                    )
+                    <Dropdown
+                      defaultValue={value}
+                      control={control}
+                      placeholder={placeholder}
+                      name={name}
+                      options={options}
+                      errors={errors[name]}
+                      className={className}
+                    />
                   ) : type === 'selectmuti' ? (
                     <TreeSelect
                       defaultValue={value}

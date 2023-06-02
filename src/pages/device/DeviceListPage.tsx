@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import removeVietnameseTones from 'utils/convertVietnamese'
-import CustomTable, { ColumnType } from 'components/table/CustomTable'
-import getColumnDeviceConfig from 'utils/dataColumn'
 import PageInfor from 'components/pageInfor/PageInfor'
+import CustomTable from 'components/table/CustomTable'
+import { IDeviceManagement } from 'constants/interface/device.interface'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Select from 'react-select'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from 'redux/store'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
 import { onChangeConnection, onChangeStatus } from 'redux/slice/devices.slice'
-import { IDeviceManagement } from 'constants/interface/device.interface'
-import type { TableColumnsType } from 'antd'
+import { AppDispatch, RootState } from 'redux/store'
+import removeVietnameseTones from 'utils/convertVietnamese'
+import getColumnDeviceConfig from 'utils/dataColumn'
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
@@ -43,13 +42,15 @@ const connectionOptions = [
     label: 'Mất kết nối'
   }
 ]
-const DeviceListPage = (props: Props) => {
+const DeviceListPage = React.memo((props: Props) => {
   const { devices, isLoading, error, selectedStatus, selectedConnection } = useSelector(
     (state: RootState) => state.device
   )
   const dispatch = useDispatch<AppDispatch>()
   const [filteredData, setFilteredData] = useState<IDeviceManagement[]>(devices)
   const [renderCount, setRenderCount] = useState(0)
+  const MemoizedCustomTable = React.memo(CustomTable)
+
   const filteredDevices = useMemo(() => {
     let filteredDevices = devices
 
@@ -154,7 +155,7 @@ const DeviceListPage = (props: Props) => {
     //   dataIndex: dataIndexKeyItem?.dataIndex ?? '',
     //   key: dataIndexKeyItem?.key ?? '',
     //   width: 200,
-    
+
     // }
   })
 
@@ -219,7 +220,12 @@ const DeviceListPage = (props: Props) => {
               </div>
             </div>
             {devices.length > 0 ? (
-              <CustomTable key={renderCount} data={filteredData} columns={columns} Key={'maThietBi'}></CustomTable>
+              <MemoizedCustomTable
+                key={renderCount}
+                data={filteredData}
+                columns={columns}
+                Key={'maThietBi'}
+              ></MemoizedCustomTable>
             ) : (
               ''
             )}
@@ -250,6 +256,6 @@ const DeviceListPage = (props: Props) => {
       </div>
     </div>
   )
-}
+})
 
 export default DeviceListPage

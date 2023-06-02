@@ -15,11 +15,11 @@ export const deviceField: IFields[] = [
     type: 'select',
     options: [
       {
-        value: 'kiosk',
+        value: 'Kiosk',
         label: 'Kiosk'
       },
       {
-        value: 'display',
+        value: 'Display counter',
         label: 'Display counter'
       }
     ],
@@ -65,20 +65,28 @@ export const deviceField: IFields[] = [
     type: 'selectmuti',
     options: [
       {
-        value: 'kiosk',
-        label: 'Kiosk'
+        label: 'Khám tim mạch',
+        value: 'Khám tim mạch'
       },
       {
-        value: 'display',
-        label: 'Display counter'
+        label: 'Khám sản - Phụ khoa',
+        value: 'Khám sản - Phụ khoa'
       },
       {
-        value: 'khamRang',
-        label: 'Khám răng'
+        label: 'Khám răng hàm mặt',
+        value: 'Khám răng hàm mặt'
       },
       {
-        value: 'khamVu',
-        label: 'Khám Vú'
+        label: 'Khám tai mũi họng',
+        value: 'Khám tai mũi họng'
+      },
+      {
+        label: 'Khám hô hấp',
+        value: 'Khám hô hấp'
+      },
+      {
+        label: 'Khám tổng quát',
+        value: 'Khám tổng quát'
       }
     ],
     placeholder: 'Nhập dịch vụ sử dụng',
