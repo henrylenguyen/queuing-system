@@ -40,7 +40,7 @@ const AddDevicePage = (props: Props) => {
                 titleButtonCancel='Hủy bỏ'
                 titleButton='Thêm thiết bị'
                 handleSubmitForm={handleSubmit}
-                to='/device/device-list/'
+                to='/device/device-list'
                 initialValues={initialValue}
               />
             </div>
