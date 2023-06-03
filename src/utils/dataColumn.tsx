@@ -1,4 +1,4 @@
-import { Image, Tooltip } from 'antd'
+import { Badge, Image, Tooltip } from 'antd'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
@@ -51,9 +51,9 @@ const getColumnConfig = (
       render: (text: any, record: any) => {
         return (
           <>
-            <Tooltip title={text.map((item: any) => item).join(', ')} color={'#FF9138'}>
+            <Tooltip title={text?.map((item: any) => item).join(', ')} color={'#FF9138'}>
               <p className='w-[150px] truncate'>
-                {text.map((item: any, index: number) => (
+                {text?.map((item: any, index: number) => (
                   <span key={index} className='pr-2'>
                     {`${item}${index !== text.length - 1 ? ',' : ''}`}
                   </span>
@@ -65,8 +65,29 @@ const getColumnConfig = (
       },
       align: 'center'
     }
+  } else if (newTitle === 'trangthaihoatdong') {
+    return {
+      title: title,
+      width: 170,
+      dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+      key: dataIndexKeyItem?.key ?? '',
+      align: 'center',
+      render: (text: any, record: any) => {
+        return <Badge status={`${text ? 'success' : 'error'}`} text={`${text ? 'Hoạt động' : 'Ngưng hoạt động'}`} />
+      }
+    }
+  } else if (newTitle === 'trangthaiketnoi') {
+    return {
+      title: title,
+      width: 150,
+      dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+      key: dataIndexKeyItem?.key ?? '',
+      align: 'center',
+      render: (text: any, record: any) => {
+        return <Badge status={`${text ? 'success' : 'error'}`} text={`${text ? 'Kết nối' : 'Mất kết nối'}`} />
+      }
+    }
   }
-
 
   return columnConfig
 }

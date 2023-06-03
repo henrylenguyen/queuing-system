@@ -6,12 +6,15 @@ import React, { useState } from 'react'
 import { DeviceShema } from 'schemas/Device.schema'
 import { ServiceShema } from 'schemas/Service.schema'
 import { useCallback } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from 'redux/store'
 
 type Props = {}
 const handleSubmit = (data: any) => {
   console.log(data)
 }
 const AddServicePage = (props: Props) => {
+  const { inputValue } = useSelector((state: RootState) => state.service)
   const getServiceField = useCallback((): IFields[] => {
     return [
       {
@@ -47,7 +50,7 @@ const AddServicePage = (props: Props) => {
             label: 'Tăng tự động từ:',
             value: {
               name: 'autoIncrement',
-              data: ['0001', '9999']
+              data: ['0001', '9999'],
             },
             input: true,
             numberOfInput: 2
@@ -56,7 +59,7 @@ const AddServicePage = (props: Props) => {
             label: 'Prefix',
             value: {
               name: 'prefix',
-              data: '0001'
+              data: '0001',
             },
             input: true,
             numberOfInput: 1

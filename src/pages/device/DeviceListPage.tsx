@@ -15,15 +15,15 @@ type Props = {}
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
 const statusOptions = [
   {
-    value: 'Tất cả',
+    value: 'all',
     label: 'Tất cả'
   },
   {
-    value: 'Hoạt động',
+    value: true,
     label: 'Hoạt động'
   },
   {
-    value: 'Ngưng hoạt động',
+    value: false,
     label: 'Ngưng hoạt động'
   }
 ]
@@ -34,11 +34,11 @@ const connectionOptions = [
     label: 'Tất cả'
   },
   {
-    value: 'connected',
+    value: true,
     label: 'Kết nối'
   },
   {
-    value: 'unconnected',
+    value: false,
     label: 'Mất kết nối'
   }
 ]
@@ -54,11 +54,11 @@ const DeviceListPage = React.memo((props: Props) => {
   const filteredDevices = useMemo(() => {
     let filteredDevices = devices
 
-    if (selectedStatus !== 'Tất cả') {
+    if (selectedStatus !== 'all') {
       filteredDevices = filteredDevices.filter((device) => device.trangThaiHoatDong === selectedStatus)
     }
 
-    if (selectedConnection !== 'Tất cả') {
+    if (selectedConnection !== 'all') {
       filteredDevices = filteredDevices.filter((device) => device.trangThaiKetNoi === selectedConnection)
     }
 
@@ -68,7 +68,7 @@ const DeviceListPage = React.memo((props: Props) => {
   useEffect(() => {
     dispatch(fetchDevices())
   }, [dispatch])
-  // ------------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
+  // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
   useEffect(() => {
     setFilteredData(filteredDevices) // Cập nhật state khi danh sách thiết bị thay đổi
     setRenderCount((prevCount) => prevCount + 1)
@@ -169,7 +169,8 @@ const DeviceListPage = React.memo((props: Props) => {
 
   const handleConnectionChange = useCallback(
     (data: any) => {
-      dispatch(onChangeConnection(data.label))
+      console.log(data)
+      dispatch(onChangeConnection(data.value))
     },
     [dispatch]
   )

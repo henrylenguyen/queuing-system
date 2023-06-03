@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import removeVietnameseTones from 'utils/convertVietnamese'
 import CustomTable from 'components/table/CustomTable'
 import getColumnDeviceConfig from 'utils/dataColumn'
@@ -8,32 +8,14 @@ import Select from 'react-select'
 import { DateRange } from '@mui/x-date-pickers-pro'
 import { DatePicker, Space } from 'antd'
 import DateRangePicker from 'components/datetime/DateRange'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'redux/store'
+import { fetchServices } from 'redux/action/services/serviceList.action'
+import { IServices } from 'constants/interface/service.interface'
+import { onChangeServiceStatus } from 'redux/slice/services.slice'
 
 const { RangePicker } = DatePicker
 type Props = {}
-const data = [
-  {
-    maThietBi: 'KO01',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?',
-    chiTiet: 'Chi tiết',
-    tuyChinh: 'Cập nhật'
-  },
-  {
-    maThietBi: 'KO03',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?'
-  }
-]
-
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
 const statusOptions = [
   {
@@ -41,47 +23,47 @@ const statusOptions = [
     label: 'Tất cả'
   },
   {
-    value: 'active',
+    value: true,
     label: 'Hoạt động'
   },
   {
-    value: 'inactive',
+    value: false,
     label: 'Ngưng hoạt động'
   }
 ]
-// ---------------------DROPDOWN trạng thái kết nối--------------------------
-const connectionOptions = [
-  {
-    value: 'all',
-    label: 'Tất cả'
-  },
-  {
-    value: 'connected',
-    label: 'Kết nối'
-  },
-  {
-    value: 'unconnected',
-    label: 'Mất kết nối'
-  }
-]
 const ServiceListPage = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>()
+  const { services, selectedStatus } = useSelector((state: RootState) => state.service)
+  useEffect(() => {
+    dispatch(fetchServices())
+  }, [])
+  const [renderCount, setRenderCount] = useState(0)
+  const [filteredData, setFilteredData] = useState<IServices[]>(services)
+  const filteredDevices = useMemo(() => {
+    let filteredDevices = services
+
+    if (selectedStatus !== 'all') {
+      filteredDevices = filteredDevices.filter((device) => device.trangThaiHoatDong === selectedStatus)
+    }
+
+    return filteredDevices
+  }, [services, selectedStatus])
+  // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
+  useEffect(() => {
+    setFilteredData(filteredDevices) // Cập nhật state khi danh sách thiết bị thay đổi
+    setRenderCount((prevCount) => prevCount + 1)
+  }, [filteredDevices])
   // 1. Lấy ra tất cả các key của object
   const getKeys = useCallback(() => {
-    return data && Object.keys(data[0])
-  }, [])
-
-  /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
-  ví dụ: [
-    {
-      dataIndex: "maLichChieu",
-      key: "maLichChieu"
+    if (services && services.length > 0) {
+      return Object.keys(services[0])
+    } else {
+      return []
     }
-  ]
-*/
+  }, [services])
+  // 2. tạo thành 1 mảng đối tượng gồm key và dataIndex
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
-    console.log('file: DeviceListPage.tsx:89 ~ keys:', keys)
-
     return keys?.map((item) => {
       return {
         dataIndex: item,
@@ -91,17 +73,9 @@ const ServiceListPage = (props: Props) => {
   }, [getKeys])
   const dataIndexKey = getDataIndexKey()
 
-  // 3. Tạo ra mảng title chứa các đối tượng title khác nhau, do mình nhập
-  const dataTitle = [
-    'Mã thiết bị',
-    'Tên thiết bị',
-    'Địa chỉ IP',
-    'Trạng thái hoạt động',
-    'Trạng thái kết nối',
-    'Dịch vụ sử dụng',
-    'Chi tiết',
-    'Tùy chỉnh'
-  ]
+  // 3. Tạo ra mảng title (tiêu đề của bảng)
+
+  const dataTitle = ['Mã dịch vụ', 'Tên dịch vụ', 'Mô tả', 'Trạng thái hoạt động', 'Chi tiết', 'Tùy chỉnh']
 
   /**
  * 4. Từ mảng đối tượng (3) kết hợp với mảng các đối tượng (4) thành
@@ -121,20 +95,23 @@ const ServiceListPage = (props: Props) => {
    ví dụ: Mã lịch chiếu ->malichchieu
   */
     const newTitle = removeTone.replace(/\s+/g, '').toLowerCase()
-    console.log('file: DeviceListPage.tsx:130 ~ newTitle:', newTitle)
     // dùng hàm find để tìm từ mảng các đối tượng dataIndexKey, so sánh giữa key với newTitle phía trên. Lưu ý là phải chuyển về in thường để so sánh
     const dataIndexKeyItem = dataIndexKey.find((item) => item?.key.toLowerCase() === newTitle)
 
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
   })
-  console.log('file: DeviceListPage.tsx:136 ~ columns:', columns)
 
   //---------------------------Tìm kiếm trạng thái hoạt động------------------
-  const handleStatusChange = (data: any) => {
-    console.log(data)
-  }
-  //---------------------------Tìm kiếm trạng thái kết nối------------------
+  const handleStatusChange = useCallback(
+    (data: any) => {
+      console.log('file: ServiceListPage.tsx:200 ~ data:', data)
+
+      dispatch(onChangeServiceStatus(data.value))
+    },
+    [dispatch]
+  )
+  //---------------------------Tìm kiếm Theo ngày------------------
   const handleConnectionChange = (dates: any, dateStrings: any) => {
     console.log('Ngày đang chọn:', dateStrings)
   }
@@ -189,7 +166,11 @@ const ServiceListPage = (props: Props) => {
                 </div>
               </div>
             </div>
-            <CustomTable data={data} columns={columns} Key={'maThietBi'}></CustomTable>
+            {services.length > 0 ? (
+              <CustomTable key={renderCount} data={filteredData} columns={columns} Key={'maDichVu'}></CustomTable>
+            ) : (
+              ''
+            )}
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>

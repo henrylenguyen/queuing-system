@@ -16,8 +16,8 @@ const initialState: DeviceState = {
   devices: [],
   isLoading: true,
   error: null,
-  selectedStatus: 'Tất cả', // Giá trị mặc định của dropdown trạng thái hoạt động
-  selectedConnection: 'Tất cả', // Giá trị mặc định của dropdown trạng thái kết nối
+  selectedStatus: 'all', // Giá trị mặc định của dropdown trạng thái hoạt động
+  selectedConnection: 'all', // Giá trị mặc định của dropdown trạng thái kết nối
   deviceDetail: {
     id: '',
     maThietBi: '',

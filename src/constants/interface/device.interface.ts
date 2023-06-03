@@ -1,5 +1,5 @@
 export interface Device {
-  id:string
+  id: string
   maThietBi: string
   tenThietBi: string
   diaChiIP: string
