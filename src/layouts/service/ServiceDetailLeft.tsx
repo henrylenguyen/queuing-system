@@ -1,35 +1,23 @@
+import { IServices } from 'constants/interface/service.interface'
 import React from 'react'
 
 type Props = {}
 
-const ServiceDetailLeft = (props: Props) => {
-  const data = {
-    maDichVu: '201',
-    tenDichVu: 'Khám tim mạch',
-    moTa: 'Chuyên các bệnh lý về tim',
-    quyTacCapSo: [
-      {
-        name: 'autoIncrement',
-        label: 'Tăng tự động',
-        data: ['0001', '9999']
-      },
-      {
-        name: 'prefix',
-        label: 'Prefix',
-        data: '0001'
-      },
-      {
-        name: 'surfix',
-        label: 'Surfix',
-        data: '0001'
-      },
-      {
-        name: 'reset',
-        label: 'Reset Mỗi ngày',
-        data: true
-      }
-    ]
+const ServiceDetailLeft = ({ maDichVu, moTa, tenDichVu, quyTacCapSo }: IServices) => {
+  // Định nghĩa các label tương ứng
+  // Định nghĩa các label tương ứng
+  const labels: { [key: string]: string } = {
+    autoIncrement: 'Tăng tự động',
+    prefix: 'Prefix',
+    surfix: 'Surfix',
+    reset: 'Reset Mỗi ngày'
   }
+  // Thêm label vào mảng quyTacCapSo
+  const updatedQuyTacCapSo = quyTacCapSo?.map((quyTac) => {
+    const label = labels[quyTac.name]
+    return { ...quyTac, label }
+  })
+
   return (
     <>
       <div className='mt-10 flex h-[500px]  w-[40%] flex-shrink-0 rounded-xl bg-white p-5'>
@@ -38,19 +26,19 @@ const ServiceDetailLeft = (props: Props) => {
           <div className='mt-10  flex w-full flex-col gap-5'>
             <div className='grid grid-cols-2'>
               <h4 className='font-bold text-[#282739]'>Mã dịch vụ:</h4>
-              <span className='text-[#535261]'>{data.maDichVu}</span>
+              <span className='text-[#535261]'>{maDichVu}</span>
             </div>
             <div className='grid grid-cols-2'>
               <h4 className='font-bold text-[#282739]'>Tên dịch vụ:</h4>
-              <span className='text-[#535261]'>{data.tenDichVu}</span>
+              <span className='text-[#535261]'>{tenDichVu}</span>
             </div>
             <div className='grid grid-cols-2'>
               <h4 className='font-bold text-[#282739]'>Mô tả:</h4>
-              <span className='text-[#535261]'>{data.moTa}</span>
+              <span className='text-[#535261]'>{moTa}</span>
             </div>
             <div className='flex flex-col gap-4 '>
               <h4 className='text-[20px] font-semibold text-primary'>Quy tắc cấp số:</h4>
-              {data.quyTacCapSo.map((item) => (
+              {updatedQuyTacCapSo?.map((item) => (
                 <div className='grid grid-cols-2 items-center'>
                   <h4 className='font-bold text-[#282739]'>{`${item.label}:`}</h4>
                   {item.name === 'reset' ? (

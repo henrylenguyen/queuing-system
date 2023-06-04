@@ -2,12 +2,25 @@ import PageInfor from 'components/pageInfor/PageInfor'
 import ServiceDetailLeft from 'layouts/service/ServiceDetailLeft'
 import ServiceDetailRight from 'layouts/service/ServiceDetailRight'
 
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-
+import Loading from 'components/loading/Loading'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, useLocation } from 'react-router-dom'
+import { fetchDeviceDetail } from 'redux/action/devices/deviceDetail.action'
+import { AppDispatch, RootState } from 'redux/store'
+import { fetchServiceDetail } from 'redux/action/services/serviceDetail.action'
 type Props = {}
 
 const ServiceDetailPage = (props: Props) => {
+  const { serviceDetail } = useSelector((state: RootState) => state.service)
+  const dispatch = useDispatch<AppDispatch>()
+  // dùng useLocation để lấy ra id sau dấu ?
+  const location = useLocation().search
+  // tách lấy id
+  const path = location.split('?')[1]
+  useEffect(() => {
+    dispatch(fetchServiceDetail(path))
+  }, [dispatch, path])
   return (
     <div className='pt-10 '>
       <PageInfor />
@@ -15,7 +28,13 @@ const ServiceDetailPage = (props: Props) => {
         <div className='w-full  flex-col justify-between overflow-hidden'>
           <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý dịch vụ</h3>
           <div className='flex gap-5'>
-            <ServiceDetailLeft />
+            <ServiceDetailLeft
+              maDichVu={serviceDetail.maDichVu}
+              moTa={serviceDetail.moTa}
+              tenDichVu={serviceDetail.tenDichVu}
+              trangThaiHoatDong={serviceDetail.trangThaiHoatDong}
+              quyTacCapSo={serviceDetail.quyTacCapSo}
+            />
             <ServiceDetailRight />
           </div>
         </div>
