@@ -1,4 +1,5 @@
 export interface IServices {
+  id:string
   maDichVu: string
   moTa: string
   quyTacCapSo?: QuyTacCapSo[]

@@ -13,6 +13,7 @@ type Props = {}
 
 const ServiceDetailPage = (props: Props) => {
   const { serviceDetail } = useSelector((state: RootState) => state.service)
+  console.log('file: ServiceDetailPage.tsx:16 ~ serviceDetail:', serviceDetail)
   const dispatch = useDispatch<AppDispatch>()
   // dùng useLocation để lấy ra id sau dấu ?
   const location = useLocation().search
@@ -34,13 +35,17 @@ const ServiceDetailPage = (props: Props) => {
               tenDichVu={serviceDetail.tenDichVu}
               trangThaiHoatDong={serviceDetail.trangThaiHoatDong}
               quyTacCapSo={serviceDetail.quyTacCapSo}
+              id={serviceDetail.id}
             />
             <ServiceDetailRight />
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] flex-col items-end gap-5 p-5'>
           <button className='h-[80px] w-[150px] rounded-lg bg-[#FFF2E7] shadow'>
-            <NavLink to='/device/device-list/update-device' className={'flex flex-col items-center gap-2 text-primary'}>
+            <NavLink
+              to={`/service/service-list/update-service?${serviceDetail.id}`}
+              className={'flex flex-col items-center gap-2 text-primary'}
+            >
               <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'

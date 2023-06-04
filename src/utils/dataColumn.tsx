@@ -65,6 +65,23 @@ const getColumnConfig = (
       },
       align: 'center'
     }
+  } else if (newTitle === 'mota') {
+    return {
+      title: title,
+      width: 150,
+      dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+      key: dataIndexKeyItem?.key ?? '',
+      render: (text: any, record: any) => {
+        return (
+          <>
+            <Tooltip title={text} color={'#FF9138'}>
+              <p className='w-[150px] truncate'>{text}</p>
+            </Tooltip>
+          </>
+        )
+      },
+      align: 'center'
+    }
   } else if (newTitle === 'trangthaihoatdong') {
     return {
       title: title,

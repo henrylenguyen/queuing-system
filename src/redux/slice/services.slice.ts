@@ -21,6 +21,7 @@ const initialState: IServiceState = {
   inputValue: [],
   isSuccess: false,
   serviceDetail: {
+    id:'',
     maDichVu: '',
     moTa: '',
     quyTacCapSo: [],
@@ -41,6 +42,7 @@ const serviceSlice = createSlice({
 
     clearServiceDetail: (state) => {
       state.serviceDetail = {
+        id: '',
         maDichVu: '',
         moTa: '',
         quyTacCapSo: [],

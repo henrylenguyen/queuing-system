@@ -1,4 +1,4 @@
-import { doc, getDoc } from '@firebase/firestore'
+import { doc, getDoc, updateDoc } from '@firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IServices } from 'constants/interface/service.interface'
 import { clearServiceDetail } from 'redux/slice/services.slice'
@@ -21,3 +21,25 @@ export const fetchServiceDetail = createAsyncThunk('auth/fetchServiceDetail', as
     throw error
   }
 })
+// -------------------CẬP NHẬT DỊCH VỤ DỰA VÀO ID---------
+export const updateService = createAsyncThunk(
+  'auth/updateService',
+  async ({ id, updateServiceData }: { id: string; updateServiceData: Partial<IServices> }) => {
+    console.log("file: deviceDetail.action.ts:26 ~ updateServiceData:", updateServiceData)
+    try {
+      const serviceDocRef = doc(db, 'services', id)
+      const serviceDoc = await getDoc(serviceDocRef)
+      if (serviceDoc.exists()) {
+        const serviceData = serviceDoc.data() as IServices
+        const updatedData = { ...serviceData, ...updateServiceData }
+        await updateDoc(serviceDocRef, updatedData)
+        return { ...updatedData, id }
+      } else {
+        throw new Error('Dịch vụ không tồn tại')
+      }
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+)

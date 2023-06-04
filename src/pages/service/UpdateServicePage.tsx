@@ -1,116 +1,69 @@
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
-import { deviceField } from 'constants/fields/device.fields'
-import { IFields } from 'constants/interface/formInterface'
-import React, { useState } from 'react'
-import { DeviceShema } from 'schemas/Device.schema'
 import { ServiceShema } from 'schemas/Service.schema'
-import { useCallback } from 'react'
-
+import { serviceFields } from 'constants/fields/service.fields'
+import Loading from 'components/loading/Loading'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { updateDevice } from 'redux/action/devices/deviceDetail.action'
+import { AppDispatch, RootState } from 'redux/store'
+import { IDeviceManagement } from 'constants/interface/device.interface'
+import { message } from 'antd'
+import { fetchServiceDetail, updateService } from 'redux/action/services/serviceDetail.action'
+import { IServices } from 'constants/interface/service.interface'
 type Props = {}
-const handleSubmit = (data: any) => {
-  console.log(data)
-}
+
 const UpdateServicePage = (props: Props) => {
-  const [autoIncrement, setAutoIncrement] = useState([])
-  const getServiceField = useCallback((): IFields[] => {
-    return [
-      {
-        name: 'maDichVu',
-        type: 'text',
-        placeholder: '201',
-        label: 'Mã dịch vụ: *',
-        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
-      },
-      {
-        name: 'moTa',
-        type: 'textarea',
-        placeholder: 'Mô tả dịch vụ',
-        label: 'Mô tả:',
-        className: 'bg-white w-full border border-[#D4D4D7] rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full row-span-2'
-      },
-      {
-        name: 'tenDichVu',
-        type: 'text',
-        placeholder: 'Khám tim mạch',
-        label: 'Tên dịch vụ *',
-        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
-      },
-      {
-        name: 'quyTacCapSo',
-        type: 'checkbox',
-        placeholder: '',
-        options: [
-          {
-            label: 'Tăng tự động từ:',
-            value: {
-              name: 'autoIncrement',
-              data: ['0001', '9999']
-            },
-            input: true,
-            numberOfInput: 2
-          },
-          {
-            label: 'Prefix',
-            value: {
-              name: 'prefix',
-              data: '0001'
-            },
-            input: true,
-            numberOfInput: 1
-          },
-          {
-            label: 'Surfix',
-            value: {
-              name: 'surfix',
-              data: '0001'
-            },
-            input: true,
-            numberOfInput: 1
-          },
-          {
-            label: 'Reset mỗi ngày',
-            value: {
-              name: 'reset',
-              data: true
-            }
-          }
-        ],
-        label: 'Quy tắc cấp số',
-        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
-      }
-    ]
-  }, [])
-  // Sử dụng biến tối ưu hóa
-  const serviceField = getServiceField()
+  const { serviceDetail } = useSelector((state: RootState) => state.service)
+  console.log("file: UpdateServicePage.tsx:19 ~ serviceDetail:", serviceDetail)
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  // dùng useLocation để lấy ra id sau dấu ?
+  const location = useLocation().search
+  // tách lấy id
+  const path = location.split('?')[1]
+  useEffect(() => {
+    dispatch(fetchServiceDetail(path))
+  }, [dispatch, path])
+  const handleSubmit = (data: IServices) => {
+    dispatch(updateService({ id: path, updateServiceData: data })).then(() => {
+      message.success('Cập nhật dịch vụ thành công', 2).then(() => {
+        navigate('/service/service-list')
+      })
+    })
+  }
 
   return (
-    <div className='pt-10 '>
-      <PageInfor />
-      <div className='flex h-full px-10 pt-14  max-[1440px]:px-5'>
-        <div className=' flex flex-grow flex-col justify-between overflow-hidden'>
-          <div className='w-full'>
-            <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý dịch vụ</h3>
-            <div className='my-10 w-full rounded-xl bg-white p-5'>
-              <Form
-                schema={ServiceShema}
-                fields={serviceField}
-                title='Thông tin dịch vụ'
-                gap='30px'
-                titleButtonCancel='Hủy bỏ'
-                titleButton='Cập nhật'
-                handleSubmitForm={handleSubmit}
-                to='/service/service-list'
-              />
+    <>
+      {serviceDetail.id ? (
+        <div className='pt-10 '>
+          <PageInfor />
+          <div className='flex h-full px-10 pt-14  max-[1440px]:px-5'>
+            <div className=' flex flex-grow flex-col justify-between overflow-hidden'>
+              <div className='w-full'>
+                <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý dịch vụ</h3>
+                <div className='my-10 w-full rounded-xl bg-white p-5'>
+                  <Form
+                    schema={ServiceShema}
+                    fields={serviceFields}
+                    title='Thông tin dịch vụ'
+                    gap='30px'
+                    titleButtonCancel='Hủy bỏ'
+                    titleButton='Cập nhật'
+                    handleSubmitForm={handleSubmit}
+                    to='/service/service-list'
+                    initialValues={serviceDetail}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   )
 }
 
