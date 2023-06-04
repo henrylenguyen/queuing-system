@@ -1,3 +1,78 @@
+# Dự án Queusing system
+> Ngày bắt đầu làm dự án: 15/05/2023
+
+
+💁‍♂️: Dự án thực tập công ty Alta Media. 
+
+
+## 🖥️ Các tính năng có trong dự án
+
+####  💠Đăng nhập
+####  💠Dashboard
+####  💠Thiết bị
+####  💠Dịch vụ
+####  💠Cấp số
+####  💠Báo cáo
+####  💠Quản lý vai trò
+####  💠Quản lý tài khoản
+####  💠Nhật ký hệ thống
+
+
+## :bulb: Chi tiết từng tính năng
+
+###  💠Phần đăng nhập:
+
+#### Đăng nhập hệ thống
+
+> Tại đây sẽ được validate trường hợp người dùng bỏ trống mà bấm nút đăng nhập. <br/> Ngoài ra nếu không phải là admin thì sẽ không được đăng nhập hệ thống
+
+```
+ Tài khoản admin: AdminThai / Admin@1234 <br/>
+ Tài khoản Khách Hàng: khachHang1 / KhachHang1@
+```
+
+
+![](https://hackmd.io/_uploads/H1-RmrqI3.png)
+
+> Nếu bạn nhập sai tài khoản (tài khoản không có trong hệ thống) thì sẽ có thông báo: `Tài khoản không hợp lệ`. <br/>
+> Nếu mật khẩu bạn nhập sai sẽ được thông báo: `Mật khẩu không hợp lệ`. <br/>
+> Nếu bạn không phải là quản trị sẽ được thông báo: `Bạn không đủ quyền để đăng nhập`.
+
+#### Quên mật khẩu
+
+Khi bạn quên mật khẩu để vào hệ thống. Đừng lo, hệ thống sẽ cho phép bạn đổi mật khẩu dựa vào ***email đăng ký***
+
+![](https://hackmd.io/_uploads/H1uqjBcIn.png)
+
+
+
+> Hệ thống sẽ kiểm tra email có tồn tại và hợp lệ hay không. Nếu email hợp lệ sẽ xuất thông báo `Đã xác nhận email` sau đó sẽ cho phép bạn đổi mật khẩu, ngược lại sẽ có thông báo lỗi `Email không hợp lệ`
+
+Tại đây cũng sẽ có kiểm tra dữ liệu nhập có đúng với định dạng email hay không
+![](https://hackmd.io/_uploads/ByW12HcL2.png)
+
+
+#### Đổi mật khẩu
+
+ Phần đổi mật khẩu này có kiểm tra nội dung nhập vào, mật khẩu an toàn nhất là mật khẩu đầy đủ các yếu tố như: in thường, in hoa, ký tự đặt biệt và số <br/>
+Bạn đừng lo, mật khẩu của bạn sẽ được mã hóa.😎
+
+
+> Tại đây có sử dụng mã hóa bcrypt. Một loại mã hóa đứng đầu về độ bảo mật hiện nay. Bởi vì mật khẩu tuy giống nhau nhưng chuỗi đã mã hóa **luôn luôn khác nhau.**
+![](https://hackmd.io/_uploads/BkAthS5Un.png)
+
+#### Thông tin cá nhân
+
+> Sau khi bạn đăng nhập thành công, hệ thống sẽ chuyển bạn vào trang cá nhân. Tại đây sẽ bao gồm toàn bộ các thông tin của bạn
+
+ ID của người dùng đăng nhập sẽ được lưu vào LocalStorage, nên đảm bảo rằng sẽ không xảy ra lỗi khi tải lại trang. Dựa vào ID sẽ gửi lên server và cập nhật lại thông tin trong hệ thống. <br/>
+
+ Nếu bạn xóa dữ liệu trong LocalStorage thì lập tức bạn sẽ quay về trang đăng nhập hoặc khi bạn bấm đăng xuất
+
+![](https://hackmd.io/_uploads/B1Rq0r9I2.png)
+
+
+
 # Cấu trúc thư mục của reactjs
 
 - **assets:** Nơi chứa các mục ảnh, âm thanh, videos....
