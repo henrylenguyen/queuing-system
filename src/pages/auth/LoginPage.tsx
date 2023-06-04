@@ -24,21 +24,15 @@ const LoginPage = (props: Props) => {
   const isShownSuccessMessage = useRef(false) // dùng ref để kiểm tra thông báo
   useEffect(() => {
     if (user && user?.vaiTro.toLowerCase() === 'quản trị' && !isShownSuccessMessage.current) {
-      message.success('Đăng nhập thành công')
+      message.success('Đăng nhập thành công', 1).then(() => navigate('/')) // chuyển hướng về trang chủ sau 1 giây
       setLogged({ islogin: true, id: user.id })
       isShownSuccessMessage.current = true // Nếu mà đã show thông báo thì không show nữa
-      setTimeout(() => {
-        navigate('/') // chuyển hướng về trang chủ sau 1 giây
-      }, 1000)
     } else if (user && user?.vaiTro.toLowerCase() !== 'quản trị') {
       message.error('Bạn không đủ quyền để đăng nhập')
     } else {
       if (logged.islogin && !isShownSuccessMessage.current) {
-        message.info('Bạn đã đăng nhập, tự động chuyển hướng sau 3s')
+        message.info('Bạn đã đăng nhập, tự động chuyển hướng sau 3s', 3).then(() => navigate('/'))
         isShownSuccessMessage.current = true
-        setTimeout(() => {
-          navigate('/') // chuyển hướng về trang chủ sau 3 giây
-        }, 3000)
       }
     }
   }, [logged, navigate, setLogged, user])

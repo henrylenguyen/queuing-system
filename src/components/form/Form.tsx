@@ -57,7 +57,8 @@ const Form = ({
     placeholder: string,
     className?: string,
     readOnly?: boolean,
-    value?: string
+    value?: string,
+    autocomplete?: string
   ) => {
     const isPasswordVisible = passwordFields[index]
 
@@ -78,6 +79,7 @@ const Form = ({
                 ? 'bg-gray-200 focus:ring-0'
                 : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
             } ${className}`}
+            autoComplete='current-password'
           />
           <span className='absolute right-2 top-2 cursor-pointer' onClick={() => togglePasswordVisibility(index)}>
             {isPasswordVisible ? (
@@ -350,6 +352,7 @@ const Form = ({
                           ? 'bg-gray-200 focus:ring-0'
                           : 'focus:ring-2 focus:ring-inset focus:ring-orange-400'
                       } ${className}`}
+                      autoComplete='username'
                     />
                   )}
 

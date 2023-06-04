@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FormControlLabel, Checkbox } from '@mui/material'
 import { useController } from 'react-hook-form'
 import { orange } from '@mui/material/colors'
@@ -10,7 +10,25 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
     control,
     name
   })
-  const [inputValues, setInputValues] = useState(Array(4).fill(''))
+  const [inputValues, setInputValues] = useState(() => {
+    const initialValues = []
+    options.forEach((option) => {
+      if (option.numberOfInput && option.numberOfInput > 1) {
+        initialValues.push(
+          ...option.value.data.map((dataItem) => ({
+            name: option.value.name,
+            data: dataItem
+          }))
+        )
+      } else {
+        initialValues.push({
+          name: option.value.name,
+          data: option.value.data
+        })
+      }
+    })
+    return initialValues
+  })
 
   const [checkedValues, setCheckedValues] = useState(() => {
     return options.filter((option) => option.checked).map((option) => option.value)
@@ -29,15 +47,24 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
     })
   }
   const handleInputChange = (event, index) => {
-    const newInputValues = [...inputValues]
-    newInputValues[index] = event.target.value
+    const { name, value } = event.target
+    const newInputValues = inputValues.map((item, i) => {
+      if (i === index) {
+        return {
+          name: item.name,
+          data: value
+        }
+      }
+      return item
+    })
     setInputValues(newInputValues)
     dispatch(onChangeInputValue(newInputValues))
   }
+
   return (
     <div className='mt-2'>
       {options.map((option, index) => (
-        <div key={index} className='mt-4 grid grid-cols-4 items-center'>
+        <div key={index} className='mt-4 grid grid-cols-3 items-center'>
           <FormControlLabel
             control={
               <Checkbox
@@ -69,11 +96,12 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
                     return (
                       <input
                         key={i}
-                        type='number'
+                        type='text'
                         className='w-[100px] rounded-lg border bg-white p-2 '
-                        defaultValue={option.value}
+                        defaultValue={option.value.data[i]}
                         name={option.value.name}
                         onChange={(e) => handleInputChange(e, i)}
+                        disabled
                       />
                     )
                   })
@@ -82,11 +110,12 @@ const CheckboxGroup = ({ options, control, name, ...props }) => {
                     return (
                       <input
                         key={inputIndex}
-                        type='number'
+                        type='text'
                         className='w-[100px] rounded-lg border bg-white p-2 '
-                        defaultValue={option.value}
+                        defaultValue={option.value.data}
                         name={option.value.name}
                         onChange={(e) => handleInputChange(e, inputIndex)}
+                        disabled
                       />
                     )
                   })}

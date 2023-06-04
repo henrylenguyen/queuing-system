@@ -33,9 +33,14 @@ const ResetPassPage = (props: Props) => {
     }
   }, [isEmailValidating, messageApi])
 
+  // ...
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
   useEffect(() => {
     if (emailValid && isEmailValidating && !isShownSuccessMessage.current) {
-      setTimeout(() => {
+      clearTimeout(timeoutRef.current!) // Clear the current timeout (if any)
+      timeoutRef.current = setTimeout(() => {
         message.success('Đã xác nhận email', 2.5).then(() => {
           setIsValid(true)
           isShownSuccessMessage.current = true
@@ -48,7 +53,12 @@ const ResetPassPage = (props: Props) => {
         navigate('/login')
       })
     }
+
+    return () => {
+      clearTimeout(timeoutRef.current!) // Clear the timeout when the component unmounts or when useEffect runs next time
+    }
   }, [dispatch, emailValid, isChangedPass, isEmailValidating, navigate])
+
   // -------------------- XÁC NHẬN EMAIL-------------------------------
   const handleSubmitForm = (data: any) => {
     const { email } = data

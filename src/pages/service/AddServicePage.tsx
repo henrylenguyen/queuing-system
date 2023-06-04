@@ -1,95 +1,105 @@
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
-import { deviceField } from 'constants/fields/device.fields'
-import { IFields } from 'constants/interface/formInterface'
-import React, { useState } from 'react'
-import { DeviceShema } from 'schemas/Device.schema'
+import { useEffect } from 'react'
 import { ServiceShema } from 'schemas/Service.schema'
 import { useCallback } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'redux/store'
+import { serviceFields } from 'constants/fields/service.fields'
+import { addService } from 'redux/action/services/serviceList.action'
+import { v4 as uuidv4 } from 'uuid'
+import { message } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import { resetStatus } from 'redux/slice/services.slice'
 
 type Props = {}
-const handleSubmit = (data: any) => {
-  console.log(data)
+interface InputValue {
+  name: string
+  data: string | string[]
+}
+const initialValue = {
+  maDichVu: uuidv4(),
+  moTa: '',
+  tenDichVu: '',
+  quyTacCapSo: ''
 }
 const AddServicePage = (props: Props) => {
-  const { inputValue } = useSelector((state: RootState) => state.service)
-  const getServiceField = useCallback((): IFields[] => {
-    return [
-      {
-        name: 'maDichVu',
-        type: 'text',
-        placeholder: '201',
-        label: 'Mã dịch vụ: *',
-        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
-      },
-      {
-        name: 'moTa',
-        type: 'textarea',
-        placeholder: 'Mô tả dịch vụ',
-        label: 'Mô tả:',
-        className: 'bg-white w-full border border-[#D4D4D7] rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full row-span-2'
-      },
-      {
-        name: 'tenDichVu',
-        type: 'text',
-        placeholder: 'Khám tim mạch',
-        label: 'Tên dịch vụ *',
-        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
-      },
-      {
-        name: 'quyTacCapSo',
-        type: 'checkbox',
-        placeholder: '',
-        options: [
-          {
-            label: 'Tăng tự động từ:',
-            value: {
-              name: 'autoIncrement',
-              data: ['0001', '9999'],
-            },
-            input: true,
-            numberOfInput: 2
-          },
-          {
-            label: 'Prefix',
-            value: {
-              name: 'prefix',
-              data: '0001',
-            },
-            input: true,
-            numberOfInput: 1
-          },
-          {
-            label: 'Surfix',
-            value: {
-              name: 'surfix',
-              data: '0001'
-            },
-            input: true,
-            numberOfInput: 1
-          },
-          {
-            label: 'Reset mỗi ngày',
-            value: {
-              name: 'reset',
-              data: true
-            }
-          }
-        ],
-        label: 'Quy tắc cấp số',
-        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
+  const { inputValue, isSuccess, error } = useSelector((state: RootState) => state.service)
+  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (isSuccess) {
+      message.success('Thêm mới dịch vụ thành công', 2).then(() => {
+        dispatch(resetStatus())
+        navigate('/service/service-list')
+      })
+    } else {
+      if (error) {
+        message.error(`${error}`, 3)
       }
-    ]
-  }, [])
-  // Sử dụng biến tối ưu hóa
-  const serviceField = getServiceField()
+    }
+  }, [dispatch, error, isSuccess, navigate])
 
+  /**
+  * 
+  * mergeInputValues có chức năng dùng để gôm đối tượng giống nhau về name gôm thành 1 mảng data duy nhất
+  * {
+    name: "autoIncrement",
+    data: "0004",
+    },
+    {
+    name: "autoIncrement",
+    data: ["9999", "1234"],
+    },  
+
+    => {
+      name: "autoIncrement",
+      data: ["9999", "1234",'0004'],
+    }
+  * 
+  */
+  const mergeInputValues = useCallback((inputValue: InputValue[]): InputValue[] => {
+    const mergedValues: InputValue[] = inputValue.reduce((result: InputValue[], currentValue: InputValue) => {
+      const existingItem = result.find((item) => item.name === currentValue.name)
+      if (existingItem) {
+        if (Array.isArray(existingItem.data)) {
+          if (Array.isArray(currentValue.data)) {
+            existingItem.data.push(...currentValue.data)
+          } else {
+            existingItem.data.push(currentValue.data)
+          }
+        } else {
+          if (Array.isArray(currentValue.data)) {
+            existingItem.data = [existingItem.data, ...currentValue.data]
+          } else {
+            existingItem.data = [existingItem.data, currentValue.data]
+          }
+        }
+      } else {
+        if (Array.isArray(currentValue.data)) {
+          result.push({
+            name: currentValue.name,
+            data: [...currentValue.data]
+          })
+        } else {
+          result.push({
+            name: currentValue.name,
+            data: [currentValue.data]
+          })
+        }
+      }
+      return result
+    }, [])
+
+    return mergedValues
+  }, [])
+
+  const mergedValues = mergeInputValues(inputValue)
+
+  //---------------Thêm dữ liệu vào firestore----------
+  const handleSubmit = (data: any) => {
+    dispatch(addService(data))
+  }
   return (
     <div className='pt-10 '>
       <PageInfor />
@@ -100,13 +110,14 @@ const AddServicePage = (props: Props) => {
             <div className='my-10 w-full rounded-xl bg-white p-5'>
               <Form
                 schema={ServiceShema}
-                fields={serviceField}
+                fields={serviceFields}
                 title='Thông tin dịch vụ'
                 gap='30px'
                 titleButtonCancel='Hủy bỏ'
                 titleButton='Thêm dịch vụ'
                 handleSubmitForm={handleSubmit}
                 to='/device/device-list/'
+                initialValues={initialValue}
               />
             </div>
           </div>

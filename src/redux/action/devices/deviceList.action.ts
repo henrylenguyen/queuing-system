@@ -28,8 +28,8 @@ export const postDevices = createAsyncThunk('device/postDevices', async (device:
     // Thêm dữ liệu vào Firestore
     const newDevice = {
       ...device,
-      trangThaiHoatDong: 'Hoạt động',
-      trangThaiKetNoi: 'Kết nối'
+      trangThaiHoatDong: true,
+      trangThaiKetNoi: true
     }
     const devicesRef = collection(db, 'devices')
     await addDoc(devicesRef, newDevice)

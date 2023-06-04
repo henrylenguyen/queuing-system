@@ -5,3 +5,8 @@ export const fetchServicesFulfilled = (state: IServiceState, action: any) => {
   state.error = null
   state.services = action.payload
 }
+export const AddServicesFulfilled = (state: IServiceState, action: any) => {
+  state.isLoading = false
+  state.error = null
+  state.isSuccess = true
+}

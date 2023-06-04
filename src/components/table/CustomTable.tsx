@@ -26,6 +26,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
 
   const [searchedColumn, setSearchedColumn] = useState('')
   const searchInput = useRef<InputRef>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     if (filteredData.length > 0) {
@@ -33,13 +34,20 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
     }
   }, [filteredData])
 
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutRef.current!)
+    }
+  }, [])
+
   // --------------------------- TÌM KIẾM------------------------
   const handleSearch = useCallback((selectedKeys: React.Key[], confirm: () => void, dataIndex: string) => {
     confirm()
     setLoading(true)
     setSearchText(selectedKeys[0] as string)
     setSearchedColumn(dataIndex)
-    setTimeout(() => {
+    clearTimeout(timeoutRef.current!)
+    timeoutRef.current = setTimeout(() => {
       setLoading(false)
     }, 1000)
   }, [])
