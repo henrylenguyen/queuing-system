@@ -32,7 +32,7 @@
 ```
 
 
-![](https://hackmd.io/_uploads/H1-RmrqI3.png)
+![image](https://github.com/henrylenguyen/queuing-system/assets/114068860/ca95525b-51ae-4ed0-a1e3-d713b77aadcb)
 
 > Nếu bạn nhập sai tài khoản (tài khoản không có trong hệ thống) thì sẽ có thông báo: `Tài khoản không hợp lệ`. <br/>
 > Nếu mật khẩu bạn nhập sai sẽ được thông báo: `Mật khẩu không hợp lệ`. <br/>
@@ -42,14 +42,14 @@
 
 Khi bạn quên mật khẩu để vào hệ thống. Đừng lo, hệ thống sẽ cho phép bạn đổi mật khẩu dựa vào ***email đăng ký***
 
-![](https://hackmd.io/_uploads/H1uqjBcIn.png)
+![image](https://github.com/henrylenguyen/queuing-system/assets/114068860/a9c8b73a-0e6f-4e22-a147-7a02a4a5edf6)
 
 
 
 > Hệ thống sẽ kiểm tra email có tồn tại và hợp lệ hay không. Nếu email hợp lệ sẽ xuất thông báo `Đã xác nhận email` sau đó sẽ cho phép bạn đổi mật khẩu, ngược lại sẽ có thông báo lỗi `Email không hợp lệ`
 
 Tại đây cũng sẽ có kiểm tra dữ liệu nhập có đúng với định dạng email hay không
-![](https://hackmd.io/_uploads/ByW12HcL2.png)
+![image](https://github.com/henrylenguyen/queuing-system/assets/114068860/5720ca5f-2e43-4511-a9a9-dcdd9c62abf6)
 
 
 #### Đổi mật khẩu
@@ -59,7 +59,7 @@ Bạn đừng lo, mật khẩu của bạn sẽ được mã hóa.😎
 
 
 > Tại đây có sử dụng mã hóa bcrypt. Một loại mã hóa đứng đầu về độ bảo mật hiện nay. Bởi vì mật khẩu tuy giống nhau nhưng chuỗi đã mã hóa **luôn luôn khác nhau.**
-![](https://hackmd.io/_uploads/BkAthS5Un.png)
+![image](https://github.com/henrylenguyen/queuing-system/assets/114068860/4c89130a-d912-4f24-ad16-e3cd37e7623e)
 
 #### Thông tin cá nhân
 
@@ -69,7 +69,7 @@ Bạn đừng lo, mật khẩu của bạn sẽ được mã hóa.😎
 
  Nếu bạn xóa dữ liệu trong LocalStorage thì lập tức bạn sẽ quay về trang đăng nhập hoặc khi bạn bấm đăng xuất
 
-![](https://hackmd.io/_uploads/B1Rq0r9I2.png)
+![image](https://github.com/henrylenguyen/queuing-system/assets/114068860/96faa219-cc61-462d-9501-6d749b9645b0)
 
 
 
