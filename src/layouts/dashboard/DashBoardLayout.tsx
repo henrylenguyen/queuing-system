@@ -27,6 +27,7 @@ const DashBoardLayout = ({ children }: Props) => {
       dispatch(fetchUserLogin(isLogin.id))
     }
   }, [])
+  
   return (
     <>
       {isLogin.islogin &&

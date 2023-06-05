@@ -6,7 +6,7 @@ import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'redux/store'
 import { serviceFields } from 'constants/fields/service.fields'
-import { addService } from 'redux/action/services/serviceList.action'
+import { addService, fetchServicesName } from 'redux/action/services/serviceList.action'
 import { v4 as uuidv4 } from 'uuid'
 import { message } from 'antd'
 import { useNavigate } from 'react-router-dom'
@@ -30,6 +30,7 @@ const AddServicePage = (props: Props) => {
   useEffect(() => {
     if (isSuccess) {
       message.success('Thêm mới dịch vụ thành công', 2).then(() => {
+        dispatch(fetchServicesName())
         dispatch(resetStatus())
         navigate('/service/service-list')
       })

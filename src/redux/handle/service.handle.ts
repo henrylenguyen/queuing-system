@@ -15,3 +15,8 @@ export const fetchServicesDetailFulfilled = (state: IServiceState, action: any) 
   state.error = null
   state.serviceDetail = action.payload
 }
+export const fetchServicesNameFulfilled = (state: IServiceState, action: any) => {
+  state.isLoading = false
+  state.error = null
+  state.serviceName = action.payload
+}

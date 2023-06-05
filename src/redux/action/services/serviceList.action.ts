@@ -53,3 +53,25 @@ export const addService = createAsyncThunk('device/addService', async (data: any
     throw error
   }
 })
+
+// ---------------------------LẤY RA TÊN DỊCH VỤ------------------------
+
+export const fetchServicesName = createAsyncThunk('device/fetchServicesName', async () => {
+  try {
+    const serviceRef = collection(db, 'services')
+    const snapshot = await getDocs(serviceRef)
+
+    const services = snapshot.docs.map((doc) => {
+      const serviceData = doc.data()
+      const serviceID = serviceData.maDichVu
+      const tenDichVu = serviceData.tenDichVu // Lấy giá trị của trường "tenDichVu"
+
+      return { id: serviceID, tenDichVu } // Trả về tên dịch vụ và id
+    })
+
+    return services
+  } catch (error) {
+    console.error('Lỗi khi lấy dữ liệu:', error)
+    throw error
+  }
+})

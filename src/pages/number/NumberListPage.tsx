@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Avatar, Image } from 'antd'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import removeVietnameseTones from 'utils/convertVietnamese'
 import CustomTable from 'components/table/CustomTable'
 import getColumnDeviceConfig from 'utils/dataColumn'
@@ -7,32 +6,25 @@ import PageInfor from 'components/pageInfor/PageInfor'
 import { NavLink } from 'react-router-dom'
 import Select from 'react-select'
 import DateRangePicker from 'components/datetime/DateRange'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from 'redux/store'
+import {
+  fetchDeviceNameOfNumber,
+  fetchNumbers,
+  fetchServicesNameOfNumber
+} from 'redux/action/numbers/numberList.action'
+import { INumber } from 'constants/interface/number.interface'
+import {
+  onChangeNumberDatePicker,
+  onChangeNumberDevices,
+  onChangeNumberServices,
+  onChangeNumberStatus
+} from 'redux/slice/numberSlice'
+import moment from 'moment'
 type Props = {}
-const data = [
-  {
-    maThietBi: 'KO01',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?',
-    chiTiet: 'Chi tiết',
-    tuyChinh: 'Cập nhật'
-  },
-  {
-    maThietBi: 'KO03',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?'
-  }
-]
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
-const serviceOptions = [
+const statusOptions = [
   {
     value: 'all',
     label: 'Tất cả'
@@ -46,65 +38,122 @@ const serviceOptions = [
     label: 'Đã sử dụng'
   },
   {
-    value: 'skip',
+    value: 'skipped',
     label: 'Bỏ qua'
   }
 ]
-// ---------------------DROPDOWN trạng thái kết nối--------------------------
-const connectionOptions = [
-  {
-    value: 'all',
-    label: 'Tất cả'
-  },
-  {
-    value: 'connected',
-    label: 'Kết nối'
-  },
-  {
-    value: 'unconnected',
-    label: 'Mất kết nối'
-  }
-]
-const powerSupplyOptions = [
-  {
-    value: 'all',
-    label: 'Tất cả'
-  },
-  {
-    value: 'kiosk',
-    label: 'Kiosk'
-  },
-  {
-    value: 'system',
-    label: 'Hệ thống'
-  }
-]
-const NumberListPage = (props: Props) => {
-  // useEffect(() => {
-  //   const newDataState = data?.map((item) => {
-  //     return {
-  //       ...item,
 
-  //     }
-  //   })
-  //   setNewData(newDataState)
-  // }, [])
+const NumberListPage = (props: Props) => {
+  const {
+    numbers,
+    selectedStatus,
+    selectedServices,
+    serviceOfNumbers,
+    deviceOfNumbers,
+    selectedDevice,
+    selectedDateRange
+  } = useSelector((state: RootState) => state.number)
+  console.log('file: NumberListPage.tsx:56 ~ selectedDateRange:', selectedDateRange)
+  const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
+  const dispatch = useDispatch<AppDispatch>()
+  const [filteredData, setFilteredData] = useState<INumber[]>(numbers)
+  //-------------------------GỌI DỮ LIỆU TỪ FIRESTORE-----------------------
+  useEffect(() => {
+    dispatch(fetchNumbers())
+    dispatch(fetchServicesNameOfNumber())
+    dispatch(fetchDeviceNameOfNumber())
+  }, [])
+  // --------CHUYỂN MẢNG ĐỐI TƯỢNG SERVICENAME THÀNH VALUE LABEL CỦA OPTIONS----
+
+  const ServiceNameOptions = useCallback(() => {
+    const newService = serviceOfNumbers?.map((service) => {
+      return {
+        value: service.tenDichVu,
+        label: service.tenDichVu
+      }
+    })
+    const newServiceOptions = [
+      {
+        label: 'Tất cả',
+        value: 'all'
+      },
+      ...newService
+    ]
+    return newServiceOptions
+  }, [serviceOfNumbers])
+
+  const serviceNameOptions = ServiceNameOptions()
+  // ------------------------------LẤY RA TÊN NGUỒN CẤP TẠO THÀNH OPTIONS ---
+  const DeviceNameOptions = useCallback(() => {
+    const newdevice = deviceOfNumbers?.map((device) => {
+      return {
+        value: device.tenNguonCap,
+        label: device.tenNguonCap
+      }
+    })
+    const newdeviceOptions = [
+      {
+        label: 'Tất cả',
+        value: 'all'
+      },
+      ...newdevice
+    ]
+    return newdeviceOptions
+  }, [deviceOfNumbers])
+
+  const deviceNameOptions = DeviceNameOptions()
+
+  // --------------------------Lọc tìm kiếm----------------------
+  const filteredDevices = useMemo(() => {
+    let filteredDevices = numbers
+
+    if (selectedStatus !== 'all') {
+      filteredDevices = filteredDevices.filter((number) => number.trangThai === selectedStatus)
+    }
+    if (selectedServices !== 'all') {
+      filteredDevices = filteredDevices.filter((number) => number.tenDichVu === selectedServices)
+    }
+    if (selectedDevice !== 'all') {
+      filteredDevices = filteredDevices.filter((number) => number.nguonCap === selectedDevice)
+    }
+
+    if (selectedDateRange.length === 2 && selectedDateRange[0] !== '' && selectedDateRange[1] !== '') {
+      //Mảng ban đầu không rỗng, thực hiện các bước tiếp theo
+      const startDate = moment(selectedDateRange[0]).format('DD/MM/YYYY HH:mm:ss')
+      const endDate = moment(selectedDateRange[1]).format('DD/MM/YYYY HH:mm:ss')
+
+      filteredDevices = filteredDevices.filter((number) => {
+        const thoiGianCap = moment(number.thoiGianCap)
+        const hanSuDung = moment(number.hanSuDung)
+
+        return thoiGianCap.isSameOrAfter(startDate) && hanSuDung.isSameOrBefore(endDate)
+      })
+    }
+
+    return filteredDevices
+  }, [numbers, selectedServices, selectedStatus, selectedDevice, selectedDateRange])
+
+  // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
+  useEffect(() => {
+    setFilteredData(filteredDevices) // Cập nhật state khi danh sách thiết bị thay đổi
+    setRenderCount((prevCount) => prevCount + 1)
+  }, [filteredDevices])
+
+  //------------------------------SỬ LÝ BẢNG----------------------------------
   // 1. Lấy ra tất cả các key của object
   const getKeys = useCallback(() => {
-    return data && Object.keys(data[0])
-  }, [])
+    if (numbers && numbers.length > 0) {
+      return Object.keys(numbers[0])
+    } else {
+      return []
+    }
+  }, [numbers])
 
   /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
-  ví dụ: [
-    {
-      dataIndex: "maLichChieu",
-      key: "maLichChieu"
-    }
-  ]
+  
 */
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
-    console.log('file: DeviceListPage.tsx:89 ~ keys:', keys)
 
     return keys?.map((item) => {
       return {
@@ -117,14 +166,14 @@ const NumberListPage = (props: Props) => {
 
   // 3. Tạo ra mảng title chứa các đối tượng title khác nhau, do mình nhập
   const dataTitle = [
-    'Mã thiết bị',
-    'Tên thiết bị',
-    'Địa chỉ IP',
-    'Trạng thái hoạt động',
-    'Trạng thái kết nối',
-    'Dịch vụ sử dụng',
-    'Chi tiết',
-    'Tùy chỉnh'
+    'STT',
+    'Tên khách hàng',
+    'Tên dịch vụ',
+    'Thời gian cấp',
+    'Hạn sử dụng',
+    'Trạng thái',
+    'Nguồn cấp',
+    'Chi tiết'
   ]
 
   /**
@@ -145,24 +194,40 @@ const NumberListPage = (props: Props) => {
    ví dụ: Mã lịch chiếu ->malichchieu
   */
     const newTitle = removeTone.replace(/\s+/g, '').toLowerCase()
-    console.log('file: DeviceListPage.tsx:130 ~ newTitle:', newTitle)
     // dùng hàm find để tìm từ mảng các đối tượng dataIndexKey, so sánh giữa key với newTitle phía trên. Lưu ý là phải chuyển về in thường để so sánh
     const dataIndexKeyItem = dataIndexKey.find((item) => item?.key.toLowerCase() === newTitle)
 
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
   })
-  console.log('file: DeviceListPage.tsx:136 ~ columns:', columns)
-
   //---------------------------Tìm kiếm trạng thái hoạt động------------------
-  const handleStatusChange = (data: any) => {
-    console.log(data)
-  }
-  //---------------------------Tìm kiếm trạng thái kết nối------------------
-  const handleConnectionChange = (data: any) => {
-    console.log(data)
-  }
-  // ----------------------------Thêm cột chi tiết và tùy chỉn ----------------
+  const handleServiceChange = useCallback(
+    (data: any) => {
+      dispatch(onChangeNumberServices(data.value))
+    },
+    [dispatch]
+  )
+  //---------------------------Tìm kiếm trạng thái hoạt động------------------
+  const handleStatusChange = useCallback(
+    (data: any) => {
+      dispatch(onChangeNumberStatus(data.value))
+    },
+    [dispatch]
+  )
+  //---------------------------Tìm kiếm Nguồn cấp------------------
+  const handleDeviceChange = useCallback(
+    (data: any) => {
+      dispatch(onChangeNumberDevices(data.value))
+    },
+    [dispatch]
+  )
+  const handleTimePickerChange = useCallback(
+    (data: any) => {
+      const serializedDates = data.map((date: Date) => date.toJSON())
+      dispatch(onChangeNumberDatePicker(serializedDates))
+    },
+    [dispatch]
+  )
 
   return (
     <div className='pt-10 '>
@@ -175,21 +240,21 @@ const NumberListPage = (props: Props) => {
               <div className='flex justify-between gap-5'>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Tên dịch vụ</span>
-                  <Select options={serviceOptions} onChange={handleStatusChange} placeholder='Chọn dịch vụ' />
+                  <Select options={serviceNameOptions} onChange={handleServiceChange} placeholder='Chọn dịch vụ' />
                 </div>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Tình trạng</span>
-                  <Select options={serviceOptions} onChange={handleConnectionChange} placeholder='Chọn tình trạng' />
+                  <Select options={statusOptions} onChange={handleStatusChange} placeholder='Chọn tình trạng' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <span className='font-semibold'>Nguồn cấp</span>
-                  <Select options={powerSupplyOptions} onChange={handleConnectionChange} placeholder='Chọn nguồn cấp' />
+                  <Select options={deviceNameOptions} onChange={handleDeviceChange} placeholder='Chọn nguồn cấp' />
                 </div>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Chọn thời gian</span>
                   <div>
                     <DateRangePicker
-                      handleChange={handleConnectionChange}
+                      handleChange={handleTimePickerChange}
                       placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
                       className='h-[38px]'
                     />
@@ -221,30 +286,34 @@ const NumberListPage = (props: Props) => {
                 </div>
               </div>
             </div>
-            <CustomTable data={data} columns={columns} Key={'maThietBi'}></CustomTable>
+            {numbers.length > 0 ? (
+              <CustomTable key={renderCount} data={filteredData} columns={columns} Key={'STT'}></CustomTable>
+            ) : (
+              ''
+            )}
           </div>
         </div>
         <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
-          <button className='rounded-lg bg-[#FFF2E7] px-5 py-2 shadow'>
-            <NavLink
-              to='/number/number-list/add-new-number'
-              className={'flex flex-col items-center gap-2 text-primary'}
-            >
-              <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='#fff'
-                  className='h-6 w-6'
-                >
-                  <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
-                </svg>
-              </div>
-              <span>Cấp số mới</span>
-            </NavLink>
-          </button>
+          <NavLink
+            to='/number/number-list/add-new-number'
+            className={
+              'flex h-[80px] w-[150px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] py-5 text-primary shadow'
+            }
+          >
+            <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='#fff'
+                className='h-6 w-6'
+              >
+                <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
+              </svg>
+            </div>
+            <span>Cấp số mới</span>
+          </NavLink>
         </div>
       </div>
     </div>

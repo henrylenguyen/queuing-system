@@ -2,32 +2,44 @@ import { createSlice } from '@reduxjs/toolkit'
 import { IHanle } from 'constants/interface/handle.interface'
 import { IServices } from 'constants/interface/service.interface'
 import { fetchServiceDetail } from 'redux/action/services/serviceDetail.action'
-import { addService, fetchServices } from 'redux/action/services/serviceList.action'
+import { addService, fetchServices, fetchServicesName } from 'redux/action/services/serviceList.action'
 import { handleError, handlePending } from 'redux/handle'
-import { AddServicesFulfilled, fetchServicesDetailFulfilled, fetchServicesFulfilled } from 'redux/handle/service.handle'
+import {
+  AddServicesFulfilled,
+  fetchServicesDetailFulfilled,
+  fetchServicesFulfilled,
+  fetchServicesNameFulfilled
+} from 'redux/handle/service.handle'
 
 export interface IServiceState extends IHanle {
   services: IServices[]
   selectedStatus: string
+  selectedService: string
   inputValue: []
   isSuccess: boolean
   serviceDetail: IServices
+  serviceName: {
+    id: string
+    tenDichVu: string
+  }[]
 }
 const initialState: IServiceState = {
   services: [],
   isLoading: true,
   error: null,
   selectedStatus: 'all', // Giá trị mặc định của dropdown trạng thái hoạt động
+  selectedService: 'all', // Giá trị mặc định của dropdown dịch vụ sử dụng
   inputValue: [],
   isSuccess: false,
   serviceDetail: {
-    id:'',
+    id: '',
     maDichVu: '',
     moTa: '',
     quyTacCapSo: [],
     tenDichVu: '',
     trangThaiHoatDong: ''
-  }
+  },
+  serviceName: []
 }
 const serviceSlice = createSlice({
   name: 'service',
@@ -39,7 +51,9 @@ const serviceSlice = createSlice({
     onChangeInputValue: (state, action) => {
       state.inputValue = action.payload
     },
-
+    onChangeServiceName: (state, action) => {
+      state.selectedService = action.payload
+    },
     clearServiceDetail: (state) => {
       state.serviceDetail = {
         id: '',
@@ -65,8 +79,12 @@ const serviceSlice = createSlice({
       .addCase(fetchServiceDetail.pending, handlePending)
       .addCase(fetchServiceDetail.fulfilled, fetchServicesDetailFulfilled)
       .addCase(fetchServiceDetail.rejected, handleError)
+      .addCase(fetchServicesName.pending, handlePending)
+      .addCase(fetchServicesName.fulfilled, fetchServicesNameFulfilled)
+      .addCase(fetchServicesName.rejected, handleError)
   }
 })
-export const { onChangeServiceStatus, onChangeInputValue, resetStatus, clearServiceDetail } = serviceSlice.actions
+export const { onChangeServiceStatus, onChangeInputValue, resetStatus, clearServiceDetail, onChangeServiceName } =
+  serviceSlice.actions
 const servicesReducer = serviceSlice.reducer
 export default servicesReducer

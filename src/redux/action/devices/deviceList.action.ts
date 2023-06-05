@@ -22,7 +22,7 @@ export const fetchDevices = createAsyncThunk('device/fetchDevices', async () => 
   }
 })
 
-
+// -----------------------------TẠO MỚI THIẾT BỊ---------------------------
 export const postDevices = createAsyncThunk('device/postDevices', async (device: IDeviceManagement) => {
   try {
     // Thêm dữ liệu vào Firestore

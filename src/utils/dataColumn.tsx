@@ -104,6 +104,22 @@ const getColumnConfig = (
         return <Badge status={`${text ? 'success' : 'error'}`} text={`${text ? 'Kết nối' : 'Mất kết nối'}`} />
       }
     }
+  } else if (newTitle === 'trangthai') {
+    return {
+      title: title,
+      width: 170,
+      dataIndex: dataIndexKeyItem?.dataIndex ?? '',
+      key: dataIndexKeyItem?.key ?? '',
+      align: 'center',
+      render: (text: any, record: any) => {
+        return (
+          <Badge
+            status={`${text === 'pending' ? 'processing' : text === 'used' ? 'default' : 'error'}`}
+            text={`${text === 'pending' ? 'Đang chờ' : text === 'used' ? 'Đã sử dụng' : 'Bỏ qua'}`}
+          />
+        )
+      }
+    }
   }
 
   return columnConfig
