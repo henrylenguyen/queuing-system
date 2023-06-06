@@ -55,6 +55,9 @@ const PageInfor = () => {
       case 'add-new-number':
         part = 'Cấp số mới'
         break
+      case 'add-new-number-without-infor':
+        part = 'Cấp số mới không đăng nhập'
+        break
       case 'number-detail':
         part = 'Thông tin cấp số'
         break

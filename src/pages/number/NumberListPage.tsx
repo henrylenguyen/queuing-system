@@ -240,15 +240,15 @@ const NumberListPage = (props: Props) => {
               <div className='flex justify-between gap-5'>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Tên dịch vụ</span>
-                  <Select options={serviceNameOptions} onChange={handleServiceChange} placeholder='Chọn dịch vụ' />
+                  <Select options={serviceNameOptions} onChange={handleServiceChange} placeholder='Dịch vụ' />
                 </div>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Tình trạng</span>
-                  <Select options={statusOptions} onChange={handleStatusChange} placeholder='Chọn tình trạng' />
+                  <Select options={statusOptions} onChange={handleStatusChange} placeholder='Tình trạng' />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <span className='font-semibold'>Nguồn cấp</span>
-                  <Select options={deviceNameOptions} onChange={handleDeviceChange} placeholder='Chọn nguồn cấp' />
+                  <Select options={deviceNameOptions} onChange={handleDeviceChange} placeholder='Nguồn cấp' />
                 </div>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Chọn thời gian</span>
@@ -263,7 +263,7 @@ const NumberListPage = (props: Props) => {
               </div>
               <div className='relative flex flex-col gap-2 '>
                 <span className='font-semibold'>Từ khoá</span>
-                <div className='w-[300px]'>
+                <div className='w-[200px]'>
                   <input
                     type='text'
                     className='w-full rounded-md border border-gray-300 bg-white p-2'
@@ -293,11 +293,35 @@ const NumberListPage = (props: Props) => {
             )}
           </div>
         </div>
-        <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
+        <div className=' flex-shink-0 flex h-[250px] flex-col items-end gap-5 p-5'>
           <NavLink
             to='/number/number-list/add-new-number'
             className={
-              'flex h-[80px] w-[150px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] py-5 text-primary shadow'
+              'flex h-[80px] w-[180px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] py-5 text-primary shadow'
+            }
+          >
+            <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth={1.5}
+                stroke='#fff'
+                className='h-6 w-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
+                />
+              </svg>
+            </div>
+            <span>Cấp số có thông tin</span>
+          </NavLink>
+          <NavLink
+            to='/number/number-list/add-new-number-without-infor'
+            className={
+              'flex h-[80px] w-[180px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] py-5 text-primary shadow'
             }
           >
             <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
@@ -312,7 +336,7 @@ const NumberListPage = (props: Props) => {
                 <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
               </svg>
             </div>
-            <span>Cấp số mới</span>
+            <span>Cấp số không thông tin</span>
           </NavLink>
         </div>
       </div>

@@ -22,6 +22,7 @@ import AddUsernamePage from 'pages/username/AddUsernamePage'
 import UsernameListPage from 'pages/username/UsernameListPage'
 import UpdateUsernamePage from 'pages/username/UpdateUsernamePage'
 import UserLog from 'pages/userLog/UserLog'
+import AddNumberPageLogin from 'pages/number/AddNumberPageLogin'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -122,6 +123,14 @@ export default function useRouteElement() {
     },
     {
       path: '/number/number-list/add-new-number',
+      element: (
+        <DashBoardLayout>
+          <AddNumberPageLogin />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/number/number-list/add-new-number-without-infor',
       element: (
         <DashBoardLayout>
           <AddNumberPage />
