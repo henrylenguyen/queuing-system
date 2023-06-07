@@ -415,3 +415,10 @@ yarn add @mui/lab
 ```bash
 yarn add uuid @type/uuid
 ```
+## react-to-print (thư viện in)
+
+```bash
+yarn add react-to-print
+
+
+```

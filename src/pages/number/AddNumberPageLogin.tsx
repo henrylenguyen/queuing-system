@@ -5,55 +5,49 @@ import { NumberShema } from 'schemas/Number.schema'
 import { IFields } from 'constants/interface/formInterface'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'redux/store'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { fetchServicesName } from 'redux/action/services/serviceList.action'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
 import { onChangeNumberServiceSelected } from 'redux/slice/numberSlice'
+import ModalTicket from 'components/modal/ModalTicket'
+import { addNumber } from 'redux/action/numbers/numberDetail.action'
 
 type Props = {}
-const handleSubmit = (e: any) => {
-  console.log(e)
-}
 
 const AddNumberPageLogin = (props: Props) => {
   const { serviceName } = useSelector((state: RootState) => state.service)
   const { devices } = useSelector((state: RootState) => state.device)
-  console.log("file: AddNumberPageLogin.tsx:21 ~ devices:", devices)
+  const { addNumberDetail } = useSelector((state: RootState) => state.number)
   const { serviceSelectedOfOnchange } = useSelector((state: RootState) => state.number)
-  console.log("file: AddNumberPageLogin.tsx:22 ~ serviceSelectedOfOnchange:", serviceSelectedOfOnchange)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
-
   useEffect(() => {
     dispatch(fetchServicesName())
     dispatch(fetchDevices())
   }, [dispatch])
 
   // Lọc tìm kiếm thiết bị tương ứng với dịch vụ sử dụng
-const filteredDevices = useMemo(() => {
-  if (!serviceSelectedOfOnchange) {
-    return [] // Return an empty array if `serviceSelectedOfOnchange` is empty, undefined, or null
-  }
+  const filteredDevices = useMemo(() => {
+    if (!serviceSelectedOfOnchange) {
+      return [] // Return an empty array if `serviceSelectedOfOnchange` is empty, undefined, or null
+    }
 
-  const selectedService = serviceSelectedOfOnchange.toLowerCase() // Convert `serviceSelectedOfOnchange` to lowercase
+    const selectedService = serviceSelectedOfOnchange.toLowerCase() // Convert `serviceSelectedOfOnchange` to lowercase
 
-  return devices
-    .filter((device) => {
-      if (
-        device.dichVuSuDung &&
-        Array.isArray(device.dichVuSuDung) && // Check if `dichVuSuDung` is an array
-        device.dichVuSuDung.some((service) => service.toLowerCase() === selectedService)
-      ) {
-        return device.tenThietBi
-      }
-    })
-    .map((device) => device.tenThietBi)
-}, [devices, serviceSelectedOfOnchange])
-
-
-
-
-
+    return devices
+      .filter((device) => {
+        if (
+          device.dichVuSuDung &&
+          Array.isArray(device.dichVuSuDung) && // Check if `dichVuSuDung` is an array
+          device.dichVuSuDung.some((service) => service.toLowerCase() === selectedService)
+        ) {
+          return device.tenThietBi
+        }
+      })
+      .map((device) => device.tenThietBi)
+  }, [devices, serviceSelectedOfOnchange])
 
   const ServiceNameOptions = useCallback(() => {
     const newService = serviceName?.map((service) => {
@@ -131,7 +125,15 @@ const filteredDevices = useMemo(() => {
     ]
   }, [deviceNameOptions])
   const deviceField = DeviceFields()
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
 
+  const handleSubmit = (data: any) => {
+    dispatch(addNumber(data)).then(() => {
+      setIsModalOpen(true)
+    })
+  }
   return (
     <div className='pt-10 '>
       <PageInfor />
@@ -157,6 +159,14 @@ const filteredDevices = useMemo(() => {
           </div>
         </div>
       </div>
+      <ModalTicket
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+        STT={addNumberDetail.STT}
+        tenDichVu={addNumberDetail.tenDichVu}
+        thoiGianCap={addNumberDetail.thoiGianCap}
+        hanSuDung={addNumberDetail.hanSuDung}
+      ></ModalTicket>
     </div>
   )
 }

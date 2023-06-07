@@ -1,23 +1,27 @@
 import { collection, getDocs } from '@firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { INumber } from 'constants/interface/number.interface'
 import { format } from 'date-fns' // import hàm format từ thư viện date-fns
 import db from 'service/db.connect'
 
 // ------------------------LẤY DANH SÁCH CẤP SỐ-------------------------
-
+interface numbers {
+    hanSuDung: string;
+    thoiGianCap: string;
+    id: string;
+}
 export const fetchNumbers = createAsyncThunk('device/fetchNumbers', async () => {
   try {
     const numberRef = collection(db, 'numbers')
-    const snapshot = await getDocs(numberRef)
+    const snapshot = await getDocs(numberRef) 
 
     const numbers = snapshot.docs.map((doc) => {
-      const numberData = doc.data()
+      const numberData = doc.data() as { STT: number; [key: string]: any }
+
       const numberID = doc.id
-      // Format lại thời gian sử dụng và thời gian cấp
       const formattedHanSuDung = format(numberData.hanSuDung.toDate(), 'dd/MM/yyyy HH:mm:ss')
       const formattedThoiGianCap = format(numberData.thoiGianCap.toDate(), 'dd/MM/yyyy HH:mm:ss')
 
-      // Tạo một đối tượng mới với các trường đã được định dạng
       const formattedNumberData = {
         ...numberData,
         hanSuDung: formattedHanSuDung,
@@ -27,12 +31,15 @@ export const fetchNumbers = createAsyncThunk('device/fetchNumbers', async () => 
       return { id: numberID, ...formattedNumberData }
     })
 
-    return numbers
+    const sortedNumbers = numbers.sort((a, b) => a.STT - b.STT) // Sắp xếp theo trường STT
+
+    return sortedNumbers
   } catch (error) {
     console.error('Lỗi khi lấy dữ liệu:', error)
     throw error
   }
 })
+
 // --------------------LẤY RA TÊN DỊCH VỤ TRONG NUMBERS------------------------
 
 export const fetchServicesNameOfNumber = createAsyncThunk('device/fetchServicesNameOfNumber', async () => {
@@ -40,13 +47,20 @@ export const fetchServicesNameOfNumber = createAsyncThunk('device/fetchServicesN
     const serviceRef = collection(db, 'numbers')
     const snapshot = await getDocs(serviceRef)
 
-    const services = snapshot.docs.map((doc) => {
+    const uniqueNames = new Set<string>() // Chỉ định kiểu dữ liệu của Set là string
+
+    const services = snapshot.docs.reduce((result, doc) => {
       const serviceData = doc.data()
       const serviceID = doc.id
       const tenDichVu = serviceData.tenDichVu // Lấy giá trị của trường "tenDichVu"
 
-      return { id: serviceID, tenDichVu } // Trả về tên dịch vụ và id
-    })
+      if (!uniqueNames.has(tenDichVu)) {
+        uniqueNames.add(tenDichVu) // Thêm tên vào Set để kiểm tra trùng lặp
+        result.push({ id: serviceID, tenDichVu }) // Trả về tên dịch vụ và id
+      }
+
+      return result
+    }, [] as { id: string; tenDichVu: string }[]) // Sử dụng kiểu dữ liệu mặc định cho mảng khi không có phần tử
 
     return services
   } catch (error) {
@@ -54,6 +68,7 @@ export const fetchServicesNameOfNumber = createAsyncThunk('device/fetchServicesN
     throw error
   }
 })
+
 // ------------------LẤY RA TÊN NGUỒN CẤP TRONG NUMBERS------------------------
 export const fetchDeviceNameOfNumber = createAsyncThunk('device/fetchDeviceNameOfNumber', async () => {
   try {

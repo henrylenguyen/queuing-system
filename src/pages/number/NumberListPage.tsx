@@ -21,6 +21,7 @@ import {
   onChangeNumberStatus
 } from 'redux/slice/numberSlice'
 import moment from 'moment'
+import dayjs from 'dayjs'
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
@@ -53,7 +54,6 @@ const NumberListPage = (props: Props) => {
     selectedDevice,
     selectedDateRange
   } = useSelector((state: RootState) => state.number)
-  console.log('file: NumberListPage.tsx:56 ~ selectedDateRange:', selectedDateRange)
   const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
   const dispatch = useDispatch<AppDispatch>()
   const [filteredData, setFilteredData] = useState<INumber[]>(numbers)
@@ -104,6 +104,8 @@ const NumberListPage = (props: Props) => {
   const deviceNameOptions = DeviceNameOptions()
 
   // --------------------------Lọc tìm kiếm----------------------
+
+
   const filteredDevices = useMemo(() => {
     let filteredDevices = numbers
 
@@ -117,21 +119,24 @@ const NumberListPage = (props: Props) => {
       filteredDevices = filteredDevices.filter((number) => number.nguonCap === selectedDevice)
     }
 
-    if (selectedDateRange.length === 2 && selectedDateRange[0] !== '' && selectedDateRange[1] !== '') {
-      //Mảng ban đầu không rỗng, thực hiện các bước tiếp theo
-      const startDate = moment(selectedDateRange[0]).format('DD/MM/YYYY HH:mm:ss')
-      const endDate = moment(selectedDateRange[1]).format('DD/MM/YYYY HH:mm:ss')
+    if (selectedDateRange?.length === 2 && selectedDateRange[0] !== '' && selectedDateRange[1] !== '') {
+      const startDate = moment(selectedDateRange[0], 'DD/MM/YYYY HH:mm:ss')
+      const endDate = moment(selectedDateRange[1], 'DD/MM/YYYY HH:mm:ss')
 
       filteredDevices = filteredDevices.filter((number) => {
-        const thoiGianCap = moment(number.thoiGianCap)
-        const hanSuDung = moment(number.hanSuDung)
+        const thoiGianCap = moment(number.thoiGianCap, 'DD/MM/YYYY HH:mm:ss')
+        const hanSuDung = moment(number.hanSuDung, 'DD/MM/YYYY HH:mm:ss')
 
-        return thoiGianCap.isSameOrAfter(startDate) && hanSuDung.isSameOrBefore(endDate)
+        return (
+          thoiGianCap.isBetween(startDate, endDate, undefined, '[]') &&
+          hanSuDung.isBetween(startDate, endDate, undefined, '[]')
+        )
       })
     }
 
     return filteredDevices
   }, [numbers, selectedServices, selectedStatus, selectedDevice, selectedDateRange])
+
 
   // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
   useEffect(() => {
@@ -221,13 +226,13 @@ const NumberListPage = (props: Props) => {
     },
     [dispatch]
   )
-  const handleTimePickerChange = useCallback(
-    (data: any) => {
-      const serializedDates = data.map((date: Date) => date.toJSON())
-      dispatch(onChangeNumberDatePicker(serializedDates))
-    },
-    [dispatch]
-  )
+const handleTimePickerChange = useCallback(
+  (data: any) => {
+    const formattedDates = data?.map((date: Date) => dayjs(date).format('DD/MM/YYYY HH:mm:ss'))
+    dispatch(onChangeNumberDatePicker(formattedDates))
+  },
+  [dispatch]
+)
 
   return (
     <div className='pt-10 '>

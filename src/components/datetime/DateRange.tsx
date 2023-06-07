@@ -32,6 +32,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({ handleChange, placeho
         defaultValue={[dayjs(), dayjs()]} // Set default value to current date
         value={selectedDate} // Controlled value
         onChange={handleDateChange} // Pass the handleDateChange function
+        format='DD/MM/YYYY' // Set the date format to "dd/mm/yyyy"
       />
     </ConfigProvider>
   )

@@ -19,7 +19,6 @@ interface CustomTableProps {
 }
 
 const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key }) => {
-  console.log('file: CustomTable.tsx:23 ~ data:', data)
   const [searchText, setSearchText] = useState('')
   const [loading, setLoading] = useState(true)
   const [filteredData, setFilteredData] = useState(data)
@@ -163,6 +162,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
         <Table
           rowKey={Key}
           dataSource={filteredData}
+          style={{zIndex:0}}
           scroll={{ x: 'max-content', y: 500 }}
           columns={columns.map((col) => {
             if (

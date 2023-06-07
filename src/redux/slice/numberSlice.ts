@@ -31,7 +31,7 @@ export interface INumberState extends IHanle {
     tenNguonCap: string
   }[]
   numberDetail: INumber
-  addNumberDetail: IAddNumber
+  addNumberDetail: INumber
   serviceSelectedOfOnchange: string
 }
 const initialState: INumberState = {
@@ -57,7 +57,12 @@ const initialState: INumberState = {
     email: ''
   },
   addNumberDetail: {
-    tenDichVu: ''
+    tenDichVu: '',
+    id: '',
+    STT: 0,
+    thoiGianCap: '',
+    hanSuDung: '',
+    trangThai: ''
   },
   serviceSelectedOfOnchange: ''
 }

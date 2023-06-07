@@ -1,29 +1,16 @@
 import PageInfor from 'components/pageInfor/PageInfor'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'redux/store'
 import { fetchServicesName } from 'redux/action/services/serviceList.action'
 import { addNumber } from 'redux/action/numbers/numberDetail.action'
-import { message } from 'antd'
+import { Modal } from 'antd'
 import { IAddNumber } from 'constants/interface/number.interface'
+import ModalTicket from 'components/modal/ModalTicket'
 type Props = {}
 
-const statusOptions = [
-  {
-    value: 'all',
-    label: 'Tất cả'
-  },
-  {
-    value: 'active',
-    label: 'Hoạt động'
-  },
-  {
-    value: 'inactive',
-    label: 'Ngưng hoạt động'
-  }
-]
 interface IOption {
   value: string
   label: string
@@ -33,11 +20,13 @@ const AddNumberPage = (props: Props) => {
     value: '',
     label: ''
   })
+  const modalContentRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const { serviceName } = useSelector((state: RootState) => state.service)
-  
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { addNumberDetail } = useSelector((state: RootState) => state.number)
   const dispatch = useDispatch<AppDispatch>()
+
   // Lấy danh sách tên dịch vụ
   useEffect(() => {
     dispatch(fetchServicesName())
@@ -60,18 +49,21 @@ const AddNumberPage = (props: Props) => {
     setSelectedOption(data)
   }
 
-const handleSubmit = (e: any) => {
-  e.preventDefault()
-  if (selectedOption) {
-    const numberData: IAddNumber = {
-      tenDichVu: selectedOption.value,
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    if (selectedOption) {
+      const numberData: IAddNumber = {
+        tenDichVu: selectedOption.value
+      }
+      dispatch(addNumber(numberData)).then(() => {
+        setIsModalOpen(true)
+      })
     }
-
-    dispatch(addNumber(numberData)).then(() => {
-      message.success('Thêm thành công')
-    })
   }
-}
+
+  const handleCancel = () => {
+    setIsModalOpen(false)
+  }
 
   return (
     <div className='pt-10 '>
@@ -109,6 +101,14 @@ const handleSubmit = (e: any) => {
           </div>
         </div>
       </div>
+      <ModalTicket
+        isModalOpen={isModalOpen}
+        handleCancel={handleCancel}
+        STT={addNumberDetail.STT}
+        tenDichVu={addNumberDetail.tenDichVu}
+        thoiGianCap={addNumberDetail.thoiGianCap}
+        hanSuDung={addNumberDetail.hanSuDung}
+      ></ModalTicket>
     </div>
   )
 }
