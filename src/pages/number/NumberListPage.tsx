@@ -293,11 +293,11 @@ const NumberListPage = (props: Props) => {
             )}
           </div>
         </div>
-        <div className=' flex-shink-0 flex h-[250px] flex-col items-end gap-5 p-5'>
+        <div className=' flex-shink-0 flex h-[350px] flex-col items-end gap-5 p-5'>
           <NavLink
             to='/number/number-list/add-new-number'
             className={
-              'flex h-[80px] w-[180px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] py-5 text-primary shadow'
+              'flex h-[120px] w-[120px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] p-5 text-primary shadow'
             }
           >
             <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
@@ -316,12 +316,12 @@ const NumberListPage = (props: Props) => {
                 />
               </svg>
             </div>
-            <span>Cấp số có thông tin</span>
+            <span className='text-center'>Cấp số có thông tin</span>
           </NavLink>
           <NavLink
             to='/number/number-list/add-new-number-without-infor'
             className={
-              'flex h-[80px] w-[180px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] py-5 text-primary shadow'
+              'flex h-[120px] w-[120px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] p-5 text-primary shadow'
             }
           >
             <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
@@ -336,7 +336,7 @@ const NumberListPage = (props: Props) => {
                 <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
               </svg>
             </div>
-            <span>Cấp số không thông tin</span>
+            <span className='text-center'>Cấp số không thông tin</span>
           </NavLink>
         </div>
       </div>

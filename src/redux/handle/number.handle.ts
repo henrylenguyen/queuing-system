@@ -20,3 +20,8 @@ export const fetchNumberDetailFulfilled = (state: INumberState, action: any) => 
   state.error = null
   state.numberDetail = action.payload
 }
+export const fetchAddNumberFulfilled = (state: INumberState, action: any) => {
+  state.isLoading = false
+  state.error = null
+  state.addNumberDetail = action.payload
+}

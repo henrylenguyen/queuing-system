@@ -1,6 +1,6 @@
-import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from '@firebase/firestore'
+import { Timestamp, addDoc, collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from '@firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { INumber } from 'constants/interface/number.interface'
+import { IAddNumber, INumber } from 'constants/interface/number.interface'
 import { clearNumberDetail } from 'redux/slice/numberSlice'
 import db from 'service/db.connect'
 import { endOfDay, format } from 'date-fns'
@@ -29,7 +29,27 @@ export const fetchNumberDetail = createAsyncThunk('auth/fetchNumberDetail', asyn
   }
 })
 
-export const addNumber = createAsyncThunk('auth/addNumber', async (tenDichVu: string) => {
+export const addNumber = createAsyncThunk('auth/addNumber', async (data: IAddNumber) => {
+  const { tenDichVu, nguonCap, tenKhachHang, email, soDienThoai } = data
+
+  // Gán giá trị mặc định cho các trường không được cung cấp từ form
+  const defaultNguonCap = 'Kiosk'
+  const defaultTenKhachHang = ''
+  const defaultEmail = ''
+  const defaultSoDienThoai = ''
+
+  const numberData = {
+    STT: 0,
+    tenDichVu: tenDichVu,
+    thoiGianCap: Timestamp.fromDate(new Date()),
+    hanSuDung: Timestamp.fromDate(endOfDay(new Date())),
+    trangThai: 'pending',
+    nguonCap: nguonCap || defaultNguonCap,
+    tenKhachHang: tenKhachHang || defaultTenKhachHang,
+    email: email || defaultEmail,
+    soDienThoai: soDienThoai || defaultSoDienThoai
+  }
+
   try {
     const numberRef = collection(db, 'numbers')
 
@@ -40,17 +60,23 @@ export const addNumber = createAsyncThunk('auth/addNumber', async (tenDichVu: st
     // Tìm số lớn nhất trong danh sách
     const maxSTT = numbers.reduce((max, number) => Math.max(max, number.STT), 0)
 
-    // Tạo thông tin cho số mới
-    const newNumberData = {
-      STT: maxSTT + 1,
-      tenDichVu: tenDichVu,
-      thoiGianCap: serverTimestamp(),
-      hanSuDung: endOfDay(new Date()),
-      trangThai: 'pending'
-    }
+    // Cập nhật STT cho số mới
+    numberData.STT = maxSTT + 1
 
     // Thêm số mới vào Firestore
-    const newNumberRef = await addDoc(numberRef, newNumberData)
+    const newNumberRef = await addDoc(numberRef, numberData)
+    // Format lại thời gian sử dụng và thời gian cấp
+    const formattedHanSuDung = format(numberData.hanSuDung.toDate(), 'dd/MM/yyyy HH:mm:ss')
+    const formattedThoiGianCap = format(numberData.thoiGianCap.toDate(), 'dd/MM/yyyy HH:mm:ss')
+
+    // Tạo một đối tượng mới với các trường đã được định dạng
+    const formattedNewNumberData = {
+      ...numberData,
+      hanSuDung: formattedHanSuDung,
+      thoiGianCap: formattedThoiGianCap
+    }
+
+    return { id: newNumberRef.id, ...formattedNewNumberData }
   } catch (error) {
     console.error('Lỗi khi thêm số mới:', error)
     throw error

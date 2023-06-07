@@ -15,7 +15,10 @@ const Dropdown = ({ control, name, options, defaultValue, ...props }) => {
     label: option.label,
     value: option.value
   }))
-
+  const handleChange = (selectedOption) => {
+    onChange(selectedOption?.value)
+    if (props.onChange) props.onChange(selectedOption)
+  }
   const defaultOption = defaultValue ? { label: defaultValue, value: defaultValue } : null
 
   return (
@@ -23,7 +26,7 @@ const Dropdown = ({ control, name, options, defaultValue, ...props }) => {
       options={selectOptions}
       defaultValue={defaultOption}
       onChange={(selectedOption) => {
-        onChange(selectedOption?.value)
+        handleChange(selectedOption)
       }}
       className={`${props.errors ? 'border border-red-500' : 'border border-gray-300'} ${props.className} border-none`}
     />

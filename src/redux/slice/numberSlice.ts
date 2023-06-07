@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IHanle } from 'constants/interface/handle.interface'
-import { INumber } from 'constants/interface/number.interface'
-import { fetchNumberDetail } from 'redux/action/numbers/numberDetail.action'
+import { IAddNumber, INumber } from 'constants/interface/number.interface'
+import { addNumber, fetchNumberDetail } from 'redux/action/numbers/numberDetail.action'
 import {
   fetchDeviceNameOfNumber,
   fetchNumbers,
@@ -9,6 +9,7 @@ import {
 } from 'redux/action/numbers/numberList.action'
 import { handleError, handlePending } from 'redux/handle'
 import {
+  fetchAddNumberFulfilled,
   fetchNumberDetailFulfilled,
   fetchNumberDeviceFulfilled,
   fetchNumberFulfilled,
@@ -30,6 +31,8 @@ export interface INumberState extends IHanle {
     tenNguonCap: string
   }[]
   numberDetail: INumber
+  addNumberDetail: IAddNumber
+  serviceSelectedOfOnchange: string
 }
 const initialState: INumberState = {
   numbers: [],
@@ -52,7 +55,11 @@ const initialState: INumberState = {
     hanSuDung: '',
     soDienThoai: '',
     email: ''
-  }
+  },
+  addNumberDetail: {
+    tenDichVu: ''
+  },
+  serviceSelectedOfOnchange: ''
 }
 
 const numberSlice = createSlice({
@@ -70,6 +77,9 @@ const numberSlice = createSlice({
     },
     onChangeNumberDatePicker: (state, action) => {
       state.selectedDateRange = action.payload
+    },
+    onChangeNumberServiceSelected: (state, action) => {
+      state.serviceSelectedOfOnchange = action.payload
     },
     clearNumberDetail: (state) => {
       state.numberDetail = {
@@ -100,6 +110,9 @@ const numberSlice = createSlice({
       .addCase(fetchNumberDetail.pending, handlePending)
       .addCase(fetchNumberDetail.fulfilled, fetchNumberDetailFulfilled)
       .addCase(fetchNumberDetail.rejected, handleError)
+      .addCase(addNumber.pending, handlePending)
+      .addCase(addNumber.fulfilled, fetchAddNumberFulfilled)
+      .addCase(addNumber.rejected, handleError)
   }
 })
 export const {
@@ -107,7 +120,8 @@ export const {
   onChangeNumberServices,
   onChangeNumberDevices,
   onChangeNumberDatePicker,
-  clearNumberDetail
+  clearNumberDetail,
+  onChangeNumberServiceSelected
 } = numberSlice.actions
 const numberReducer = numberSlice.reducer
 export default numberReducer

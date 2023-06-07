@@ -1,7 +1,5 @@
-import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
-import { deviceField } from 'constants/fields/device.fields'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,6 +7,7 @@ import { AppDispatch, RootState } from 'redux/store'
 import { fetchServicesName } from 'redux/action/services/serviceList.action'
 import { addNumber } from 'redux/action/numbers/numberDetail.action'
 import { message } from 'antd'
+import { IAddNumber } from 'constants/interface/number.interface'
 type Props = {}
 
 const statusOptions = [
@@ -36,6 +35,8 @@ const AddNumberPage = (props: Props) => {
   })
   const navigate = useNavigate()
   const { serviceName } = useSelector((state: RootState) => state.service)
+  
+  const { addNumberDetail } = useSelector((state: RootState) => state.number)
   const dispatch = useDispatch<AppDispatch>()
   // Lấy danh sách tên dịch vụ
   useEffect(() => {
@@ -59,15 +60,19 @@ const AddNumberPage = (props: Props) => {
     setSelectedOption(data)
   }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    if (selectedOption) {
-      dispatch(addNumber(selectedOption.value)).then(() => {
-        message.success('Thêm thành công')
-      })
-
+const handleSubmit = (e: any) => {
+  e.preventDefault()
+  if (selectedOption) {
+    const numberData: IAddNumber = {
+      tenDichVu: selectedOption.value,
     }
+
+    dispatch(addNumber(numberData)).then(() => {
+      message.success('Thêm thành công')
+    })
   }
+}
+
   return (
     <div className='pt-10 '>
       <PageInfor />

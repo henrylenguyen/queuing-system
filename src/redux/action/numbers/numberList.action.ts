@@ -55,19 +55,25 @@ export const fetchServicesNameOfNumber = createAsyncThunk('device/fetchServicesN
   }
 })
 // ------------------LẤY RA TÊN NGUỒN CẤP TRONG NUMBERS------------------------
-
 export const fetchDeviceNameOfNumber = createAsyncThunk('device/fetchDeviceNameOfNumber', async () => {
   try {
     const deviceRef = collection(db, 'numbers')
     const snapshot = await getDocs(deviceRef)
 
-    const devices = snapshot.docs.map((doc) => {
-      const deviceData = doc.data()
-      const deviceID = doc.id
-      const tenNguonCap = deviceData.nguonCap // Lấy giá trị của trường "nguonCap"
+    const uniqueNames = new Set<string>() // Chỉ định kiểu dữ liệu của Set là string
 
-      return { id: deviceID, tenNguonCap } // Trả về tên dịch vụ và id
-    })
+    const devices: { id: string; tenNguonCap: any }[] = snapshot.docs.reduce((result, doc) => {
+      const deviceData = doc.data()
+      const deviceID: string = doc.id // Chỉ định kiểu dữ liệu của deviceID là string
+      const tenNguonCap: any = deviceData.nguonCap // Chỉ định kiểu dữ liệu của tenNguonCap
+
+      if (!uniqueNames.has(tenNguonCap)) {
+        uniqueNames.add(tenNguonCap) // Thêm tên vào Set để kiểm tra trùng lặp
+        result.push({ id: deviceID, tenNguonCap }) // Trả về tên dịch vụ và id
+      }
+
+      return result
+    }, [] as { id: string; tenNguonCap: any }[]) // Sử dụng kiểu dữ liệu mặc định cho mảng khi không có phần tử
 
     return devices
   } catch (error) {

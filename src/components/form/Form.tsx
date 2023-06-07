@@ -57,7 +57,7 @@ const Form = ({
     placeholder: string,
     className?: string,
     readOnly?: boolean,
-    value?: string,
+    value?: string
   ) => {
     const isPasswordVisible = passwordFields[index]
 
@@ -157,15 +157,28 @@ const Form = ({
                     {label}
                   </label>
                   {type === 'select' ? (
-                    <Dropdown
-                      defaultValue={value}
-                      control={control}
-                      placeholder={placeholder}
-                      name={name}
-                      options={options}
-                      errors={errors[name]}
-                      className={className}
-                    />
+                    onChange ? (
+                      <Dropdown
+                        defaultValue={value}
+                        control={control}
+                        placeholder={placeholder}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        className={className}
+                        onChange={onChange}
+                      />
+                    ) : (
+                      <Dropdown
+                        defaultValue={value}
+                        control={control}
+                        placeholder={placeholder}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        className={className}
+                      />
+                    )
                   ) : type === 'selectmuti' ? (
                     <TreeSelect
                       defaultValue={value}
@@ -257,15 +270,28 @@ const Form = ({
                     {label}
                   </label>
                   {type === 'select' ? (
-                    <Dropdown
-                      defaultValue={value}
-                      control={control}
-                      placeholder={placeholder}
-                      name={name}
-                      options={options}
-                      errors={errors[name]}
-                      className={className}
-                    />
+                    onChange ? (
+                      <Dropdown
+                        defaultValue={value}
+                        control={control}
+                        placeholder={placeholder}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        className={className}
+                        onChange={onChange}
+                      />
+                    ) : (
+                      <Dropdown
+                        defaultValue={value}
+                        control={control}
+                        placeholder={placeholder}
+                        name={name}
+                        options={options}
+                        errors={errors[name]}
+                        className={className}
+                      />
+                    )
                   ) : type === 'selectmuti' ? (
                     <TreeSelect
                       defaultValue={value}
