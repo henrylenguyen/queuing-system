@@ -422,3 +422,12 @@ yarn add react-to-print
 
 
 ```
+
+## xlsx file-saver (dùng để export excel)
+
+```bash
+
+yarn add xlsx file-saver @types/file-saver
+
+
+```
