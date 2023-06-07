@@ -10,10 +10,13 @@ export const fetchDevices = createAsyncThunk('device/fetchDevices', async () => 
     const snapshot = await getDocs(devicesRef)
 
     const devices = snapshot.docs.map((doc) => {
-      const deviceData = doc.data()
+      const deviceData = doc.data() as { tenThietBi: string; [key: string]: any }
       const deviceId = doc.id
       return { id: deviceId, ...deviceData }
     })
+
+    // Sắp xếp tenThietBi từ A-Z
+    devices.sort((a, b) => a.tenThietBi.localeCompare(b.tenThietBi))
 
     return devices
   } catch (error) {
