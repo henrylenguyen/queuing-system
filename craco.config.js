@@ -27,16 +27,19 @@ module.exports = {
         path: require.resolve('path-browserify'),
         os: require.resolve('os-browserify/browser'),
         http: require.resolve('stream-http'),
-        https: require.resolve('https-browserify')
+        https: require.resolve('https-browserify'),
       }
 
       webpackConfig.resolve.alias = {
         ...webpackConfig.resolve.alias,
-        fs: path.resolve(__dirname, 'src/fs.js') // Tạo một alias tới empty module cho fs
+        fs: path.resolve(__dirname, 'src/fs.js'), // Tạo một alias tới empty module cho fs
+        process: "process/browser"
+
       }
 
       webpackConfig.plugins.push(
         new webpack.ProvidePlugin({
+          test: /\.m?js/,
           Buffer: ['buffer', 'Buffer'],
           process: 'process/browser'
         })

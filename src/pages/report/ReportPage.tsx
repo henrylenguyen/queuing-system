@@ -16,7 +16,8 @@ import { INumber } from 'constants/interface/number.interface'
 import { onChangeNumberDatePicker } from 'redux/slice/numberSlice'
 import moment from 'moment'
 import dayjs from 'dayjs'
-import { saveAs } from 'file-saver'
+import ExcelJS from 'exceljs'
+// import 
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
@@ -27,8 +28,8 @@ type TransformedData = Omit<INumber, 'id'> & { trangThai: string }
 
 
 const ReportPage = (props: Props) => {
+
   const { numbers, selectedDateRange } = useSelector((state: RootState) => state.number)
-  console.log('file: ReportPage.tsx:31 ~ numbers:', numbers)
   const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
   const dispatch = useDispatch<AppDispatch>()
   const [filteredData, setFilteredData] = useState<INumber[]>(numbers)
@@ -117,7 +118,98 @@ const ReportPage = (props: Props) => {
     },
     [dispatch]
   )
-  const exportExcel = (): void => {}
+
+const exportExcel = useCallback(() => {
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Sheet 1');
+
+  // Merge cells for the title row
+  worksheet.mergeCells(1, 1, 1, columns.length);
+
+  // Add title row
+  const title = `Báo cáo hệ thống cấp số ngày: ${new Date().toLocaleString()}`;
+  const titleRow = worksheet.getRow(1);
+  titleRow.getCell(1).value = title;
+  titleRow.getCell(1).font = {
+    bold: true,
+    size: 20
+  };
+  titleRow.getCell(1).alignment = {
+    vertical: 'middle',
+    horizontal: 'center'
+  };
+  titleRow.height = 40; // Set title row height
+
+  // Tạo header cho bảng
+  columns.forEach((column, index) => {
+    const headerCell = worksheet.getCell(2, index + 1);
+    headerCell.value = column.title;
+    headerCell.font = {
+      bold: true,
+      size: 14
+    };
+    headerCell.alignment = {
+      vertical: 'middle',
+      horizontal: 'center'
+    };
+    headerCell.border = {
+      top: { style: 'thin' },
+      left: { style: 'thin' },
+      bottom: { style: 'thin' },
+      right: { style: 'thin' }
+    };
+    worksheet.getRow(2).height = 24; // Set header row height
+  });
+
+  // Thêm dữ liệu cho bảng
+  filteredData.forEach((item, rowIndex) => {
+    columns.forEach((column, colIndex) => {
+      const dataIndex = column.dataIndex as keyof INumber; // Type assertion
+      const cell = worksheet.getCell(rowIndex + 3, colIndex + 1);
+      cell.value = item[dataIndex];
+      cell.alignment = {
+        vertical: 'middle',
+        horizontal: 'center'
+      };
+      cell.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+    });
+    worksheet.getRow(rowIndex + 3).height = 30; // Set row height for data rows
+  });
+
+  // Tự động dãn cột để hiển thị nội dung
+  worksheet.columns.forEach((column) => {
+    if (column && column.eachCell) {
+      // Check if column and eachCell method are defined
+      column.width = 30; // Set column width
+      let maxCellWidth = 0;
+      column.eachCell({ includeEmpty: true }, (cell) => {
+        const cellWidth: number = cell.value ? String(cell.value).length : 0;
+        maxCellWidth = Math.max(maxCellWidth, cellWidth);
+      });
+      column.width = Math.min(maxCellWidth, 30); // Add extra padding to the column width
+    }
+  });
+
+  // Tạo tên file và xuất file Excel
+  const fileName = `queusing-system ${new Date().toLocaleString()}.xlsx`;
+  workbook.xlsx.writeBuffer().then((buffer) => {
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+}, [columns, filteredData]);
+
+
+
 
 
   return (
@@ -151,7 +243,7 @@ const ReportPage = (props: Props) => {
           <div
             onClick={exportExcel}
             className={
-              'flex h-[100px] w-[100px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] p-5 text-primary shadow'
+              'flex h-[100px] w-[100px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] p-5 text-primary shadow cursor-pointer'
             }
           >
             <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
@@ -172,6 +264,7 @@ const ReportPage = (props: Props) => {
             </div>
             <span className='text-center'>Tải về</span>
           </div>
+        
         </div>
       </div>
     </div>
