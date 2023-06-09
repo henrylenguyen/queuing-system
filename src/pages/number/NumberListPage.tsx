@@ -105,7 +105,6 @@ const NumberListPage = (props: Props) => {
 
   // --------------------------Lọc tìm kiếm----------------------
 
-
   const filteredDevices = useMemo(() => {
     let filteredDevices = numbers
 
@@ -136,7 +135,6 @@ const NumberListPage = (props: Props) => {
 
     return filteredDevices
   }, [numbers, selectedServices, selectedStatus, selectedDevice, selectedDateRange])
-
 
   // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
   useEffect(() => {
@@ -226,13 +224,13 @@ const NumberListPage = (props: Props) => {
     },
     [dispatch]
   )
-const handleTimePickerChange = useCallback(
-  (data: any) => {
-    const formattedDates = data?.map((date: Date) => dayjs(date).format('DD/MM/YYYY HH:mm:ss'))
-    dispatch(onChangeNumberDatePicker(formattedDates))
-  },
-  [dispatch]
-)
+  const handleTimePickerChange = useCallback(
+    (data: any) => {
+      const formattedDates = data?.map((date: Date) => dayjs(date).format('DD/MM/YYYY HH:mm:ss'))
+      dispatch(onChangeNumberDatePicker(formattedDates))
+    },
+    [dispatch]
+  )
 
   return (
     <div className='pt-10 '>

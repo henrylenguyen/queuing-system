@@ -10,6 +10,6 @@ export interface INumber extends IAddNumber {
   id: string
   STT: number
   thoiGianCap: string
-  hanSuDung: string
-  trangThai: string
+  hanSuDung: string 
+  trangThai: string 
 }
