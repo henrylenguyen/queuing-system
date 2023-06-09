@@ -92,3 +92,58 @@ export const fetchReport = createAsyncThunk('report/fetchReport', async () => {
     throw error
   }
 })
+
+
+
+
+export const fetchReportDeviceAndService = createAsyncThunk('report/fetchReportDeviceAndService', async () => {
+  try {
+    const devicesRef = collection(db, 'devices')
+    const devicesSnapshot = await getDocs(devicesRef)
+    const devices = devicesSnapshot.docs.map((doc) => {
+      const deviceData = doc.data() as { tenThietBi: string; trangThaiHoatDong: boolean; [key: string]: any }
+      const deviceId = doc.id
+      return { id: deviceId, ...deviceData }
+    })
+
+    const servicesRef = collection(db, 'services')
+    const servicesSnapshot = await getDocs(servicesRef)
+    const services = servicesSnapshot.docs.map((doc) => {
+      const serviceData = doc.data() as { tenDichVu: string; trangThaiHoatDong: boolean; [key: string]: any }
+      const serviceId = doc.id
+      return { id: serviceId, ...serviceData }
+    })
+
+    const devicesTotal = devices.length
+    const activeDevices = devices.filter((device) => device.trangThaiHoatDong).length
+    const inactiveDevices = devices.filter((device) => !device.trangThaiHoatDong).length
+    const devicesPercent = ((activeDevices - inactiveDevices) / devicesTotal) * 100
+
+    const servicesTotal = services.length
+    const activeServices = services.filter((service) => service.trangThaiHoatDong).length
+    const inactiveServices = services.filter((service) => !service.trangThaiHoatDong).length
+    const servicesPercent = ((activeServices - inactiveServices) / servicesTotal) * 100
+
+    const result = [
+      {
+        name: 'devices',
+        total: devicesTotal,
+        active: activeDevices,
+        inactive: inactiveDevices,
+        percent: devicesPercent.toFixed(2)
+      },
+      {
+        name: 'services',
+        total: servicesTotal,
+        active: activeServices,
+        inactive: inactiveServices,
+        percent: servicesPercent.toFixed(2)
+      }
+    ]
+
+    return result
+  } catch (error) {
+    console.error('Lỗi khi lấy dữ liệu:', error)
+    throw error
+  }
+})

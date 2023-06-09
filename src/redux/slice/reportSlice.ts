@@ -1,21 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IHanle } from 'constants/interface/handle.interface'
 import { INumber } from 'constants/interface/number.interface'
-import { IReport } from 'constants/interface/report.interface'
-import { fetchReport } from 'redux/action/report/report.action'
+import { IReport ,IReportDeviceAndService} from 'constants/interface/report.interface'
+import { fetchReport, fetchReportDeviceAndService } from 'redux/action/report/report.action'
 
 import { handleError, handlePending } from 'redux/handle'
-import { fetchReportNumberFulfilled } from 'redux/handle/report.hanle'
+import { fetchReportNumberFulfilled, fetchReportServiceAndDeviceFulfilled } from 'redux/handle/report.hanle'
 
 export interface IReportState extends IHanle {
   reports: IReport
   selectedDateRange: [string, string]
+  reportsServiceAndDevice: IReportDeviceAndService[]
 }
 const initialState: IReportState = {
   reports: {
     total: [],
     numbers: []
   },
+  reportsServiceAndDevice: [],
   isLoading: true,
   error: null,
   selectedDateRange: ['', '']
@@ -30,6 +32,9 @@ const reportSlice = createSlice({
       .addCase(fetchReport.pending, handlePending)
       .addCase(fetchReport.fulfilled, fetchReportNumberFulfilled)
       .addCase(fetchReport.rejected, handleError)
+      .addCase(fetchReportDeviceAndService.pending, handlePending)
+      .addCase(fetchReportDeviceAndService.fulfilled, fetchReportServiceAndDeviceFulfilled)
+      .addCase(fetchReportDeviceAndService.rejected, handleError)
   }
 })
 export const {} = reportSlice.actions

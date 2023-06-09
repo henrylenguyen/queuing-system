@@ -12,3 +12,10 @@ export interface IReport {
   }[]
   numbers: INumber[]
 }
+export interface IReportDeviceAndService {
+  name: string
+  total: number
+  active: number
+  inactive: number
+  percent: number
+}
