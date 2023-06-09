@@ -2,8 +2,13 @@ import { INumber } from './number.interface'
 
 export interface IReport {
   total: {
+    id: string
     name: string
-    amount: number
+    amountInMonth: number
+    amountLastMonth: number
+    statistical: string
+    increase: boolean
+    decrease: boolean
   }[]
-  sortedNumbers: INumber[]
+  numbers: INumber[]
 }

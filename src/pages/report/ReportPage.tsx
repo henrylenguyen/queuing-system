@@ -22,7 +22,7 @@ const ReportPage = (props: Props) => {
   const { reports, selectedDateRange,isLoading } = useSelector((state: RootState) => state.report)
   const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
   const dispatch = useDispatch<AppDispatch>()
-  const [filteredData, setFilteredData] = useState<INumber[]>(reports.sortedNumbers)
+  const [filteredData, setFilteredData] = useState<INumber[]>(reports.numbers)
   //-------------------------GỌI DỮ LIỆU TỪ FIRESTORE-----------------------
   useEffect(() => {
     dispatch(fetchReport())
@@ -31,7 +31,7 @@ const ReportPage = (props: Props) => {
   // --------------------------Lọc tìm kiếm----------------------
 
   const filteredDevices = useMemo(() => {
-    let filteredDevices = reports.sortedNumbers
+    let filteredDevices = reports.numbers
 
     if (selectedDateRange?.length === 2 && selectedDateRange[0] !== '' && selectedDateRange[1] !== '') {
       const startDate = moment(selectedDateRange[0], 'DD/MM/YYYY HH:mm:ss')
@@ -60,8 +60,8 @@ const ReportPage = (props: Props) => {
   //------------------------------SỬ LÝ BẢNG----------------------------------
   // 1. Lấy ra tất cả các key của object
   const getKeys = useCallback(() => {
-    if (reports && reports.sortedNumbers.length > 0) {
-      return Object.keys(reports.sortedNumbers[0])
+    if (reports && reports?.numbers?.length > 0) {
+      return Object.keys(reports?.numbers[0])
     } else {
       return []
     }
@@ -131,7 +131,7 @@ const ReportPage = (props: Props) => {
                     </div>
                   </div>
                 </div>
-                {reports.sortedNumbers.length > 0 ? (
+                {reports.numbers.length > 0 ? (
                   <CustomTable key={renderCount} data={filteredData} columns={columns} Key={'STT'}></CustomTable>
                 ) : (
                   ''

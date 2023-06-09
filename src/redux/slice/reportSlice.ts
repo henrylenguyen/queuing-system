@@ -14,7 +14,7 @@ export interface IReportState extends IHanle {
 const initialState: IReportState = {
   reports: {
     total: [],
-    sortedNumbers: []
+    numbers: []
   },
   isLoading: true,
   error: null,
