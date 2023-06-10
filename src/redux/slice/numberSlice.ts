@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IHanle } from 'constants/interface/handle.interface'
-import { IAddNumber, INumber } from 'constants/interface/number.interface'
-import { addNumber, fetchNumberDetail } from 'redux/action/numbers/numberDetail.action'
+import { INumber } from 'constants/interface/number.interface'
+import { addNumber, fetchNumberDetail, updateNumber } from 'redux/action/numbers/numberDetail.action'
 import {
   fetchDeviceNameOfNumber,
   fetchNumbers,
@@ -13,7 +13,8 @@ import {
   fetchNumberDetailFulfilled,
   fetchNumberDeviceFulfilled,
   fetchNumberFulfilled,
-  fetchNumberServiceFulfilled
+  fetchNumberServiceFulfilled,
+  fetchUpdateNumberFulfilled
 } from 'redux/handle/number.handle'
 
 export interface INumberState extends IHanle {
@@ -33,6 +34,7 @@ export interface INumberState extends IHanle {
   numberDetail: INumber
   addNumberDetail: INumber
   serviceSelectedOfOnchange: string
+  updateNumberDetail: boolean
 }
 const initialState: INumberState = {
   numbers: [],
@@ -64,7 +66,8 @@ const initialState: INumberState = {
     hanSuDung: '',
     trangThai: ''
   },
-  serviceSelectedOfOnchange: ''
+  serviceSelectedOfOnchange: '',
+  updateNumberDetail: false
 }
 
 const numberSlice = createSlice({
@@ -98,7 +101,10 @@ const numberSlice = createSlice({
         hanSuDung: '',
         soDienThoai: '',
         email: ''
-      }
+      };
+    },
+    clearStatusUpdate: (state)=>{
+      state.updateNumberDetail = false
     }
   },
   extraReducers: (builder) => {
@@ -118,6 +124,9 @@ const numberSlice = createSlice({
       .addCase(addNumber.pending, handlePending)
       .addCase(addNumber.fulfilled, fetchAddNumberFulfilled)
       .addCase(addNumber.rejected, handleError)
+      .addCase(updateNumber.pending, handlePending)
+      .addCase(updateNumber.fulfilled, fetchUpdateNumberFulfilled)
+      .addCase(updateNumber.rejected, handleError)
   }
 })
 export const {
@@ -126,7 +135,8 @@ export const {
   onChangeNumberDevices,
   onChangeNumberDatePicker,
   clearNumberDetail,
-  onChangeNumberServiceSelected
+  onChangeNumberServiceSelected,
+  clearStatusUpdate
 } = numberSlice.actions
 const numberReducer = numberSlice.reducer
 export default numberReducer

@@ -1,6 +1,6 @@
-import { Timestamp, addDoc, collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from '@firebase/firestore'
+import { Timestamp, addDoc, collection, doc, getDoc, getDocs, updateDoc } from '@firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IAddNumber, INumber } from 'constants/interface/number.interface'
+import { IAddNumber } from 'constants/interface/number.interface'
 import { clearNumberDetail } from 'redux/slice/numberSlice'
 import db from 'service/db.connect'
 import { endOfDay, format } from 'date-fns'
@@ -80,5 +80,27 @@ export const addNumber = createAsyncThunk('auth/addNumber', async (data: IAddNum
   } catch (error) {
     console.error('Lỗi khi thêm số mới:', error)
     throw error
+  }
+})
+
+//----------------------CẬP NHẬT TRẠNG THÁI--------------------------
+
+export const updateNumber = createAsyncThunk('auth/updateNumber', async (data: { id: string; trangThai: string }) => {
+  const { id, trangThai } = data
+
+  try {
+    const numberRef = doc(db, 'numbers', id)
+    const snapshot = await getDoc(numberRef)
+
+    if (snapshot.exists()) {
+      // Cập nhật trạng thái của số
+      await updateDoc(numberRef, { trangThai })
+
+      return true
+    } else {
+      throw new Error('ID không tồn tại')
+    }
+  } catch (error) {
+    throw new Error('Lỗi khi cập nhật trạng thái')
   }
 })
