@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { IAuth, IChangePass } from 'constants/interface/auth.interface'
+import { IAuth } from 'constants/interface/auth.interface'
 
 export const loginFulfilled = (state: any, action: PayloadAction<IAuth>) => {
   state.isLoading = false

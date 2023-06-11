@@ -1,12 +1,12 @@
+import Loading from 'components/loading/Loading'
 import Navbar from 'components/navbar/Navbar'
-import { useSelector, useDispatch } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import { RootState, AppDispatch } from '../../redux/store'
-import { changeStateNav } from 'redux/slice/navSlice'
-import { useLocalStorage } from 'usehooks-ts'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { fetchUserLogin } from 'redux/action/users/auth.action'
-import Loading from 'components/loading/Loading'
+import { changeStateNav } from 'redux/slice/navSlice'
+import { useLocalStorage } from 'usehooks-ts'
+import { AppDispatch, RootState } from '../../redux/store'
 type Props = {
   children?: React.ReactNode
 }
@@ -27,7 +27,7 @@ const DashBoardLayout = ({ children }: Props) => {
       dispatch(fetchUserLogin(isLogin.id))
     }
   }, [])
-  
+
   return (
     <>
       {isLogin.islogin &&

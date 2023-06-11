@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { IAuth, IChangePass } from 'constants/interface/auth.interface'
-import db from 'service/db.connect'
-import { collection, query, where, limit, getDocs, getDoc, doc, updateDoc } from 'firebase/firestore'
 import bcrypt from 'bcryptjs'
+import { IAuth, IChangePass } from 'constants/interface/auth.interface'
+import { collection, doc, getDoc, getDocs, limit, query, updateDoc, where } from 'firebase/firestore'
+import db from 'service/db.connect'
 interface LoginPayload {
   taiKhoan: string
   matKhau: string

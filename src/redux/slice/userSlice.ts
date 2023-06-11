@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { addUser, fetchUserRole, fetchUsers } from 'redux/action/users/users.action'
+import { addUser, fetchUserDetail, fetchUserRole, fetchUsers } from 'redux/action/users/users.action'
 import { IAuth } from 'constants/interface/auth.interface'
-import { AddUserFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from 'redux/handle/user.handle'
+import { AddUserFulfilled, fetchUserDetailFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from 'redux/handle/user.handle'
 import { handleError, handlePending } from 'redux/handle'
 import { IHanle } from 'constants/interface/handle.interface'
 
@@ -13,9 +13,10 @@ export interface UserState extends IHanle {
   }[]
   selectedRole: string
   addUserSuccess: {
-    success:boolean,
+    success: boolean
     message: string
   }
+  userDetail: IAuth
 }
 const initialState: UserState = {
   users: [],
@@ -24,8 +25,19 @@ const initialState: UserState = {
   userRole: [],
   selectedRole: 'all',
   addUserSuccess: {
-    success:false,
+    success: false,
     message: ''
+  },
+  userDetail: {
+    id: '',
+    email: '',
+    hoTen: '',
+    matKhau: '',
+    soDienThoai: '',
+    taiKhoan: '',
+    trangThai: '',
+    vaiTro: '',
+    avatar: ''
   }
 }
 const userSlice = createSlice({
@@ -40,6 +52,19 @@ const userSlice = createSlice({
         success: false,
         message: ''
       }
+    },
+    clearUserDetail: (state)=>{
+      state.userDetail = {
+        id: '',
+        email: '',
+        hoTen: '',
+        matKhau: '',
+        soDienThoai: '',
+        taiKhoan: '',
+        trangThai: '',
+        vaiTro: '',
+        avatar: ''
+      }
     }
   },
   extraReducers: (builder) => {
@@ -53,8 +78,11 @@ const userSlice = createSlice({
       .addCase(addUser.pending, handlePending)
       .addCase(addUser.fulfilled, AddUserFulfilled)
       .addCase(addUser.rejected, handleError)
+      .addCase(fetchUserDetail.pending, handlePending)
+      .addCase(fetchUserDetail.fulfilled, fetchUserDetailFulfilled)
+      .addCase(fetchUserDetail.rejected, handleError)
   }
 })
-export const { onChangeSelectedRole, clearStatus } = userSlice.actions
+export const { onChangeSelectedRole, clearStatus, clearUserDetail } = userSlice.actions
 const usersReducer = userSlice.reducer
 export default usersReducer

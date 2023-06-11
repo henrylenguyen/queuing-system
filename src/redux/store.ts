@@ -6,6 +6,7 @@ import devicesReducer from './slice/devices.slice'
 import servicesReducer from './slice/services.slice'
 import numberReducer from './slice/numberSlice'
 import reportReducer from './slice/reportSlice'
+import roleReducer from './slice/role.slice'
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     device: devicesReducer,
     service: servicesReducer,
     number: numberReducer,
-    report: reportReducer
+    report: reportReducer,
+    role: roleReducer
   }
 })
 export type RootState = ReturnType<typeof store.getState>

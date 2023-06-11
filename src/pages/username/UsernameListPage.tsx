@@ -12,7 +12,6 @@ import removeVietnameseTones from 'utils/convertVietnamese'
 import getColumnDeviceConfig from 'utils/dataColumn'
 type Props = {}
 
-
 const UsernameListPage = React.memo((props: Props) => {
   const { users, userRole, selectedRole } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch<AppDispatch>()
@@ -49,7 +48,6 @@ const UsernameListPage = React.memo((props: Props) => {
     }
   }, [users])
 
-
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
 
@@ -63,15 +61,7 @@ const UsernameListPage = React.memo((props: Props) => {
   const dataIndexKey = getDataIndexKey()
 
   // 3. Tạo ra mảng title chứa các đối tượng title khác nhau, do mình nhập
-  const dataTitle = [
-    'Tài khoản',
-    'Họ tên',
-    'Số điện thoại',
-    'Email',
-    'Vai trò',
-    'Trạng thái hoạt động',
-    'Tùy chỉnh'
-  ]
+  const dataTitle = ['Tài khoản', 'Họ tên', 'Số điện thoại', 'Email', 'Vai trò', 'Trạng thái hoạt động', 'Tùy chỉnh']
 
   const columns = dataTitle.map((title) => {
     // biến chữ tiếng việt có dấu thành không dấu
@@ -85,7 +75,6 @@ const UsernameListPage = React.memo((props: Props) => {
 
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
-
   })
   // ------------------LẤY VAI TRÒ NGƯỜI DÙNG-------------
   const RoleOfUsers = useCallback(() => {

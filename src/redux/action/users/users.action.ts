@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IAuth } from 'constants/interface/auth.interface'
 import db from 'service/db.connect'
-import { collection, getDocs, DocumentData, addDoc } from 'firebase/firestore'
+import { collection, getDocs, DocumentData, addDoc, getDoc, doc } from 'firebase/firestore'
 import bcrypt from 'bcryptjs'
+import { clearUserDetail } from 'redux/slice/userSlice'
 
 // ------------------------LẤY DANH SÁCH NGƯỜI DÙNG-------------------------
 export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
@@ -87,6 +88,23 @@ export const addUser = createAsyncThunk('user/addUser', async (newUser: IAuth) =
     return { success: true, message: 'Thêm mới tài khoản thành công' }
   } catch (error) {
     console.error('Lỗi khi thêm tài khoản mới:', error)
+    throw error
+  }
+})
+// -------------------- LẤY THÔNG TIN USER ---------------------
+
+export const fetchUserDetail = createAsyncThunk('user/fetchUserDetail', async (id: string, { dispatch }) => {
+  try {
+    dispatch(clearUserDetail())
+    const userDoc = await getDoc(doc(db, 'users', id))
+    if (userDoc.exists()) {
+      const userData = userDoc.data() as IAuth
+      return { ...userData, id }
+    } else {
+      throw new Error('Tài khoản không tồn tại')
+    }
+  } catch (error) {
+    console.error(error)
     throw error
   }
 })

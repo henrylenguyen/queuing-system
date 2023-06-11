@@ -1,22 +1,28 @@
 import { message } from 'antd'
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
-import usernameFields from 'constants/fields/username.field'
 import { DeviceShema } from 'constants/schemas/Device.schema'
 import { UsernameShema } from 'constants/schemas/Username.schema'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { fetchRoles, fetchRolesName } from 'redux/action/roles/roleList.action'
 import { addUser } from 'redux/action/users/users.action'
 import { clearStatus } from 'redux/slice/userSlice'
 import { AppDispatch, RootState } from 'redux/store'
+import { IFields } from '../../constants/interface/formInterface'
 
 type Props = {}
 
 const AddUsernamePage = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>()
   const { addUserSuccess } = useSelector((state: RootState) => state.user)
+  const { roleName } = useSelector((state: RootState) => state.role)
   const navigate = useNavigate()
+  useEffect(() => {
+    dispatch(fetchRolesName())
+  }, [])
+
   useEffect(() => {
     if (addUserSuccess.success) {
       message.success(`${addUserSuccess.message}`, 2).then(() => {
@@ -32,6 +38,99 @@ const AddUsernamePage = (props: Props) => {
       dispatch(clearStatus())
     })
   }
+
+  const RoleNameOfUsers = useCallback(() => {
+    const newUserRole = roleName?.map((user) => {
+      return {
+        value: user.tenVaiTro,
+        label: user.tenVaiTro
+      }
+    })
+  return newUserRole
+  }, [roleName])
+  const roleNameOfUsers = RoleNameOfUsers()
+
+  const getUsernameFields = useCallback((): IFields[] => {
+    return [
+      {
+        label: 'Họ tên *',
+        name: 'hoTen',
+        type: 'text',
+        placeholder: 'abc',
+        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Tên đăng nhập *',
+        name: 'taiKhoan',
+        type: 'text',
+        placeholder: 'abc',
+        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Số điện thoại *',
+        name: 'soDienThoai',
+        type: 'tel',
+        placeholder: '0123456789',
+        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Mật khẩu *',
+        name: 'matKhau',
+        type: 'password',
+        placeholder: '***********',
+        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Email *',
+        name: 'email',
+        type: 'email',
+        placeholder: 'example@abc.com',
+        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Nhập lại mật khẩu *',
+        name: 'nhapLaiMatKhau',
+        type: 'password',
+        placeholder: '***********',
+        className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Vai trò *',
+        name: 'vaiTro',
+        type: 'select',
+        options: roleNameOfUsers,
+        placeholder: 'Kế toán',
+        className: 'bg-white w-full border border-[#D4D4D7] rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      },
+      {
+        label: 'Tình trạng *',
+        name: 'trangThaiHoatDong',
+        type: 'select',
+        options: [
+          {
+            label: 'Hoạt động',
+            value: 'Hoạt động'
+          },
+          {
+            label: 'Ngưng hoạt động',
+            value: 'Ngưng hoạt động'
+          }
+        ],
+        placeholder: 'Chọn tình trạng',
+        className: 'bg-white w-full border border-[#D4D4D7] rounded-md ',
+        classNameDiv: 'col-span-2 w-full h-full'
+      }
+    ]
+  }, [roleNameOfUsers])
+
+  const usernameFields= getUsernameFields()
   return (
     <div className='pt-10 '>
       <PageInfor />

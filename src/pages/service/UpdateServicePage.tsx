@@ -14,7 +14,6 @@ type Props = {}
 
 const UpdateServicePage = (props: Props) => {
   const { serviceDetail } = useSelector((state: RootState) => state.service)
-  console.log('file: UpdateServicePage.tsx:19 ~ serviceDetail:', serviceDetail)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   // dùng useLocation để lấy ra id sau dấu ?
