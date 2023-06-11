@@ -154,7 +154,7 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/setting/role-manegement',
+      path: '/role/role-manegement',
       element: (
         <DashBoardLayout>
           <RoleListPage />
@@ -162,7 +162,7 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/setting/role-manegement/add-role-manegement',
+      path: '/role/role-manegement/add-role-manegement',
       element: (
         <DashBoardLayout>
           <AddRolePage />
@@ -170,7 +170,7 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/setting/account-manegement',
+      path: '/account/account-list',
       element: (
         <DashBoardLayout>
           <UsernameListPage />
@@ -178,7 +178,7 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/setting/account-manegement/add-new-account',
+      path: '/account/account-list/add-new-account',
       element: (
         <DashBoardLayout>
           <AddUsernamePage />
@@ -186,7 +186,7 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/setting/account-manegement/update-account',
+      path: '/account/account-list/update-account',
       element: (
         <DashBoardLayout>
           <UpdateUsernamePage />
@@ -194,7 +194,7 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/setting/user-diary',
+      path: '/user/user-diary',
       element: (
         <DashBoardLayout>
           <UserLog />

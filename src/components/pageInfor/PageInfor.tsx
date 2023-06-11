@@ -67,8 +67,8 @@ const PageInfor = () => {
       case 'report-list':
         part = 'Lập báo cáo'
         break
-      case 'setting':
-        part = 'Cài đặt hệ thống'
+      case 'account':
+        part = 'Quản lý tài khoản'
         break
       case 'role-manegement':
         part = 'Quản lý vai trò'
@@ -76,8 +76,8 @@ const PageInfor = () => {
       case 'add-role-manegement':
         part = 'Thêm vai trò'
         break
-      case 'account-manegement':
-        part = 'Quản lý tài khoản'
+      case 'account-list':
+        part = 'Danh sách tài khoản'
         break
       case 'add-new-account':
         part = 'Thêm tài khoản'

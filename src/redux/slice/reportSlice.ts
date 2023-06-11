@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IHanle } from 'constants/interface/handle.interface'
 import { INumber } from 'constants/interface/number.interface'
-import { IReport ,IReportDeviceAndService} from 'constants/interface/report.interface'
+import { IReport, IReportDeviceAndService } from 'constants/interface/report.interface'
 import { fetchReport, fetchReportDeviceAndService } from 'redux/action/report/report.action'
 
 import { handleError, handlePending } from 'redux/handle'
@@ -26,7 +26,11 @@ const initialState: IReportState = {
 const reportSlice = createSlice({
   name: 'report',
   initialState,
-  reducers: {},
+  reducers: {
+    onChangeNumberDatePickerReport: (state, action) => {
+      state.selectedDateRange = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchReport.pending, handlePending)
@@ -37,6 +41,6 @@ const reportSlice = createSlice({
       .addCase(fetchReportDeviceAndService.rejected, handleError)
   }
 })
-export const {} = reportSlice.actions
+export const { onChangeNumberDatePickerReport } = reportSlice.actions
 const reportReducer = reportSlice.reducer
 export default reportReducer

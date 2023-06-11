@@ -13,16 +13,17 @@ import dayjs from 'dayjs'
 import ExportToExcel from 'components/excel/ExportToExcel'
 import Loading from 'components/loading/Loading'
 import { fetchReport } from 'redux/action/report/report.action'
+import { onChangeNumberDatePickerReport } from 'redux/slice/reportSlice'
 // import
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
 
 const ReportPage = (props: Props) => {
-  const { reports, selectedDateRange,isLoading } = useSelector((state: RootState) => state.report)
+  const { reports, selectedDateRange, isLoading } = useSelector((state: RootState) => state.report)
   const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
   const dispatch = useDispatch<AppDispatch>()
-  const [filteredData, setFilteredData] = useState<INumber[]>(reports.numbers)
+  const [filteredDataReport, setFilteredDataReport] = useState<INumber[]>(reports.numbers)
   //-------------------------GỌI DỮ LIỆU TỪ FIRESTORE-----------------------
   useEffect(() => {
     dispatch(fetchReport())
@@ -30,14 +31,14 @@ const ReportPage = (props: Props) => {
 
   // --------------------------Lọc tìm kiếm----------------------
 
-  const filteredDevices = useMemo(() => {
-    let filteredDevices = reports.numbers
+  const FilterReport = useMemo(() => {
+    let filterReport = reports.numbers
 
     if (selectedDateRange?.length === 2 && selectedDateRange[0] !== '' && selectedDateRange[1] !== '') {
       const startDate = moment(selectedDateRange[0], 'DD/MM/YYYY HH:mm:ss')
       const endDate = moment(selectedDateRange[1], 'DD/MM/YYYY HH:mm:ss')
 
-      filteredDevices = filteredDevices.filter((reports) => {
+      filterReport = filterReport.filter((reports) => {
         const thoiGianCap = moment(reports.thoiGianCap, 'DD/MM/YYYY HH:mm:ss')
         const hanSuDung = moment(reports.hanSuDung, 'DD/MM/YYYY HH:mm:ss')
 
@@ -48,14 +49,14 @@ const ReportPage = (props: Props) => {
       })
     }
 
-    return filteredDevices
-  }, [reports])
+    return filterReport
+  }, [reports, selectedDateRange])
 
   // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
   useEffect(() => {
-    setFilteredData(filteredDevices) // Cập nhật state khi danh sách thiết bị thay đổi
+    setFilteredDataReport(FilterReport) // Cập nhật state khi danh sách thiết bị thay đổi
     setRenderCount((prevCount) => prevCount + 1)
-  }, [filteredDevices])
+  }, [FilterReport])
 
   //------------------------------SỬ LÝ BẢNG----------------------------------
   // 1. Lấy ra tất cả các key của object
@@ -102,7 +103,7 @@ const ReportPage = (props: Props) => {
   const handleTimePickerChange = useCallback(
     (data: any) => {
       const formattedDates = data?.map((date: Date) => dayjs(date).format('DD/MM/YYYY HH:mm:ss'))
-      dispatch(onChangeNumberDatePicker(formattedDates))
+      dispatch(onChangeNumberDatePickerReport(formattedDates))
     },
     [dispatch]
   )
@@ -110,7 +111,7 @@ const ReportPage = (props: Props) => {
   return (
     <>
       {isLoading ? (
-        <Loading/>
+        <Loading />
       ) : (
         <div className='pt-10 '>
           <PageInfor />
@@ -132,7 +133,7 @@ const ReportPage = (props: Props) => {
                   </div>
                 </div>
                 {reports.numbers.length > 0 ? (
-                  <CustomTable key={renderCount} data={filteredData} columns={columns} Key={'STT'}></CustomTable>
+                  <CustomTable key={renderCount} data={filteredDataReport} columns={columns} Key={'STT'}></CustomTable>
                 ) : (
                   ''
                 )}
@@ -142,7 +143,7 @@ const ReportPage = (props: Props) => {
               <ExportToExcel
                 title={`Báo cáo hệ thống cấp số ngày: ${new Date().toLocaleString()}`}
                 columns={columns}
-                filteredData={filteredData}
+                filteredData={filteredDataReport}
                 fileName={`queusing-system ${new Date().toLocaleString()}.xlsx`}
                 className={
                   'flex h-[100px] w-[100px] cursor-pointer flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] p-5 text-primary shadow'

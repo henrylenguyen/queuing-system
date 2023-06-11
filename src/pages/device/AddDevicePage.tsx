@@ -1,15 +1,15 @@
+import { message } from 'antd'
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
-import { DeviceShema } from 'schemas/Device.schema'
-import { AppDispatch, RootState } from 'redux/store'
-import { useDispatch, useSelector } from 'react-redux'
-import { v4 as uuidv4 } from 'uuid'
-import { postDevices } from 'redux/action/devices/deviceList.action'
-import { useNavigate } from 'react-router-dom'
-import { message } from 'antd'
-import { useCallback, useEffect } from 'react'
 import { IFields } from 'constants/interface/formInterface'
+import { DeviceShema } from 'constants/schemas/Device.schema'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { postDevices } from 'redux/action/devices/deviceList.action'
 import { fetchServicesName } from 'redux/action/services/serviceList.action'
+import { AppDispatch, RootState } from 'redux/store'
+import { v4 as uuidv4 } from 'uuid'
 
 type Props = {}
 

@@ -5,10 +5,16 @@ export const DeviceShema = yup
     tenThietBi: yup.string().required('Tên thiết bị là bắt buộc'),
     diaChiIP: yup.string().required('Địa chỉ IP là bắt buộc'),
     dichVuSuDung: yup
-      .array()
-      .of(yup.string())
-      .min(1, 'Vui lòng chọn ít nhất một tùy chọn')
-      .required('Vui lòng chọn ít nhất một tùy chọn'),
+    .array()
+    .transform((value, originalValue) => {
+      if (originalValue === '') {
+        return [];
+      }
+      return value;
+    })
+    .of(yup.string())
+    .required('Vui lòng chọn ít nhất một tùy chọn')
+    .min(1, 'Vui lòng chọn ít nhất một tùy chọn'),
     loaiThietBi: yup.string().required('Loại thiết bị là bắt buộc'),
     taiKhoan: yup.string().required('Tài khoản là bắt buộc'),
     matKhau: yup.string().required('Mật khẩu là bắt buộc')

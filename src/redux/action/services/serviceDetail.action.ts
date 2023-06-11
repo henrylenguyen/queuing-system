@@ -25,7 +25,6 @@ export const fetchServiceDetail = createAsyncThunk('auth/fetchServiceDetail', as
 export const updateService = createAsyncThunk(
   'auth/updateService',
   async ({ id, updateServiceData }: { id: string; updateServiceData: Partial<IServices> }) => {
-    console.log("file: deviceDetail.action.ts:26 ~ updateServiceData:", updateServiceData)
     try {
       const serviceDocRef = doc(db, 'services', id)
       const serviceDoc = await getDoc(serviceDocRef)

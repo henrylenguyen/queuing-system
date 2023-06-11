@@ -1,7 +1,7 @@
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { deviceField } from 'constants/fields/device.fields'
-import { DeviceShema } from 'schemas/Device.schema'
+import { DeviceShema } from 'constants/schemas/Device.schema'
 
 type Props = {}
 const handleSubmit = (data: any) => {

@@ -1,11 +1,10 @@
-import React from 'react'
 import Form from 'components/form/Form'
-import { LoginShema } from 'schemas/Login.schema'
 import profileFields from 'constants/fields/profile.fields'
-import ProfileImage from './ProfileImage'
+import { DynamicObject } from 'constants/interface/formInterface'
+import { LoginShema } from 'constants/schemas/Login.schema'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
-import { DynamicObject } from 'constants/interface/formInterface'
+import ProfileImage from './ProfileImage'
 
 type Props = {}
 

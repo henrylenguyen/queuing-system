@@ -1,22 +1,20 @@
+import { message } from 'antd'
 import Form from 'components/form/Form'
-import PageInfor from 'components/pageInfor/PageInfor'
-import { ServiceShema } from 'schemas/Service.schema'
-import { serviceFields } from 'constants/fields/service.fields'
 import Loading from 'components/loading/Loading'
+import PageInfor from 'components/pageInfor/PageInfor'
+import { serviceFields } from 'constants/fields/service.fields'
+import { IServices } from 'constants/interface/service.interface'
+import { ServiceShema } from 'constants/schemas/Service.schema'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { updateDevice } from 'redux/action/devices/deviceDetail.action'
-import { AppDispatch, RootState } from 'redux/store'
-import { IDeviceManagement } from 'constants/interface/device.interface'
-import { message } from 'antd'
 import { fetchServiceDetail, updateService } from 'redux/action/services/serviceDetail.action'
-import { IServices } from 'constants/interface/service.interface'
+import { AppDispatch, RootState } from 'redux/store'
 type Props = {}
 
 const UpdateServicePage = (props: Props) => {
   const { serviceDetail } = useSelector((state: RootState) => state.service)
-  console.log("file: UpdateServicePage.tsx:19 ~ serviceDetail:", serviceDetail)
+  console.log('file: UpdateServicePage.tsx:19 ~ serviceDetail:', serviceDetail)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   // dùng useLocation để lấy ra id sau dấu ?

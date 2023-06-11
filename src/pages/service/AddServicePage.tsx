@@ -1,16 +1,15 @@
+import { message } from 'antd'
 import Form from 'components/form/Form'
 import PageInfor from 'components/pageInfor/PageInfor'
-import { useEffect } from 'react'
-import { ServiceShema } from 'schemas/Service.schema'
-import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from 'redux/store'
 import { serviceFields } from 'constants/fields/service.fields'
-import { addService, fetchServicesName } from 'redux/action/services/serviceList.action'
-import { v4 as uuidv4 } from 'uuid'
-import { message } from 'antd'
+import { ServiceShema } from 'constants/schemas/Service.schema'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { addService, fetchServicesName } from 'redux/action/services/serviceList.action'
 import { resetStatus } from 'redux/slice/services.slice'
+import { AppDispatch, RootState } from 'redux/store'
+import { v4 as uuidv4 } from 'uuid'
 
 type Props = {}
 interface InputValue {

@@ -87,14 +87,14 @@ export const navbar = [
 export const settingNav = [
   {
     name: 'Quản lý vai trò',
-    to: '/setting/role-manegement'
+    to: '/role/role-manegement'
   },
   {
     name: 'Quản lý tài khoản',
-    to: '/setting/account-manegement'
+    to: '/account/account-list'
   },
   {
     name: 'Quản lý người dùng',
-    to: '/setting/user-diary'
+    to: '/user/user-diary'
   }
 ]

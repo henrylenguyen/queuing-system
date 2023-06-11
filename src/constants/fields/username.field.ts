@@ -3,7 +3,7 @@ import { IFields } from 'constants/interface/formInterface'
 const usernameFields: IFields[] = [
   {
     label: 'Họ tên *',
-    name: 'name',
+    name: 'hoTen',
     type: 'text',
     placeholder: 'abc',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -12,7 +12,7 @@ const usernameFields: IFields[] = [
 
   {
     label: 'Tên đăng nhập *',
-    name: 'username',
+    name: 'taiKhoan',
     type: 'text',
     placeholder: 'abc',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -20,7 +20,7 @@ const usernameFields: IFields[] = [
   },
   {
     label: 'Số điện thoại *',
-    name: 'phone',
+    name: 'soDienThoai',
     type: 'tel',
     placeholder: '0123456789',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -28,7 +28,7 @@ const usernameFields: IFields[] = [
   },
   {
     label: 'Mật khẩu *',
-    name: 'password',
+    name: 'matKhau',
     type: 'password',
     placeholder: '***********',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -44,7 +44,7 @@ const usernameFields: IFields[] = [
   },
   {
     label: 'Nhập lại mật khẩu *',
-    name: 're-password',
+    name: 'nhapLaiMatKhau',
     type: 'password',
     placeholder: '***********',
     className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
@@ -52,7 +52,7 @@ const usernameFields: IFields[] = [
   },
   {
     label: 'Vai trò *',
-    name: 'role',
+    name: 'vaiTro',
     type: 'select',
     options: [
       {
@@ -69,12 +69,12 @@ const usernameFields: IFields[] = [
       }
     ],
     placeholder: 'Kế toán',
-    className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+    className: 'bg-white w-full border border-[#D4D4D7] rounded-md ',
     classNameDiv: 'col-span-2 w-full h-full'
   },
   {
     label: 'Tình trạng *',
-    name: 'status',
+    name: 'trangThaiHoatDong',
     type: 'select',
     options: [
       {
@@ -87,7 +87,7 @@ const usernameFields: IFields[] = [
       }
     ],
     placeholder: 'Chọn tình trạng',
-    className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+    className: 'bg-white w-full border border-[#D4D4D7] rounded-md ',
     classNameDiv: 'col-span-2 w-full h-full'
   }
 ]
