@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IAuth } from 'constants/interface/auth.interface'
 import db from 'service/db.connect'
-import { collection, getDocs, DocumentData, addDoc, getDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, DocumentData, addDoc, getDoc, doc, query, where, updateDoc } from 'firebase/firestore'
 import bcrypt from 'bcryptjs'
 import { clearUserDetail } from 'redux/slice/userSlice'
 
@@ -99,12 +99,62 @@ export const fetchUserDetail = createAsyncThunk('user/fetchUserDetail', async (i
     const userDoc = await getDoc(doc(db, 'users', id))
     if (userDoc.exists()) {
       const userData = userDoc.data() as IAuth
-      return { ...userData, id }
+      const {matKhau,...newUserData} = userData
+      return { ...newUserData, id }
     } else {
       throw new Error('Tài khoản không tồn tại')
     }
   } catch (error) {
     console.error(error)
+    throw error
+  }
+})
+
+
+//-------------CẬP NHẬT TÀI KHOẢN-------------
+export const updateUser = createAsyncThunk('user/updateUser', async (updatedUser: IAuth) => {
+  try {
+    const userRef = collection(db, 'users')
+
+    // Kiểm tra xem tài khoản đã tồn tại trong Firestore hay không
+    const querySnapshot = await getDocs(userRef)
+    const existingUsers = querySnapshot.docs.map((doc) => doc.data() as IAuth)
+
+    // Kiểm tra xem email và số điện thoại có trùng với người dùng khác không
+    const isExistingEmail = existingUsers.some(
+      (user) => user.email === updatedUser.email && user.taiKhoan !== updatedUser.taiKhoan
+    )
+    const isExistingSoDienThoai = existingUsers.some(
+      (user) => user.soDienThoai === updatedUser.soDienThoai && user.taiKhoan !== updatedUser.taiKhoan
+    )
+
+    if (isExistingEmail) {
+      return { success: false, message: 'Email đã tồn tại' }
+    }
+    if (isExistingSoDienThoai) {
+      return { success: false, message: 'Số điện thoại đã tồn tại' }
+    }
+
+    // Cập nhật thông tin người dùng trong Firestore
+    const userQuery = query(userRef, where('taiKhoan', '==', updatedUser.taiKhoan))
+    const userSnapshot = await getDocs(userQuery)
+
+    if (userSnapshot.empty) {
+      return { success: false, message: 'Tài khoản không tồn tại' }
+    }
+
+    const userDoc = userSnapshot.docs[0]
+    const userId = userDoc.id
+
+    // Mã hóa mật khẩu bằng bcryptjs
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(updatedUser.matKhau, saltRounds)
+
+    // Cập nhật thông tin người dùng trong Firestore với mật khẩu đã mã hóa
+    await updateDoc(doc(userRef, userId), { ...updatedUser, matKhau: hashedPassword })
+    return { success: true, message: 'Cập nhật thông tin tài khoản thành công' }
+  } catch (error) {
+    console.error('Lỗi khi cập nhật thông tin tài khoản:', error)
     throw error
   }
 })

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { addUser, fetchUserDetail, fetchUserRole, fetchUsers } from 'redux/action/users/users.action'
+import { addUser, fetchUserDetail, fetchUserRole, fetchUsers, updateUser } from 'redux/action/users/users.action'
 import { IAuth } from 'constants/interface/auth.interface'
-import { AddUserFulfilled, fetchUserDetailFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from 'redux/handle/user.handle'
+import { AddUserFulfilled, UpdateUserFulfilled, fetchUserDetailFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from 'redux/handle/user.handle'
 import { handleError, handlePending } from 'redux/handle'
 import { IHanle } from 'constants/interface/handle.interface'
 
@@ -17,6 +17,10 @@ export interface UserState extends IHanle {
     message: string
   }
   userDetail: IAuth
+  updateUserSuccess: {
+    success: boolean
+    message: string
+  }
 }
 const initialState: UserState = {
   users: [],
@@ -25,6 +29,10 @@ const initialState: UserState = {
   userRole: [],
   selectedRole: 'all',
   addUserSuccess: {
+    success: false,
+    message: ''
+  },
+  updateUserSuccess: {
     success: false,
     message: ''
   },
@@ -49,6 +57,12 @@ const userSlice = createSlice({
     },
     clearStatus: (state) => {
       state.addUserSuccess = {
+        success: false,
+        message: ''
+      }
+    },
+    clearUpdateStatus: (state) => {
+      state.updateUserSuccess = {
         success: false,
         message: ''
       }
@@ -81,8 +95,11 @@ const userSlice = createSlice({
       .addCase(fetchUserDetail.pending, handlePending)
       .addCase(fetchUserDetail.fulfilled, fetchUserDetailFulfilled)
       .addCase(fetchUserDetail.rejected, handleError)
+      .addCase(updateUser.pending, handlePending)
+      .addCase(updateUser.fulfilled, UpdateUserFulfilled)
+      .addCase(updateUser.rejected, handleError)
   }
 })
-export const { onChangeSelectedRole, clearStatus, clearUserDetail } = userSlice.actions
+export const { onChangeSelectedRole, clearStatus, clearUserDetail, clearUpdateStatus } = userSlice.actions
 const usersReducer = userSlice.reducer
 export default usersReducer

@@ -6,8 +6,8 @@ import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { fetchRolesName } from 'redux/action/roles/roleList.action'
-import { addUser, fetchUserDetail } from 'redux/action/users/users.action'
-import { clearStatus } from 'redux/slice/userSlice'
+import { addUser, fetchUserDetail, updateUser } from 'redux/action/users/users.action'
+import { clearStatus, clearUpdateStatus } from 'redux/slice/userSlice'
 import { AppDispatch, RootState } from 'redux/store'
 import { IFields } from '../../constants/interface/formInterface'
 import Loading from 'components/loading/Loading'
@@ -16,7 +16,7 @@ type Props = {}
 
 const UpdateUsernamePage = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>()
-  const { addUserSuccess, userDetail } = useSelector((state: RootState) => state.user)
+  const { updateUserSuccess, userDetail } = useSelector((state: RootState) => state.user)
   const { roleName } = useSelector((state: RootState) => state.role)
   const navigate = useNavigate()
   // dùng useLocation để lấy ra id sau dấu ?
@@ -29,18 +29,18 @@ const UpdateUsernamePage = (props: Props) => {
   }, [])
 
   useEffect(() => {
-    if (addUserSuccess.success) {
-      message.success(`${addUserSuccess.message}`, 2).then(() => {
+    if (updateUserSuccess.success) {
+      message.success(`${updateUserSuccess.message}`, 2).then(() => {
         navigate('/account/account-list')
       })
-    } else if (!addUserSuccess.success && addUserSuccess.message !== '') {
-      message.error(`${addUserSuccess.message}`, 2)
+    } else if (!updateUserSuccess.success && updateUserSuccess.message !== '') {
+      message.error(`${updateUserSuccess.message}`, 2)
     }
-  }, [addUserSuccess])
+  }, [updateUserSuccess])
   const handleSubmit = (data: any) => {
     const { nhapLaiMatKhau, ...newData } = data
-    dispatch(addUser(newData)).then(() => {
-      dispatch(clearStatus())
+    dispatch(updateUser(newData)).then(() => {
+      dispatch(clearUpdateStatus())
     })
   }
 
@@ -54,6 +54,14 @@ const UpdateUsernamePage = (props: Props) => {
     return newUserRole
   }, [roleName])
   const roleNameOfUsers = RoleNameOfUsers()
+  const newUserDetail = useCallback(() => {
+    return {
+      ...userDetail,
+      matKhau: '',
+      nhapLaiMatKhau: ''
+    }
+  }, [userDetail])
+  const newuserDetail = newUserDetail()
 
   const getUsernameFields = useCallback((): IFields[] => {
     return [
@@ -71,7 +79,8 @@ const UpdateUsernamePage = (props: Props) => {
         type: 'text',
         placeholder: 'abc',
         className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
-        classNameDiv: 'col-span-2 w-full h-full'
+        classNameDiv: 'col-span-2 w-full h-full',
+        readOnly: true
       },
       {
         label: 'Số điện thoại *',
@@ -152,10 +161,10 @@ const UpdateUsernamePage = (props: Props) => {
                     title='Thông tin thiết bị'
                     gap='30px'
                     titleButtonCancel='Hủy bỏ'
-                    titleButton='Thêm tài khoản'
+                    titleButton='Cập nhật tài khoản'
                     handleSubmitForm={handleSubmit}
                     to='/account/account-list'
-                    initialValues={userDetail}
+                    initialValues={newuserDetail}
                   />
                 </div>
               </div>
@@ -163,7 +172,7 @@ const UpdateUsernamePage = (props: Props) => {
           </div>
         </div>
       ) : (
-        <Loading/>
+        <Loading />
       )}
     </>
   )

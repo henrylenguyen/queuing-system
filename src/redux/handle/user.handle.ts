@@ -22,3 +22,8 @@ export const fetchUserDetailFulfilled = (state: UserState, action: any) => {
   state.error = null
   state.userDetail = action.payload
 }
+export const UpdateUserFulfilled = (state: UserState, action: any) => {
+  state.isLoading = false
+  state.error = null
+  state.updateUserSuccess = action.payload
+}

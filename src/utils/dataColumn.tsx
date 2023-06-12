@@ -38,7 +38,7 @@ const getColumnConfig = (
       dataIndex: dataIndexKeyItem?.dataIndex ?? '',
       key: dataIndexKeyItem?.key ?? '',
       render: (text: any, record: any) => {
-        return <NavLink to={`${path}/update-${pathTo}?${record.id}`}>Cập nhật</NavLink>
+        return record.vaiTro !=='quản trị'?<NavLink to={`${path}/update-${pathTo}?${record.id}`}>Cập nhật</NavLink>:""
       },
       align: 'center'
     }

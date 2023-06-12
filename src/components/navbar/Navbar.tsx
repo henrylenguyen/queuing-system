@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocalStorage } from 'usehooks-ts'
 import { AppDispatch, RootState } from 'redux/store'
 import { logOut } from 'redux/slice/authSlice'
-import { message } from 'antd'
+import { Modal, message } from 'antd'
 type Props = {}
 const Navbar = (props: Props) => {
   const { isActive } = useSelector((state: RootState) => state.navbar)
@@ -15,6 +15,12 @@ const Navbar = (props: Props) => {
   const [isSettingButtonHovered, setIsSettingButtonHovered] = useState(false)
   const [logged] = useLocalStorage('islogin', { islogin: false, id: '' })
   const navigate = useNavigate()
+
+ const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+
+
   const dispatch = useDispatch<AppDispatch>()
   const handleChangeMouseEnter = () => {
     setIsSettingButtonHovered(true)
@@ -24,14 +30,31 @@ const Navbar = (props: Props) => {
     setIsSettingButtonHovered(false)
     setForcus(!forcus)
   }
-  const handleLogout = () => {
-    if (logged) {
-      localStorage.removeItem('islogin')
-      dispatch(logOut())
-      message.info('Đăng xuất thành công')
+
+
+
+    const showModal = () => {
+      setOpen(true)
     }
-    navigate('/login')
-  }
+
+    const handleOk = () => {
+      setConfirmLoading(true)
+      setTimeout(() => {
+        if (logged) {
+          localStorage.removeItem('islogin')
+          dispatch(logOut())
+          message.info('Đăng xuất thành công')
+        }
+        navigate('/login')
+        setOpen(false)
+        setConfirmLoading(false)
+      }, 2000)
+    }
+
+    const handleCancel = () => {
+      console.log('Clicked cancel button')
+      setOpen(false)
+    }
   return (
     <div
       className={`flex w-[15%] flex-shrink-0 flex-col items-center justify-between bg-white py-8 min-[1500px]:h-screen ${
@@ -138,7 +161,7 @@ const Navbar = (props: Props) => {
           </div>
           <button
             className='flex w-[90%] items-center gap-3 rounded-lg bg-[#FFF2E7] p-3 text-primary'
-            onClick={() => handleLogout()}
+            onClick={showModal}
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -156,6 +179,9 @@ const Navbar = (props: Props) => {
             </svg>
             Đăng xuất
           </button>
+          <Modal title='Bạn có muốn đăng xuất hay không' open={open} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel}>
+            <p>Bạn sẽ được đăng xuất khỏi hệ thống khi bấm OK</p>
+          </Modal>
         </>
       )}
     </div>
