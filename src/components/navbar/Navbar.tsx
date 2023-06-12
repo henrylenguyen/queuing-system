@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import { Modal, message } from 'antd'
 import logo from 'assets/images/Logo-alta.svg'
 import setting from 'assets/images/setting.svg'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { settingNav, navbar } from 'constants/navbar'
+import { navbar, settingNav } from 'constants/navbar'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocalStorage } from 'usehooks-ts'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { logOut } from 'redux/slice/auth.slice'
 import { AppDispatch, RootState } from 'redux/store'
-import { logOut } from 'redux/slice/authSlice'
-import { Modal, message } from 'antd'
+import { useLocalStorage } from 'usehooks-ts'
 type Props = {}
 const Navbar = (props: Props) => {
   const { isActive } = useSelector((state: RootState) => state.navbar)
@@ -16,10 +16,8 @@ const Navbar = (props: Props) => {
   const [logged] = useLocalStorage('islogin', { islogin: false, id: '' })
   const navigate = useNavigate()
 
- const [open, setOpen] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-
-
+  const [open, setOpen] = useState(false)
+  const [confirmLoading, setConfirmLoading] = useState(false)
 
   const dispatch = useDispatch<AppDispatch>()
   const handleChangeMouseEnter = () => {
@@ -31,30 +29,28 @@ const Navbar = (props: Props) => {
     setForcus(!forcus)
   }
 
+  const showModal = () => {
+    setOpen(true)
+  }
 
-
-    const showModal = () => {
-      setOpen(true)
-    }
-
-    const handleOk = () => {
-      setConfirmLoading(true)
-      setTimeout(() => {
-        if (logged) {
-          localStorage.removeItem('islogin')
-          dispatch(logOut())
-          message.info('Đăng xuất thành công')
-        }
-        navigate('/login')
-        setOpen(false)
-        setConfirmLoading(false)
-      }, 2000)
-    }
-
-    const handleCancel = () => {
-      console.log('Clicked cancel button')
+  const handleOk = () => {
+    setConfirmLoading(true)
+    setTimeout(() => {
+      if (logged) {
+        localStorage.removeItem('islogin')
+        dispatch(logOut())
+        message.info('Đăng xuất thành công')
+      }
+      navigate('/login')
       setOpen(false)
-    }
+      setConfirmLoading(false)
+    }, 2000)
+  }
+
+  const handleCancel = () => {
+    console.log('Clicked cancel button')
+    setOpen(false)
+  }
   return (
     <div
       className={`flex w-[15%] flex-shrink-0 flex-col items-center justify-between bg-white py-8 min-[1500px]:h-screen ${
@@ -179,7 +175,13 @@ const Navbar = (props: Props) => {
             </svg>
             Đăng xuất
           </button>
-          <Modal title='Bạn có muốn đăng xuất hay không' open={open} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel}>
+          <Modal
+            title='Bạn có muốn đăng xuất hay không'
+            open={open}
+            onOk={handleOk}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+          >
             <p>Bạn sẽ được đăng xuất khỏi hệ thống khi bấm OK</p>
           </Modal>
         </>

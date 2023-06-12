@@ -1,4 +1,4 @@
-import { INumberState } from 'redux/slice/numberSlice'
+import { INumberState } from 'redux/slice/number.slice'
 
 export const fetchNumberFulfilled = (state: INumberState, action: any) => {
   state.isLoading = false

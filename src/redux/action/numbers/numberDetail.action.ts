@@ -1,9 +1,9 @@
 import { Timestamp, addDoc, collection, doc, getDoc, getDocs, updateDoc } from '@firebase/firestore'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IAddNumber } from 'constants/interface/number.interface'
-import { clearNumberDetail } from 'redux/slice/numberSlice'
-import db from 'service/db.connect'
 import { endOfDay, format } from 'date-fns'
+import { clearNumberDetail } from 'redux/slice/number.slice'
+import db from 'service/db.connect'
 
 // -------------------- LẤY THÔNG TIN CẤP SỐ  ---------------------
 

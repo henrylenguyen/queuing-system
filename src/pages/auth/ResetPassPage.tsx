@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { changePasswordAction, checkEmailExistence } from 'redux/action/users/auth.action'
-import { ResetIsChangePass } from 'redux/slice/authSlice'
+import { ResetIsChangePass } from 'redux/slice/auth.slice'
 import { AppDispatch, RootState } from 'redux/store'
 type Props = {}
 

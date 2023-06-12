@@ -1,4 +1,4 @@
-import { IReportState } from "redux/slice/reportSlice"
+import { IReportState } from 'redux/slice/report.slice'
 
 export const fetchReportNumberFulfilled = (state: IReportState, action: any) => {
   state.isLoading = false

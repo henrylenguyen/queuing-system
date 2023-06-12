@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import navSlice from './slice/navSlice'
-import usersReducer from './slice/userSlice'
-import authReducer from './slice/authSlice'
+import authReducer from './slice/auth.slice'
 import devicesReducer from './slice/devices.slice'
-import servicesReducer from './slice/services.slice'
-import numberReducer from './slice/numberSlice'
-import reportReducer from './slice/reportSlice'
+import diaryReducer from './slice/diary.slice'
+import navSlice from './slice/nav.slice'
+import numberReducer from './slice/number.slice'
+import reportReducer from './slice/report.slice'
 import roleReducer from './slice/role.slice'
+import servicesReducer from './slice/services.slice'
+import usersReducer from './slice/userSlice'
 
 const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
     service: servicesReducer,
     number: numberReducer,
     report: reportReducer,
-    role: roleReducer
+    role: roleReducer,
+    diary: diaryReducer
   }
 })
 export type RootState = ReturnType<typeof store.getState>

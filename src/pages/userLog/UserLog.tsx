@@ -1,91 +1,75 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Avatar, Image } from 'antd'
-import removeVietnameseTones from 'utils/convertVietnamese'
-import CustomTable from 'components/table/CustomTable'
-import getColumnDeviceConfig from 'utils/dataColumn'
+import DateRangePicker from 'components/datetime/DateRange'
+import Loading from 'components/loading/Loading'
 import PageInfor from 'components/pageInfor/PageInfor'
-import { NavLink } from 'react-router-dom'
-import Select from 'react-select'
+import CustomTable from 'components/table/CustomTable'
+import { IDiary } from 'constants/interface/diary.interface'
+import { INumber } from 'constants/interface/number.interface'
+import dayjs from 'dayjs'
+import moment from 'moment'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchDiaries } from 'redux/action/diary/diary.action'
+import { fetchReport } from 'redux/action/report/report.action'
+import { onChangeDiaryDatePickerReport } from 'redux/slice/diary.slice'
+import { onChangeNumberDatePickerReport } from 'redux/slice/report.slice'
+import { AppDispatch, RootState } from 'redux/store'
+import removeVietnameseTones from 'utils/convertVietnamese'
+import getColumnDeviceConfig from 'utils/dataColumn'
+// import
 type Props = {}
-const data = [
-  {
-    maThietBi: 'KO01',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?',
-    chiTiet: 'Chi tiết',
-    tuyChinh: 'Cập nhật'
-  },
-  {
-    maThietBi: 'KO03',
-    tenThietBi: 'Kiosk',
-    diaChiIP: '192.168.1.10',
-    trangThaiHoatDong: 'Ngưng hoạt động',
-    trangThaiKetNoi: 'Mất kết nối',
-    dichVuSuDung:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid tempora vero laboriosam beatae officia accusantium laudantium quam nobis explicabo eaque, possimus magni illum omnis a quod excepturi quos ullam dolor?'
-  }
-]
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
-const statusOptions = [
-  {
-    value: 'all',
-    label: 'Tất cả'
-  },
-  {
-    value: 'active',
-    label: 'Hoạt động'
-  },
-  {
-    value: 'inactive',
-    label: 'Ngưng hoạt động'
-  }
-]
-// ---------------------DROPDOWN trạng thái kết nối--------------------------
-const connectionOptions = [
-  {
-    value: 'all',
-    label: 'Tất cả'
-  },
-  {
-    value: 'connected',
-    label: 'Kết nối'
-  },
-  {
-    value: 'unconnected',
-    label: 'Mất kết nối'
-  }
-]
-const UserLog = (props: Props) => {
-  // useEffect(() => {
-  //   const newDataState = data?.map((item) => {
-  //     return {
-  //       ...item,
 
-  //     }
-  //   })
-  //   setNewData(newDataState)
-  // }, [])
-  // 1. Lấy ra tất cả các key của object
-  const getKeys = useCallback(() => {
-    return data && Object.keys(data[0])
+const UserLog = (props: Props) => {
+  const { diaries, isLoading, selectedDiaryDateRange } = useSelector((state: RootState) => state.diary)
+  const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
+  const dispatch = useDispatch<AppDispatch>()
+  const [filterDataDiary, setFilterDataDiary] = useState<IDiary[]>(diaries)
+  //-------------------------GỌI DỮ LIỆU TỪ FIRESTORE-----------------------
+  useEffect(() => {
+    dispatch(fetchDiaries())
   }, [])
 
-  /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
-  ví dụ: [
-    {
-      dataIndex: "maLichChieu",
-      key: "maLichChieu"
+  // --------------------------Lọc tìm kiếm----------------------
+
+const FilterUserDiary = useMemo(() => {
+  let filterUserDiary = diaries
+
+  if (selectedDiaryDateRange?.length === 2 && selectedDiaryDateRange[0] !== '' && selectedDiaryDateRange[1] !== '') {
+    const startDate = moment(selectedDiaryDateRange[0], 'DD/MM/YYYY HH:mm:ss')
+    const endDate = moment(selectedDiaryDateRange[1], 'DD/MM/YYYY HH:mm:ss')
+
+    filterUserDiary = filterUserDiary.filter((diary) => {
+      const thoiGianThucHien = moment(diary.thoiGianThucHien, 'DD/MM/YYYY HH:mm:ss')
+
+      return thoiGianThucHien.isBetween(startDate, endDate, undefined, '[]')
+    })
+  }
+
+  return filterUserDiary
+}, [diaries, selectedDiaryDateRange])
+
+  // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
+  useEffect(() => {
+    setFilterDataDiary(FilterUserDiary) // Cập nhật state khi danh sách thiết bị thay đổi
+    setRenderCount((prevCount) => prevCount + 1)
+  }, [FilterUserDiary])
+
+  //------------------------------SỬ LÝ BẢNG----------------------------------
+  // 1. Lấy ra tất cả các key của object
+  const getKeys = useCallback(() => {
+    if (diaries && diaries?.length > 0) {
+      return Object.keys(diaries[0])
+    } else {
+      return []
     }
-  ]
+  }, [diaries])
+
+  /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
+  
 */
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
-    console.log('file: DeviceListPage.tsx:89 ~ keys:', keys)
 
     return keys?.map((item) => {
       return {
@@ -97,28 +81,8 @@ const UserLog = (props: Props) => {
   const dataIndexKey = getDataIndexKey()
 
   // 3. Tạo ra mảng title chứa các đối tượng title khác nhau, do mình nhập
-  const dataTitle = [
-    'Mã thiết bị',
-    'Tên thiết bị',
-    'Địa chỉ IP',
-    'Trạng thái hoạt động',
-    'Trạng thái kết nối',
-    'Dịch vụ sử dụng',
-    'Chi tiết',
-    'Tùy chỉnh'
-  ]
+  const dataTitle = ['Tên đăng nhập', 'Thời gian thực hiện', 'IP thực hiện', 'Thao tác thực hiện']
 
-  /**
- * 4. Từ mảng đối tượng (3) kết hợp với mảng các đối tượng (4) thành
- *  
- * const columns = [
- * {
- *   title: "Mã lịch chiếu",
- *   dataIndex: "maLichChieu",
-     key: "maLichChieu"  
- * }
- * ]
- */
   const columns = dataTitle.map((title) => {
     // biến chữ tiếng việt có dấu thành không dấu
     const removeTone = removeVietnameseTones(title)
@@ -126,63 +90,56 @@ const UserLog = (props: Props) => {
    ví dụ: Mã lịch chiếu ->malichchieu
   */
     const newTitle = removeTone.replace(/\s+/g, '').toLowerCase()
-    console.log('file: DeviceListPage.tsx:130 ~ newTitle:', newTitle)
     // dùng hàm find để tìm từ mảng các đối tượng dataIndexKey, so sánh giữa key với newTitle phía trên. Lưu ý là phải chuyển về in thường để so sánh
     const dataIndexKeyItem = dataIndexKey.find((item) => item?.key.toLowerCase() === newTitle)
 
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
   })
-  console.log('file: DeviceListPage.tsx:136 ~ columns:', columns)
 
-  //---------------------------Tìm kiếm trạng thái hoạt động------------------
-  const handleStatusChange = (data: any) => {
-    console.log(data)
-  }
-  //---------------------------Tìm kiếm trạng thái kết nối------------------
-  const handleConnectionChange = (data: any) => {
-    console.log(data)
-  }
-  // ----------------------------Thêm cột chi tiết và tùy chỉn ----------------
+  const handleTimePickerChange = useCallback(
+    (data: any) => {
+      const formattedDates = data?.map((date: Date) => dayjs(date).format('DD/MM/YYYY HH:mm:ss'))
+      dispatch(onChangeDiaryDatePickerReport(formattedDates))
+    },
+    [dispatch]
+  )
 
   return (
-    <div className='pt-10 '>
-      <PageInfor />
-      <div className='flex h-full px-10 pt-14  max-[1440px]:px-5'>
-        <div className=' flex   flex-col justify-between overflow-hidden'>
-          <div>
-            <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Danh sách tài khoản</h3>
-            <div className='mt-10 flex justify-end'>
-              <div className='relative flex flex-col gap-2 '>
-                <span className='font-semibold'>Từ khoá</span>
-                <div className='w-[300px]'>
-                  <input
-                    type='text'
-                    className='w-full rounded-md border border-gray-300 bg-white p-2'
-                    placeholder='Nhập từ khóa'
-                  />
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='#FF7506'
-                    className='absolute right-2 top-1/2 h-6 w-6 cursor-pointer'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-                    />
-                  </svg>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className='pt-10 '>
+          <PageInfor />
+          <div className='flex h-full p-10 pt-14  '>
+            <div className=' flex   flex-col justify-between overflow-hidden'>
+              <div>
+                <div className='mt-10 flex justify-between gap-5'>
+                  <div className='flex justify-between gap-5'>
+                    <div className='flex  flex-col gap-2'>
+                      <span className='font-semibold'>Chọn thời gian</span>
+                      <div>
+                        <DateRangePicker
+                          handleChange={handleTimePickerChange}
+                          placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
+                          className='h-[38px]'
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                {diaries.length > 0 ? (
+                  <CustomTable key={renderCount} data={filterDataDiary} columns={columns} Key={'tenDangNhap'}></CustomTable>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
-            <CustomTable data={data} columns={columns} Key={'maThietBi'}></CustomTable>
           </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   )
 }
 

@@ -94,7 +94,7 @@ export const settingNav = [
     to: '/account/account-list'
   },
   {
-    name: 'Quản lý người dùng',
+    name: 'Nhật ký người dùng',
     to: '/user/user-diary'
   }
 ]

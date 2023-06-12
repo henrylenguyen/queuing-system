@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { fetchUserLogin } from 'redux/action/users/auth.action'
-import { changeStateNav } from 'redux/slice/navSlice'
+import { changeStateNav } from 'redux/slice/nav.slice'
 import { useLocalStorage } from 'usehooks-ts'
 import { AppDispatch, RootState } from '../../redux/store'
 type Props = {

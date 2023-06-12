@@ -1,13 +1,13 @@
+import { message } from 'antd'
+import Loading from 'components/loading/Loading'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { fetchNumberDetail, updateNumber } from 'redux/action/numbers/numberDetail.action'
-import { AppDispatch, RootState } from 'redux/store'
 import Select from 'react-select'
-import Loading from 'components/loading/Loading'
-import { message } from 'antd'
-import { clearStatusUpdate } from 'redux/slice/numberSlice'
+import { fetchNumberDetail, updateNumber } from 'redux/action/numbers/numberDetail.action'
+import { clearStatusUpdate } from 'redux/slice/number.slice'
+import { AppDispatch, RootState } from 'redux/store'
 
 type Props = {}
 

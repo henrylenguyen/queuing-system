@@ -1,27 +1,27 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import removeVietnameseTones from 'utils/convertVietnamese'
-import CustomTable from 'components/table/CustomTable'
-import getColumnDeviceConfig from 'utils/dataColumn'
+import DateRangePicker from 'components/datetime/DateRange'
 import PageInfor from 'components/pageInfor/PageInfor'
+import CustomTable from 'components/table/CustomTable'
+import { INumber } from 'constants/interface/number.interface'
+import dayjs from 'dayjs'
+import moment from 'moment'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Select from 'react-select'
-import DateRangePicker from 'components/datetime/DateRange'
-import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from 'redux/store'
 import {
   fetchDeviceNameOfNumber,
   fetchNumbers,
   fetchServicesNameOfNumber
 } from 'redux/action/numbers/numberList.action'
-import { INumber } from 'constants/interface/number.interface'
 import {
   onChangeNumberDatePicker,
   onChangeNumberDevices,
   onChangeNumberServices,
   onChangeNumberStatus
-} from 'redux/slice/numberSlice'
-import moment from 'moment'
-import dayjs from 'dayjs'
+} from 'redux/slice/number.slice'
+import { AppDispatch, RootState } from 'redux/store'
+import removeVietnameseTones from 'utils/convertVietnamese'
+import getColumnDeviceConfig from 'utils/dataColumn'
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------

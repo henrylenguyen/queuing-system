@@ -90,8 +90,8 @@ const getColumnConfig = (
       key: dataIndexKeyItem?.key ?? '',
       align: 'center',
       render: (text: any, record: any) => {
-        const status = text === true || text === 'Hoạt động' ? 'success' : 'error'
-        const displayText = text || (text === 'Hoạt động' ? 'Hoạt động' : 'Ngưng hoạt động')
+        const status = (text === true || text === 'Hoạt động') ? 'success' : 'error'
+        const displayText = text === true || text === 'Hoạt động' ? 'Hoạt động' : 'Ngưng hoạt động'
 
         return <Badge status={status} text={displayText} />
       }

@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
 import { addNumber } from 'redux/action/numbers/numberDetail.action'
 import { fetchServicesName } from 'redux/action/services/serviceList.action'
-import { onChangeNumberServiceSelected } from 'redux/slice/numberSlice'
+import { onChangeNumberServiceSelected } from 'redux/slice/number.slice'
 import { AppDispatch, RootState } from 'redux/store'
 
 type Props = {}

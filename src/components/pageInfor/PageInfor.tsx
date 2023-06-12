@@ -88,6 +88,9 @@ const PageInfor = () => {
       case 'user-diary':
         part = 'Nhật ký hoạt động'
         break
+      case 'user':
+        part = 'Cài đặt hệ thống'
+        break
       default:
         part = ''
         break
