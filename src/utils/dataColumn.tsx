@@ -17,8 +17,7 @@ const getColumnConfig = (
     title: title,
     dataIndex: dataIndexKeyItem?.dataIndex,
     key: dataIndexKeyItem?.key ?? '',
-    width: 200,
-    align: 'center'
+    width: 150,
   }
   if (newTitle === 'chitiet') {
     return {
@@ -27,9 +26,8 @@ const getColumnConfig = (
       dataIndex: dataIndexKeyItem?.dataIndex ?? '',
       key: dataIndexKeyItem?.key ?? '',
       render: (text: any, record: any) => {
-        return <NavLink to={`${path}/${pathTo}-detail?${record.id}`}>Chi tiết</NavLink>
+        return <NavLink className='text-[blue] underline' to={`${path}/${pathTo}-detail?${record.id}`}>Chi tiết</NavLink>
       },
-      align: 'center'
     }
   } else if (newTitle === 'tuychinh') {
     return {
@@ -38,9 +36,14 @@ const getColumnConfig = (
       dataIndex: dataIndexKeyItem?.dataIndex ?? '',
       key: dataIndexKeyItem?.key ?? '',
       render: (text: any, record: any) => {
-        return record.vaiTro !=='quản trị'?<NavLink to={`${path}/update-${pathTo}?${record.id}`}>Cập nhật</NavLink>:""
+        return record.vaiTro !== 'quản trị' ? (
+          <NavLink className='text-[blue] underline' to={`${path}/update-${pathTo}?${record.id}`}>
+            Cập nhật
+          </NavLink>
+        ) : (
+          ''
+        )
       },
-      align: 'center'
     }
   } else if (newTitle === 'dichvusudung') {
     return {
@@ -63,7 +66,6 @@ const getColumnConfig = (
           </>
         )
       },
-      align: 'center'
     }
   } else if (newTitle === 'mota') {
     return {
@@ -80,15 +82,13 @@ const getColumnConfig = (
           </>
         )
       },
-      align: 'center'
     }
   } else if (newTitle === 'trangthaihoatdong') {
     return {
       title: title,
-      width: 170,
+      width: 140,
       dataIndex: dataIndexKeyItem?.dataIndex ?? '',
       key: dataIndexKeyItem?.key ?? '',
-      align: 'center',
       render: (text: any, record: any) => {
         const status = (text === true || text === 'Hoạt động') ? 'success' : 'error'
         const displayText = text === true || text === 'Hoạt động' ? 'Hoạt động' : 'Ngưng hoạt động'
@@ -102,7 +102,6 @@ const getColumnConfig = (
       width: 150,
       dataIndex: dataIndexKeyItem?.dataIndex ?? '',
       key: dataIndexKeyItem?.key ?? '',
-      align: 'center',
       render: (text: any, record: any) => {
         return <Badge status={`${text ? 'success' : 'error'}`} text={`${text ? 'Kết nối' : 'Mất kết nối'}`} />
       }
@@ -113,7 +112,6 @@ const getColumnConfig = (
       width: 170,
       dataIndex: dataIndexKeyItem?.dataIndex ?? '',
       key: dataIndexKeyItem?.key ?? '',
-      align: 'center',
       render: (text: any, record: any) => {
         return (
           <Badge

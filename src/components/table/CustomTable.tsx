@@ -162,8 +162,10 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
         <Table
           className='custom-table'
           rowKey={Key}
+          pagination={{
+            className: 'custom-pagination'
+          }}
           dataSource={filteredData}
-          style={{zIndex:0,background:'red'}}
           scroll={{ x: 'max-content', y: 500 }}
           columns={columns.map((col) => {
             if (

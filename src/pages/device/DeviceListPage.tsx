@@ -4,11 +4,12 @@ import { IDeviceManagement } from 'constants/interface/device.interface'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import Select from 'react-select'
+import Select, { components } from 'react-select'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
 import { onChangeConnection, onChangeStatus } from 'redux/slice/devices.slice'
 import { AppDispatch, RootState } from 'redux/store'
 import removeVietnameseTones from 'utils/convertVietnamese'
+import colourStyles from 'utils/customSelect'
 import getColumnDeviceConfig from 'utils/dataColumn'
 type Props = {}
 
@@ -188,11 +189,21 @@ const DeviceListPage = React.memo((props: Props) => {
               <div className='flex gap-5'>
                 <div className='flex w-[300px] flex-col gap-2'>
                   <span className='font-semibold'>Trạng thái hoạt động</span>
-                  <Select options={statusOptions} onChange={handleStatusChange} placeholder='Chọn trạng thái' />
+                  <Select
+                    styles={colourStyles}
+                    options={statusOptions}
+                    onChange={handleStatusChange}
+                    placeholder='Chọn trạng thái'
+                  />
                 </div>
                 <div className='flex w-[300px] flex-col gap-2'>
                   <span className='font-semibold'>Trạng thái kết nối</span>
-                  <Select options={connectionOptions} onChange={handleConnectionChange} placeholder='Chọn trạng thái' />
+                  <Select
+                    styles={colourStyles}
+                    options={connectionOptions}
+                    onChange={handleConnectionChange}
+                    placeholder='Chọn trạng thái'
+                  />
                 </div>
               </div>
               <div className='relative flex flex-col gap-2 '>

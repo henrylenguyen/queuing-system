@@ -77,7 +77,6 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
 /* cho Chrome, Safari và Opera */
 ::-webkit-scrollbar {
   width: 5px;
-
 }
 
 ::-webkit-scrollbar-track {
@@ -110,16 +109,9 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   background-color: #e49f0c;
 }
 
-.ant-table-cell {
-}
-
 .disabled {
   pointer-events: none; /* Disable click events */
   opacity: 0.5; /* Make it visually appear disabled */
-}
-
-:where(.css-dev-only-do-not-override-15rg2km).ant-table-wrapper .ant-table-column-title {
-  z-index: 0;
 }
 
 // .ant-modal-content{
@@ -127,8 +119,43 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
 //   overflow: hidden;
 //   border-radius: 30px!important;
 // }
-.custom-table .ant-table-thead > tr > th {
 
-  background-color: #FF9138;
+// ---------------------------CUSTOM ANTD TABLE------------------
+.custom-table {
+  position: relative;
+  z-index: 0;
+  border-collapse: collapse;
+}
+// bỏ đi border mặc định của antd trong header
+.custom-table .ant-table-cell::before {
+  display: none;
+}
+.custom-table .ant-table-thead > tr > th {
+  color: white;
+  background-color: #ff9138;
   font-weight: bold;
+}
+// thêm border cho bảng
+.custom-table .ant-table-thead > tr > th,
+.custom-table .ant-table-tbody > tr > td {
+  border: 1px solid #ffe3cd;
+}
+// màu dòng lẽ
+.custom-table .ant-table-tbody > tr:nth-child(odd) {
+  background-color: #fff2e7;
+}
+
+// màu dòng chẵn
+.custom-table .ant-table-tbody > tr:nth-child(even) {
+  background-color: #fff;
+}
+
+// điều chỉnh pagination
+.custom-pagination > li.ant-pagination-item.ant-pagination-item-active  {
+  /* Ví dụ: */
+  background-color: #FF7506;
+  border: 1px solid #FF7506;
+}
+.custom-pagination > li.ant-pagination-item.ant-pagination-item-active a{
+  color: #fff
 }
