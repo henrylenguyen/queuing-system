@@ -5,9 +5,7 @@ import getColumnDeviceConfig from 'utils/dataColumn'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { NavLink } from 'react-router-dom'
 import Select from 'react-select'
-import { DateRange } from '@mui/x-date-pickers-pro'
-import { DatePicker, Space } from 'antd'
-import DateRangePicker from 'components/datetime/DateRange'
+import { DatePicker } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'redux/store'
 import { fetchServices } from 'redux/action/services/serviceList.action'
@@ -112,11 +110,6 @@ const ServiceListPage = (props: Props) => {
     },
     [dispatch]
   )
-  //---------------------------Tìm kiếm Theo ngày------------------
-  const handleConnectionChange = (dates: any, dateStrings: any) => {
-    console.log('Ngày đang chọn:', dateStrings)
-  }
-  // ----------------------------Thêm cột chi tiết và tùy chỉn ----------------
 
   return (
     <div className='pt-10 '>
@@ -136,16 +129,7 @@ const ServiceListPage = (props: Props) => {
                     placeholder='Chọn trạng thái'
                   />
                 </div>
-                <div className='flex w-[300px] flex-col gap-2'>
-                  <span className='font-semibold'>Chọn thời gian</span>
-                  <div>
-                    <DateRangePicker
-                      handleChange={handleConnectionChange}
-                      placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
-                      className='h-[38px]'
-                    />
-                  </div>
-                </div>
+                
               </div>
               <div className='relative flex flex-col gap-2 '>
                 <span className='font-semibold'>Từ khoá</span>

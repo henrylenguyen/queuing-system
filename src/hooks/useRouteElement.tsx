@@ -23,6 +23,7 @@ import UsernameListPage from 'pages/username/UsernameListPage'
 import UpdateUsernamePage from 'pages/username/UpdateUsernamePage'
 import UserLog from 'pages/userLog/UserLog'
 import AddNumberPageLogin from 'pages/number/AddNumberPageLogin'
+import PageNotFound from 'pages/PageNotFound'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -199,6 +200,12 @@ export default function useRouteElement() {
         <DashBoardLayout>
           <UserLog />
         </DashBoardLayout>
+      )
+    },
+    {
+      path: '*',
+      element: (
+        <PageNotFound/>
       )
     }
   ])
