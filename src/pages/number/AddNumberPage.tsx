@@ -9,6 +9,7 @@ import { addNumber } from 'redux/action/numbers/numberDetail.action'
 import { Modal } from 'antd'
 import { IAddNumber } from 'constants/interface/number.interface'
 import ModalTicket from 'components/modal/ModalTicket'
+import colourStyles from 'utils/customSelect'
 type Props = {}
 
 interface IOption {
@@ -79,7 +80,12 @@ const AddNumberPage = (props: Props) => {
               </h4>
               <form onSubmit={(e) => handleSubmit(e)}>
                 <div className='mt-5 w-[400px]'>
-                  <Select options={serviceNameOptions} onChange={handleChange} placeholder='Chọn dịch vụ' />
+                  <Select
+                    styles={colourStyles}
+                    options={serviceNameOptions}
+                    onChange={handleChange}
+                    placeholder='Chọn dịch vụ'
+                  />
                 </div>
                 <div className='col-span-4 mt-10 flex w-full justify-center gap-5'>
                   <button

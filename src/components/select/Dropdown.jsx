@@ -1,6 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 import { useController } from 'react-hook-form'
+import colourStyles from 'utils/customSelect'
 
 const Dropdown = ({ control, name, options, defaultValue, ...props }) => {
   const {
@@ -23,6 +24,7 @@ const Dropdown = ({ control, name, options, defaultValue, ...props }) => {
 
   return (
     <Select
+      styles={colourStyles}
       options={selectOptions}
       defaultValue={defaultOption}
       onChange={(selectedOption) => {

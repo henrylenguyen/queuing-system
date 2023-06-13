@@ -20,6 +20,7 @@ const ModalTicket = ({ isModalOpen, handleCancel, STT, tenDichVu,thoiGianCap,han
       centered
       onCancel={handleCancel}
       width={400}
+      wrapClassName='custom-modal-wrap'
       style={{ textAlign: 'center' }}
     >
       <div className='py-10'>

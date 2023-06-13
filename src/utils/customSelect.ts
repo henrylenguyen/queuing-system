@@ -44,6 +44,22 @@ const colourStyles = {
       color: 'black', // Custom text color when hovering
       cursor: 'pointer' // Custom cursor style when hovering
     }
+  }),
+  multiValue: (styles: CSSObjectWithLabel) => ({
+    ...styles,
+    backgroundColor: '#FF9138',
+    borderRadius: '9px',
+    padding: '5px'
+  }),
+  multiValueLabel: (styles: CSSObjectWithLabel) => ({
+    ...styles,
+    color: '#fff'
+  }),
+  multiValueRemove: (styles: CSSObjectWithLabel) => ({
+    ...styles,
+    svg: {
+      fill: '#fff'
+    }
   })
 }
 

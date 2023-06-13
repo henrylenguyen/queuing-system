@@ -116,12 +116,12 @@ body,
   pointer-events: none; /* Disable click events */
   opacity: 0.5; /* Make it visually appear disabled */
 }
-
-// .ant-modal-content{
-//   padding:  0!important;
-//   overflow: hidden;
-//   border-radius: 30px!important;
-// }
+// --------------------CUSTOM TICKET---------------------
+.custom-modal-wrap .ant-modal-content{
+  padding:  0;
+  overflow: hidden;
+  border-radius: 30px;
+}
 
 // ---------------------------CUSTOM ANTD TABLE------------------
 .custom-table {

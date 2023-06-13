@@ -1,6 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 import { useController } from 'react-hook-form'
+import colourStyles from 'utils/customSelect'
 
 const TreeSelect = ({ control, name, options, defaultValue, ...props }) => {
   const {
@@ -25,6 +26,7 @@ const TreeSelect = ({ control, name, options, defaultValue, ...props }) => {
 
   return (
     <Select
+      styles={colourStyles}
       defaultValue={defaultOptions}
       options={selectOptions}
       isMulti
