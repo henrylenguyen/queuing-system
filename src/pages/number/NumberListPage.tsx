@@ -21,6 +21,7 @@ import {
 } from 'redux/slice/number.slice'
 import { AppDispatch, RootState } from 'redux/store'
 import removeVietnameseTones from 'utils/convertVietnamese'
+import colourStyles from 'utils/customSelect'
 import getColumnDeviceConfig from 'utils/dataColumn'
 type Props = {}
 
@@ -243,15 +244,30 @@ const NumberListPage = (props: Props) => {
               <div className='flex justify-between gap-5'>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Tên dịch vụ</span>
-                  <Select options={serviceNameOptions} onChange={handleServiceChange} placeholder='Dịch vụ' />
+                  <Select
+                    styles={colourStyles}
+                    options={serviceNameOptions}
+                    onChange={handleServiceChange}
+                    placeholder='Dịch vụ'
+                  />
                 </div>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Tình trạng</span>
-                  <Select options={statusOptions} onChange={handleStatusChange} placeholder='Tình trạng' />
+                  <Select
+                    options={statusOptions}
+                    styles={colourStyles}
+                    onChange={handleStatusChange}
+                    placeholder='Tình trạng'
+                  />
                 </div>
                 <div className='flex flex-col gap-2'>
                   <span className='font-semibold'>Nguồn cấp</span>
-                  <Select options={deviceNameOptions} onChange={handleDeviceChange} placeholder='Nguồn cấp' />
+                  <Select
+                    styles={colourStyles}
+                    options={deviceNameOptions}
+                    onChange={handleDeviceChange}
+                    placeholder='Nguồn cấp'
+                  />
                 </div>
                 <div className='flex  flex-col gap-2'>
                   <span className='font-semibold'>Chọn thời gian</span>

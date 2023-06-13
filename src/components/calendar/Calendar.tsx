@@ -7,6 +7,7 @@ export default function Calendar() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
+        className='custom-calendar'
         sx={{
           boxShadow: '2px 2px 15px rgba(70, 64, 67, 0.1)',
           width: '100%',

@@ -51,14 +51,17 @@ body,
 .inactive-bar {
   transition: all 0.3s linear;
 }
-svg.css-1vooibu-MuiSvgIcon-root {
-  fill: #ff7506 !important;
+.custom-calendar .MuiSvgIcon-root{
+  fill: #ff7506 ;
+
 }
-.MuiDayCalendar-header span.css-rhmlg1-MuiTypography-root-MuiDayCalendar-weekDayLabel {
-  color: #ff7506 !important;
+// svg.css-1vooibu-MuiSvgIcon-root {
+// }
+.custom-calendar .MuiDayCalendar-header span.MuiDayCalendar-weekDayLabel {
+  color: #ff7506;
 }
-button.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected),
-.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+ .custom-calendar button.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected),
+.MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   border: none !important;
   background: #ff7506;
   border-radius: 10px;
@@ -68,9 +71,9 @@ button.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected),
   }
 }
 
-button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+.custom-calendar button.MuiPickersDay-root.Mui-selected {
   border-radius: 10px;
-  background: #ff7506 !important;
+  background: #ff7506;
 }
 
 //------------------------scroll bar-----------------------------

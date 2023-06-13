@@ -69,7 +69,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
         >
           <Input
             ref={searchInput}
-            placeholder={`Search ${dataIndex}`}
+            placeholder={`Tìm kiếm ${dataIndex}`}
             value={selectedKeys[0] as string}
             onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
             onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -80,21 +80,26 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
           />
           <Space>
             <Button
-              type='primary'
               onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
               icon={<SearchOutlined />}
               size='small'
               style={{
-                width: 90
+                width: 90,
+                background: '#FF7506',
+                color: 'white',
+                display: 'flex',
+                alignItems: 'center'
               }}
             >
-              Search
+              Tìm kiếm
             </Button>
             <Button
               onClick={() => clearFilters && handleReset(clearFilters)}
               size='small'
               style={{
-                width: 90
+                width: 90,
+                background: ' #FFF2E7',
+                color: '#333'
               }}
             >
               Reset
@@ -116,7 +121,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
       const filterIcon = (filtered: boolean) => (
         <SearchOutlined
           style={{
-            color: filtered ? '#1890ff' : undefined
+            color: filtered ? '#1890ff' : '#fff'
           }}
         />
       )
@@ -135,6 +140,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
           <Highlighter
             highlightStyle={{
               backgroundColor: '#ffc069',
+              color: 'white',
               padding: 0
             }}
             searchWords={[searchText]}
@@ -172,6 +178,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
               col.key.toLowerCase() === 'diachiip' ||
               col.key.toLowerCase() === 'trangthaihoatdong' ||
               col.key.toLowerCase() === 'trangthaiketnoi'
+            
             ) {
               return {
                 ...col,

@@ -13,6 +13,7 @@ import { AppDispatch, RootState } from 'redux/store'
 import { fetchServices } from 'redux/action/services/serviceList.action'
 import { IServices } from 'constants/interface/service.interface'
 import { onChangeServiceStatus } from 'redux/slice/services.slice'
+import colourStyles from 'utils/customSelect'
 
 const { RangePicker } = DatePicker
 type Props = {}
@@ -128,7 +129,12 @@ const ServiceListPage = (props: Props) => {
               <div className='flex gap-5'>
                 <div className='flex w-[300px] flex-col gap-2'>
                   <span className='font-semibold'>Trạng thái hoạt động</span>
-                  <Select options={statusOptions} onChange={handleStatusChange} placeholder='Chọn trạng thái' />
+                  <Select
+                    options={statusOptions}
+                    styles={colourStyles}
+                    onChange={handleStatusChange}
+                    placeholder='Chọn trạng thái'
+                  />
                 </div>
                 <div className='flex w-[300px] flex-col gap-2'>
                   <span className='font-semibold'>Chọn thời gian</span>
