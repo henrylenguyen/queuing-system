@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
 import { DynamicObject } from 'constants/interface/formInterface'
+import Alert from 'components/alert/Alert'
 const PageInfor = () => {
   const location = useLocation()
   const pathname = location.pathname
@@ -135,12 +136,8 @@ const PageInfor = () => {
           </ol>
         </nav>
       )}
-      <div className='flex gap-5'>
-        <button className='rounded-full bg-[#FFF2E7] p-2'>
-          <Badge badgeContent={4} color='primary'>
-            <NotificationsActiveIcon sx={{ color: '#FFAC6A' }} fontSize='medium' />
-          </Badge>
-        </button>
+      <div className='flex gap-5 items-center'>
+        <Alert/>
         <NavLink className='flex gap-4' to='/'>
           <Avatar src={user?.avatar} size='large' />
           <div className='flex flex-col gap-2'>

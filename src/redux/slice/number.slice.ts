@@ -1,15 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { IHanle } from 'constants/interface/handle.interface'
 import { INumber } from 'constants/interface/number.interface'
 import { addNumber, fetchNumberDetail, updateNumber } from 'redux/action/numbers/numberDetail.action'
 import {
   fetchDeviceNameOfNumber,
   fetchNumbers,
+  fetchNumbersAlert,
   fetchServicesNameOfNumber
 } from 'redux/action/numbers/numberList.action'
 import { handleError, handlePending } from 'redux/handle'
 import {
   fetchAddNumberFulfilled,
+  fetchNumberAlertFulfilled,
   fetchNumberDetailFulfilled,
   fetchNumberDeviceFulfilled,
   fetchNumberFulfilled,
@@ -35,6 +37,7 @@ export interface INumberState extends IHanle {
   addNumberDetail: INumber
   serviceSelectedOfOnchange: string
   updateNumberDetail: boolean
+  numberAlert: INumber[]
 }
 const initialState: INumberState = {
   numbers: [],
@@ -67,7 +70,8 @@ const initialState: INumberState = {
     trangThai: ''
   },
   serviceSelectedOfOnchange: '',
-  updateNumberDetail: false
+  updateNumberDetail: false,
+  numberAlert: []
 }
 
 const numberSlice = createSlice({
@@ -101,9 +105,9 @@ const numberSlice = createSlice({
         hanSuDung: '',
         soDienThoai: '',
         email: ''
-      };
+      }
     },
-    clearStatusUpdate: (state)=>{
+    clearStatusUpdate: (state) => {
       state.updateNumberDetail = false
     }
   },
@@ -127,6 +131,9 @@ const numberSlice = createSlice({
       .addCase(updateNumber.pending, handlePending)
       .addCase(updateNumber.fulfilled, fetchUpdateNumberFulfilled)
       .addCase(updateNumber.rejected, handleError)
+      .addCase(fetchNumbersAlert.pending, handlePending)
+      .addCase(fetchNumbersAlert.fulfilled, fetchNumberAlertFulfilled)
+      .addCase(fetchNumbersAlert.rejected, handleError)
   }
 })
 export const {

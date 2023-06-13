@@ -6,14 +6,14 @@ import db from 'service/db.connect'
 
 // ------------------------LẤY DANH SÁCH CẤP SỐ-------------------------
 interface numbers {
-    hanSuDung: string;
-    thoiGianCap: string;
-    id: string;
+  hanSuDung: string
+  thoiGianCap: string
+  id: string
 }
-export const fetchNumbers = createAsyncThunk('device/fetchNumbers', async () => {
+export const fetchNumbers = createAsyncThunk('number/fetchNumbers', async () => {
   try {
     const numberRef = collection(db, 'numbers')
-    const snapshot = await getDocs(numberRef) 
+    const snapshot = await getDocs(numberRef)
 
     const numbers = snapshot.docs.map((doc) => {
       const numberData = doc.data() as { STT: number; [key: string]: any }
@@ -42,7 +42,7 @@ export const fetchNumbers = createAsyncThunk('device/fetchNumbers', async () => 
 
 // --------------------LẤY RA TÊN DỊCH VỤ TRONG NUMBERS------------------------
 
-export const fetchServicesNameOfNumber = createAsyncThunk('device/fetchServicesNameOfNumber', async () => {
+export const fetchServicesNameOfNumber = createAsyncThunk('number/fetchServicesNameOfNumber', async () => {
   try {
     const serviceRef = collection(db, 'numbers')
     const snapshot = await getDocs(serviceRef)
@@ -70,7 +70,7 @@ export const fetchServicesNameOfNumber = createAsyncThunk('device/fetchServicesN
 })
 
 // ------------------LẤY RA TÊN NGUỒN CẤP TRONG NUMBERS------------------------
-export const fetchDeviceNameOfNumber = createAsyncThunk('device/fetchDeviceNameOfNumber', async () => {
+export const fetchDeviceNameOfNumber = createAsyncThunk('number/fetchDeviceNameOfNumber', async () => {
   try {
     const deviceRef = collection(db, 'numbers')
     const snapshot = await getDocs(deviceRef)
@@ -91,6 +91,39 @@ export const fetchDeviceNameOfNumber = createAsyncThunk('device/fetchDeviceNameO
     }, [] as { id: string; tenNguonCap: any }[]) // Sử dụng kiểu dữ liệu mặc định cho mảng khi không có phần tử
 
     return devices
+  } catch (error) {
+    console.error('Lỗi khi lấy dữ liệu:', error)
+    throw error
+  }
+})
+
+// ------------------LẤY RA DANH SÁCH CẤP SỐ TỐI ĐA 10 SỐ MỚI-----------------
+
+export const fetchNumbersAlert = createAsyncThunk('number/fetchNumbersAlert', async () => {
+  try {
+    const numberRef = collection(db, 'numbers')
+    const snapshot = await getDocs(numberRef)
+
+    const numbers = snapshot.docs.map((doc) => {
+      const numberData = doc.data() as { STT: number; [key: string]: any }
+
+      const numberID = doc.id
+      const formattedHanSuDung = format(numberData.hanSuDung.toDate(), 'dd/MM/yyyy HH:mm:ss')
+      const formattedThoiGianCap = format(numberData.thoiGianCap.toDate(), 'dd/MM/yyyy HH:mm:ss')
+
+      const formattedNumberData = {
+        ...numberData,
+        hanSuDung: formattedHanSuDung,
+        thoiGianCap: formattedThoiGianCap
+      }
+
+      return { id: numberID, ...formattedNumberData }
+    })
+
+    const sortedNumbers = numbers.sort((a, b) => b.STT - a.STT) // Sắp xếp theo trường STT ngược lại
+    const maxNumbers = sortedNumbers.slice(0, 10) // Lấy tối đa 10 số đầu tiên từ mảng sortedNumbers
+
+    return maxNumbers
   } catch (error) {
     console.error('Lỗi khi lấy dữ liệu:', error)
     throw error
