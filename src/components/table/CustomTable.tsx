@@ -160,9 +160,10 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
     <div className='mt-10 flex-grow select-none overflow-auto rounded-lg'>
       <Spin spinning={loading} size='large'>
         <Table
+          className='custom-table'
           rowKey={Key}
           dataSource={filteredData}
-          style={{zIndex:0}}
+          style={{zIndex:0,background:'red'}}
           scroll={{ x: 'max-content', y: 500 }}
           columns={columns.map((col) => {
             if (

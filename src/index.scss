@@ -127,3 +127,8 @@ button.css-qa7bje-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
 //   overflow: hidden;
 //   border-radius: 30px!important;
 // }
+.custom-table .ant-table-thead > tr > th {
+
+  background-color: #FF9138;
+  font-weight: bold;
+}
