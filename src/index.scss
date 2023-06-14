@@ -162,3 +162,24 @@ body,
 .custom-pagination > li.ant-pagination-item.ant-pagination-item-active a{
   color: #fff
 }
+
+
+// ---------------custom modal logout------------
+
+.custom-modal-logout .ant-modal-content{
+  border-radius: 25px;
+  height: 400px;
+  width: 800px;
+  display: flex;
+  display: flex;
+  flex-direction: column;
+  background: #FCFCFE;
+  justify-content: space-between;
+  // position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%,10%);
+  .ant-btn-primary{
+    background: #FF7506;
+  }
+}

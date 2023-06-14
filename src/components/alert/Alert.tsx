@@ -21,19 +21,18 @@ const Alert: React.FC = () => {
   useEffect(() => {
     dispatch(fetchNumbersAlert())
   }, [addNumberDetail])
-  
+
   const open = Boolean(anchorEl)
-  const id = open ? 'popover' : undefined
 
   return (
     <>
-      <Button className='h-[55px] w-[50px] overflow-hidden rounded-full bg-[#FFF2E7]' onClick={handleClick}>
+      <Button onClick={handleClick} className='  '>
         <Badge badgeContent={10} color='primary'>
           <NotificationsActiveIcon sx={{ color: '#FFAC6A' }} fontSize='medium' />
         </Badge>
       </Button>
       <Popover
-        id={id}
+        id={open ? 'popover' : undefined}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -45,9 +44,6 @@ const Alert: React.FC = () => {
           vertical: 'top',
           horizontal: 'left'
         }}
-        PaperProps={{
-          sx: { borderRadius: '16px', overflow: 'hidden' }
-        }}
       >
         <div className='popover h-[450px] max-h-[450px] w-[380px] max-w-[380px] overflow-y-auto  '>
           <div>
@@ -56,8 +52,8 @@ const Alert: React.FC = () => {
             </div>
             <div className='popover-body h-[calc(100%_-_66px)] overflow-y-auto p-5'>
               {numberAlert.length > 0 &&
-                numberAlert.map((item) => (
-                  <div className='mb-5 flex flex-col gap-5 border-b pb-5'>
+                numberAlert.map((item, index) => (
+                  <div key={index} className='mb-5 flex flex-col gap-5 border-b pb-5'>
                     <h4 className=' font-bold  text-[#BF5805]'>Người dùng có số thứ tự: {item.STT}</h4>
                     <span className='text-[#535261]'>Thời gian nhận số: {item.thoiGianCap}</span>
                   </div>

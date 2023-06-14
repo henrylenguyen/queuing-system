@@ -24,9 +24,9 @@ const Dashboard = (props: Props) => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className=' w-full pt-10'>
+        <div className='h-full w-full pt-10'>
           <PageInfor />
-          <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
+          <div className='flex h-[calc(100%_-_3rem)] pl-10 pt-14  max-[1440px]:pl-5'>
             <div className=' flex w-[65%] flex-col justify-between'>
               <div>
                 <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Biểu đồ cấp số</h3>

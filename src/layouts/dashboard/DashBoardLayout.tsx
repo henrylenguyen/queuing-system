@@ -44,7 +44,7 @@ const DashBoardLayout = ({ children }: Props) => {
             </div>
             <div className='hidden h-auto xl:flex'>
               <Navbar />
-              <div className={`relative ${isActive ? 'w-[97%]' : 'w-[85%]'}`}>
+              <div className={`relative ${isActive ? 'w-[97%]' : 'w-[85%]'}`} >
                 {children}
                 <button
                   className='absolute top-0 bg-primary text-white'
