@@ -6,12 +6,14 @@ type Props = {}
 
 const ProfilePage = (props: Props) => {
   return (
-    <div className='w-full p-10'>
-      <PageInfor />
-      <div className='max-[1440px]:pt-6 min-[1500px]:pt-32'>
-        <ProfileLayout />
+    <>
+      <div className='w-full p-10'>
+        <PageInfor />
+        <div className='max-[1440px]:pt-6 min-[1500px]:pt-32'>
+          <ProfileLayout />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

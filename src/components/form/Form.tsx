@@ -19,7 +19,8 @@ const Form = ({
   title,
   titleButton,
   titleButtonCancel,
-  to
+  to,
+  handleCancelForm
 }: IFormProps) => {
   const {
     control,
@@ -140,7 +141,11 @@ const Form = ({
       }
     } catch (error: any) {}
   }
-
+  const handleCancel = () => {
+    if (handleCancelForm) {
+      handleCancelForm()
+    }
+  }
   return (
     <>
       {title && <h3 className=' mb-10 text-[20px] font-bold text-primary'>{title}</h3>}
@@ -386,7 +391,7 @@ const Form = ({
           {titleButtonCancel && (
             <button
               className=' w-[200px] rounded-md border border-primary  p-[10px] text-[18px] font-medium text-primary'
-              onClick={() => navigate(`${to}`)}
+              onClick={() => (to ? navigate(`${to}`) : handleCancel())}
             >
               {titleButtonCancel}
             </button>

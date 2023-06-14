@@ -55,4 +55,5 @@ export interface IFormProps {
   titleButtonCancel?: string
   errors?: Record<string, string>
   to?: string
+  handleCancelForm?: () => void
 }

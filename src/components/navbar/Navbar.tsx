@@ -74,7 +74,7 @@ const Navbar = (props: Props) => {
       {isActive ? (
         <>
           <div className='flex w-full  flex-col items-center'>
-            <NavLink to='/'>
+            <NavLink onClick={() => handleToggleSubNav(false)}  to='/'>
               <img src={logo} alt='logo' className='w-full' />
             </NavLink>
             <nav className='relative  mt-16 flex w-full flex-col  items-center  text-gray-500'>
@@ -159,7 +159,7 @@ const Navbar = (props: Props) => {
       ) : (
         <>
           <div className='flex w-full flex-col items-center min-[1900px]:h-screen'>
-            <NavLink to='/'>
+            <NavLink onClick={() => handleToggleSubNav(false)} to='/'>
               <img src={logo} alt='logo' className='w-[150px]' />
             </NavLink>
             <nav className='relative mt-16 flex w-full flex-col text-gray-500'>
@@ -249,7 +249,6 @@ const Navbar = (props: Props) => {
       <Modal
         open={open}
         onOk={handleOk}
-        
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
         wrapClassName='custom-modal-logout'
