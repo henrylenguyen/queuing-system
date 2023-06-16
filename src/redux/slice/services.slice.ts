@@ -14,6 +14,7 @@ import {
 export interface IServiceState extends IHanle {
   services: IServices[]
   selectedStatus: string
+  selectedNumberStatus: string
   selectedService: string
   inputValue: []
   isSuccess: boolean
@@ -22,12 +23,14 @@ export interface IServiceState extends IHanle {
     id: string
     tenDichVu: string
   }[]
+  selectedDateRange: [string, string]
 }
 const initialState: IServiceState = {
   services: [],
   isLoading: true,
   error: null,
   selectedStatus: 'all', // Giá trị mặc định của dropdown trạng thái hoạt động
+  selectedNumberStatus: 'all', // Giá trị mặc định của dropdown trạng thái hoạt động
   selectedService: 'all', // Giá trị mặc định của dropdown dịch vụ sử dụng
   inputValue: [],
   isSuccess: false,
@@ -39,7 +42,8 @@ const initialState: IServiceState = {
     tenDichVu: '',
     trangThaiHoatDong: ''
   },
-  serviceName: []
+  serviceName: [],
+  selectedDateRange: ["",'']
 }
 const serviceSlice = createSlice({
   name: 'service',
@@ -66,6 +70,12 @@ const serviceSlice = createSlice({
     },
     resetStatus: (state) => {
       state.isSuccess = false
+    },
+    onChangeNumberDatePickerService: (state, action) => {
+      state.selectedDateRange = action.payload
+    },
+    onChangeNumberOfSevicesStatus: (state, action) => {
+      state.selectedNumberStatus = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -84,7 +94,14 @@ const serviceSlice = createSlice({
       .addCase(fetchServicesName.rejected, handleError)
   }
 })
-export const { onChangeServiceStatus, onChangeInputValue, resetStatus, clearServiceDetail, onChangeServiceName } =
-  serviceSlice.actions
+export const {
+  onChangeServiceStatus,
+  onChangeInputValue,
+  resetStatus,
+  clearServiceDetail,
+  onChangeServiceName,
+  onChangeNumberDatePickerService,
+  onChangeNumberOfSevicesStatus
+} = serviceSlice.actions
 const servicesReducer = serviceSlice.reducer
 export default servicesReducer

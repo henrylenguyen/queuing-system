@@ -19,12 +19,11 @@ type Props = {}
 
 const ProfileLayout = (props: Props) => {
   const { user } = useSelector((state: RootState) => state.auth)
-  console.log('file: ProfileLayout.tsx:20 ~ user:', user)
   const [isEdit, setIsEdit] = useState(false)
   const [isRender, setIsRender] = useState(0)
   const dispatch = useDispatch<AppDispatch>()
   const [isLogin] = useLocalStorage('islogin', { islogin: false, id: null })
-  const { updateUserSuccess } = useSelector((state: RootState) => state.user)
+  const { updateUserSuccess, isUploadSuccess } = useSelector((state: RootState) => state.user)
   const newUserDetail = useCallback(() => {
     return {
       ...user,
@@ -42,7 +41,6 @@ const ProfileLayout = (props: Props) => {
     } else if (!updateUserSuccess.success && updateUserSuccess.message !== '') {
       message.error(`${updateUserSuccess.message}`, 2)
     }
-    
   }, [updateUserSuccess])
 
   const newuserDetail = newUserDetail()

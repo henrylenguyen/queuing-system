@@ -51,16 +51,15 @@ body,
 .inactive-bar {
   transition: all 0.3s linear;
 }
-.custom-calendar .MuiSvgIcon-root{
-  fill: #ff7506 ;
-
+.custom-calendar .MuiSvgIcon-root {
+  fill: #ff7506;
 }
 // svg.css-1vooibu-MuiSvgIcon-root {
 // }
 .custom-calendar .MuiDayCalendar-header span.MuiDayCalendar-weekDayLabel {
   color: #ff7506;
 }
- .custom-calendar button.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected),
+.custom-calendar button.css-1jsy6pn-MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected),
 .MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   border: none !important;
   background: #ff7506;
@@ -117,8 +116,8 @@ body,
   opacity: 0.5; /* Make it visually appear disabled */
 }
 // --------------------CUSTOM TICKET---------------------
-.custom-modal-wrap .ant-modal-content{
-  padding:  0;
+.custom-modal-wrap .ant-modal-content {
+  padding: 0;
   overflow: hidden;
   border-radius: 30px;
 }
@@ -154,32 +153,60 @@ body,
 }
 
 // điều chỉnh pagination
-.custom-pagination > li.ant-pagination-item.ant-pagination-item-active  {
+.custom-pagination > li.ant-pagination-item.ant-pagination-item-active {
   /* Ví dụ: */
-  background-color: #FF7506;
-  border: 1px solid #FF7506;
+  background-color: #ff7506;
+  border: 1px solid #ff7506;
 }
-.custom-pagination > li.ant-pagination-item.ant-pagination-item-active a{
-  color: #fff
+.custom-pagination > li.ant-pagination-item.ant-pagination-item-active a {
+  color: #fff;
 }
-
 
 // ---------------custom modal logout------------
 
-.custom-modal-logout .ant-modal-content{
+.custom-modal-logout .ant-modal-content {
   border-radius: 25px;
   height: 400px;
   width: 800px;
   display: flex;
   display: flex;
   flex-direction: column;
-  background: #FCFCFE;
+  background: #fcfcfe;
   justify-content: space-between;
   // position: absolute;
   top: 30%;
   left: 50%;
-  transform: translate(-50%,10%);
-  .ant-btn-primary{
-    background: #FF7506;
+  transform: translate(-50%, 10%);
+  .ant-btn-primary {
+    background: #ff7506;
   }
 }
+
+// -------------------CUSTOM DATE RANGE PICKER-------------
+.custom-date-picker {
+  border-radius: 8px;
+  border: 1.5px solid #d9d9d9;
+  &:hover {
+    border-color: #ff7506;
+  }
+  &.ant-picker-focused {
+    box-shadow: 0 0 0 2px #ff7506;
+  }
+
+}
+// td.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner ,td.ant-picker-cell.ant-picker-cell-in-view.ant-picker-cell-range-start.ant-picker-cell-selected .ant-picker-cell-inner{
+//   color: white;
+// &::before{
+// position: absolute;
+//     top: 0;
+//     inset-inline-end: 0;
+//     bottom: 0;
+//     inset-inline-start: 0;
+//     z-index: 1;
+//     background:  #ff7506;
+//     color: white;
+//     border: 1px solid #ff7506;
+//     border-radius: 4px;
+//     content: "";
+// }
+// }

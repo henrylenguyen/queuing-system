@@ -20,7 +20,7 @@ const ServiceDetailLeft = ({ maDichVu, moTa, tenDichVu, quyTacCapSo }: IServices
 
   return (
     <>
-      <div className='mt-10 flex h-[500px]  w-[40%] flex-shrink-0 rounded-xl bg-white p-5'>
+      <div className='mt-10 flex   rounded-xl bg-white p-5'>
         <div>
           <h3 className='text-[20px] font-semibold text-primary min-[1500px]:text-[25px]'>Thông tin dịch vụ</h3>
           <div className='mt-10  flex w-full flex-col gap-5'>

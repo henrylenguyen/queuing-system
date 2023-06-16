@@ -27,3 +27,8 @@ export const UpdateUserFulfilled = (state: UserState, action: any) => {
   state.error = null
   state.updateUserSuccess = action.payload
 }
+export const UploadImageFulfilled = (state: UserState, action: any) => {
+  state.isLoading = false
+  state.error = null
+  state.isUploadSuccess = action.payload
+}

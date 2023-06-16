@@ -1,16 +1,19 @@
+import Loading from 'components/loading/Loading'
 import PageInfor from 'components/pageInfor/PageInfor'
 import CustomTable from 'components/table/CustomTable'
 import { IDeviceManagement } from 'constants/interface/device.interface'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import Select, { components } from 'react-select'
+import Select from 'react-select'
 import { fetchDevices } from 'redux/action/devices/deviceList.action'
 import { onChangeConnection, onChangeStatus } from 'redux/slice/devices.slice'
 import { AppDispatch, RootState } from 'redux/store'
 import removeVietnameseTones from 'utils/convertVietnamese'
 import colourStyles from 'utils/customSelect'
 import getColumnDeviceConfig from 'utils/dataColumn'
+import { useSearch } from 'hooks/useSearch'
+
 type Props = {}
 
 // ---------------------DROPDOWN trạng thái hoạt động--------------------------
@@ -51,7 +54,7 @@ const DeviceListPage = React.memo((props: Props) => {
   const [filteredData, setFilteredData] = useState<IDeviceManagement[]>(devices)
   const [renderCount, setRenderCount] = useState(0)
   const MemoizedCustomTable = React.memo(CustomTable)
-
+  const [debouncedInput, handleSearch] = useSearch('', 500)
   const filteredDevices = useMemo(() => {
     let filteredDevices = devices
 
@@ -62,9 +65,12 @@ const DeviceListPage = React.memo((props: Props) => {
     if (selectedConnection !== 'all') {
       filteredDevices = filteredDevices.filter((device) => device.trangThaiKetNoi === selectedConnection)
     }
+    filteredDevices = filteredDevices.filter((device) =>
+      device.tenThietBi.toLowerCase().includes(debouncedInput.toLowerCase())
+    )
 
     return filteredDevices
-  }, [devices, selectedStatus, selectedConnection])
+  }, [devices, selectedStatus, selectedConnection, debouncedInput])
   // ----------- GỌI DANH SÁCH THIẾT BỊ TỪ FIRESTORE--------------------
   useEffect(() => {
     dispatch(fetchDevices())
@@ -83,14 +89,6 @@ const DeviceListPage = React.memo((props: Props) => {
     }
   }, [devices])
 
-  /* 2. Từ những key của object biến nó thành 1 mảng các đối tượng 
-  ví dụ: [
-    {
-      dataIndex: "",
-      key: ""
-    }
-  ]
-*/
   const getDataIndexKey = useCallback(() => {
     const keys = getKeys()
 
@@ -115,17 +113,6 @@ const DeviceListPage = React.memo((props: Props) => {
     'Tùy chỉnh'
   ]
 
-  /**
- * 4. Từ mảng đối tượng (3) kết hợp với mảng các đối tượng (4) thành
- *  
- * const columns = [
- * {
- *   title: "Mã lịch chiếu",
- *   dataIndex: "maLichChieu",
-     key: "maLichChieu"  
- * }
- * ]
- */
   const columns = dataTitle.map((title) => {
     // biến chữ tiếng việt có dấu thành không dấu
     const removeTone = removeVietnameseTones(title)
@@ -138,26 +125,6 @@ const DeviceListPage = React.memo((props: Props) => {
 
     // trả về mảng các đối tượng
     return getColumnDeviceConfig(title, dataIndexKeyItem, newTitle)
-
-    // if (newTitle === 'chitiet') {
-    //   return {
-    //     title: title,
-    //     dataIndex: dataIndexKeyItem?.dataIndex ?? '',
-    //     key: dataIndexKeyItem?.key ?? '',
-    //     render: (text: any, record: any) => {
-    //       console.log("file: DeviceListPage.tsx:149 ~ record:", record)
-    //       console.log("file: DeviceListPage.tsx:149 ~ text:", text)
-    //       return <NavLink to={`/devices/${record,}`}>Chi tiết</NavLink>
-    //     }
-    //   }
-    // }
-    // return {
-    //   title: title,
-    //   dataIndex: dataIndexKeyItem?.dataIndex ?? '',
-    //   key: dataIndexKeyItem?.key ?? '',
-    //   width: 200,
-
-    // }
   })
 
   //---------------------------Tìm kiếm trạng thái hoạt động------------------
@@ -176,95 +143,103 @@ const DeviceListPage = React.memo((props: Props) => {
     [dispatch]
   )
 
-  // ----------------------------Thêm cột chi tiết và tùy chỉn ----------------
+  // ----------------------------Tìm kiếm ----------------
+
 
   return (
-    <div className='pt-10 '>
-      <PageInfor />
-      <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
-        <div className=' flex   flex-col justify-between overflow-hidden'>
-          <div>
-            <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Danh sách thiết bị</h3>
-            <div className='mt-10 flex justify-between'>
-              <div className='flex gap-5'>
-                <div className='flex w-[300px] flex-col gap-2'>
-                  <span className='font-semibold'>Trạng thái hoạt động</span>
-                  <Select
-                    styles={colourStyles}
-                    options={statusOptions}
-                    onChange={handleStatusChange}
-                    placeholder='Chọn trạng thái'
-                  />
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className='pt-10 '>
+          <PageInfor />
+          <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
+            <div className=' flex   flex-col justify-between overflow-hidden'>
+              <div>
+                <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Danh sách thiết bị</h3>
+                <div className='mt-10 flex justify-between'>
+                  <div className='flex gap-5'>
+                    <div className='flex w-[300px] flex-col gap-2'>
+                      <span className='font-semibold'>Trạng thái hoạt động</span>
+                      <Select
+                        styles={colourStyles}
+                        options={statusOptions}
+                        onChange={handleStatusChange}
+                        placeholder='Chọn trạng thái'
+                      />
+                    </div>
+                    <div className='flex w-[300px] flex-col gap-2'>
+                      <span className='font-semibold'>Trạng thái kết nối</span>
+                      <Select
+                        styles={colourStyles}
+                        options={connectionOptions}
+                        onChange={handleConnectionChange}
+                        placeholder='Chọn trạng thái'
+                      />
+                    </div>
+                  </div>
+                  <div className='relative flex flex-col gap-2 '>
+                    <span className='font-semibold'>Từ khoá</span>
+                    <div className='w-[300px]'>
+                      <input
+                        type='text'
+                        className='w-full rounded-md border border-gray-300 bg-white p-2'
+                        placeholder='Tìm kiếm theo tên thiết bị'
+                        onChange={handleSearch}
+                      />
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='#FF7506'
+                        className='absolute right-2 top-1/2 h-6 w-6 cursor-pointer'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
+                        />
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-                <div className='flex w-[300px] flex-col gap-2'>
-                  <span className='font-semibold'>Trạng thái kết nối</span>
-                  <Select
-                    styles={colourStyles}
-                    options={connectionOptions}
-                    onChange={handleConnectionChange}
-                    placeholder='Chọn trạng thái'
-                  />
-                </div>
+                {devices.length > 0 ? (
+                  <MemoizedCustomTable
+                    key={renderCount}
+                    data={filteredData}
+                    columns={columns}
+                    Key={'maThietBi'}
+                  ></MemoizedCustomTable>
+                ) : (
+                  ''
+                )}
               </div>
-              <div className='relative flex flex-col gap-2 '>
-                <span className='font-semibold'>Từ khoá</span>
-                <div className='w-[300px]'>
-                  <input
-                    type='text'
-                    className='w-full rounded-md border border-gray-300 bg-white p-2'
-                    placeholder='Nhập từ khóa'
-                  />
+            </div>
+            <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
+              <NavLink
+                to='/device/device-list/add-new-device'
+                className={'flex flex-col  items-center gap-2 rounded-lg bg-[#FFF2E7] px-5 py-2 text-primary shadow'}
+              >
+                <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
                     viewBox='0 0 24 24'
                     strokeWidth={1.5}
-                    stroke='#FF7506'
-                    className='absolute right-2 top-1/2 h-6 w-6 cursor-pointer'
+                    stroke='#fff'
+                    className='h-6 w-6'
                   >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-                    />
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
                   </svg>
                 </div>
-              </div>
+                <span className='text-center'>Thêm thiết bị</span>
+              </NavLink>
             </div>
-            {devices.length > 0 ? (
-              <MemoizedCustomTable
-                key={renderCount}
-                data={filteredData}
-                columns={columns}
-                Key={'maThietBi'}
-              ></MemoizedCustomTable>
-            ) : (
-              ''
-            )}
           </div>
         </div>
-        <div className=' flex-shink-0 flex h-[250px] items-end p-5'>
-          <NavLink
-            to='/device/device-list/add-new-device'
-            className={'flex flex-col  items-center gap-2 rounded-lg bg-[#FFF2E7] px-5 py-2 text-primary shadow'}
-          >
-            <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth={1.5}
-                stroke='#fff'
-                className='h-6 w-6'
-              >
-                <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
-              </svg>
-            </div>
-            <span className='text-center'>Thêm thiết bị</span>
-          </NavLink>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   )
 })
 

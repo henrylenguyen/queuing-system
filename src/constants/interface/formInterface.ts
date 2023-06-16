@@ -25,6 +25,7 @@ export interface IFields {
     | 'selectmuti'
     | 'daterange'
     | 'checkbox'
+    | 'file'
 
   placeholder: string
   className?: string

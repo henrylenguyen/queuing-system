@@ -129,4 +129,17 @@ export const profileFieldsEdit: IFields[] = [
     readOnly: true
   }
 ]
+
+export const profileFieldsUpload: IFields[] = [
+  {
+    label: 'Cập nhật hình ảnh',
+    placeholder: '',
+    name: 'hinhAnh',
+    type: 'file',
+    className: 'bg-white w-full border border-[#D4D4D7] p-2 rounded-md ',
+    classNameDiv: 'col-span-4 w-full h-full'
+  }
+
+]
+
 export default profileFields

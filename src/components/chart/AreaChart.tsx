@@ -122,7 +122,7 @@ const AreaChart: React.FC<ApexChartProps> = () => {
         <div className='flex gap-3'>
           <div className='flex w-full items-center justify-end gap-3'>
             <h3 className='font-bold'>Xem theo</h3>
-            <Select options={optionsSelect} onChange={handleViewByChange} />
+            <Select placeholder="chọn" options={optionsSelect} onChange={handleViewByChange} />
           </div>
         </div>
         <ReactApexChart options={options} series={series} type='area' height={500} />

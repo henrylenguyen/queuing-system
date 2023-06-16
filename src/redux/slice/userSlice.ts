@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { addUser, fetchUserDetail, fetchUserRole, fetchUsers, updateUser } from 'redux/action/users/users.action'
+import { addUser, fetchUserDetail, fetchUserRole, fetchUsers, updateUser, uploadAvatar } from 'redux/action/users/users.action'
 import { IAuth } from 'constants/interface/auth.interface'
-import { AddUserFulfilled, UpdateUserFulfilled, fetchUserDetailFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from 'redux/handle/user.handle'
+import { AddUserFulfilled, UpdateUserFulfilled, UploadImageFulfilled, fetchUserDetailFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from 'redux/handle/user.handle'
 import { handleError, handlePending } from 'redux/handle'
 import { IHanle } from 'constants/interface/handle.interface'
 
@@ -21,10 +21,14 @@ export interface UserState extends IHanle {
     success: boolean
     message: string
   }
+  isUploadSuccess: {
+    success: boolean
+    message: string
+  }
 }
 const initialState: UserState = {
   users: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
   userRole: [],
   selectedRole: 'all',
@@ -46,6 +50,10 @@ const initialState: UserState = {
     trangThai: '',
     vaiTro: '',
     avatar: ''
+  },
+  isUploadSuccess: {
+    success: false,
+    message: ''
   }
 }
 const userSlice = createSlice({
@@ -98,6 +106,9 @@ const userSlice = createSlice({
       .addCase(updateUser.pending, handlePending)
       .addCase(updateUser.fulfilled, UpdateUserFulfilled)
       .addCase(updateUser.rejected, handleError)
+      .addCase(uploadAvatar.pending, handlePending)
+      .addCase(uploadAvatar.fulfilled, UploadImageFulfilled)
+      .addCase(uploadAvatar.rejected, handleError)
   }
 })
 export const { onChangeSelectedRole, clearStatus, clearUserDetail, clearUpdateStatus } = userSlice.actions

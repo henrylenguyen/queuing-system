@@ -1,5 +1,6 @@
 import { message } from 'antd'
 import Form from 'components/form/Form'
+import Loading from 'components/loading/Loading'
 import PageInfor from 'components/pageInfor/PageInfor'
 import { serviceFields } from 'constants/fields/service.fields'
 import { ServiceShema } from 'constants/schemas/Service.schema'
@@ -23,7 +24,8 @@ const initialValue = {
   quyTacCapSo: ''
 }
 const AddServicePage = (props: Props) => {
-  const { inputValue, isSuccess, error } = useSelector((state: RootState) => state.service)
+  const { inputValue, isSuccess, error ,isLoading} = useSelector((state: RootState) => state.service)
+  console.log("file: AddServicePage.tsx:28 ~ inputValue:", inputValue)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   useEffect(() => {
@@ -101,7 +103,9 @@ const AddServicePage = (props: Props) => {
     dispatch(addService(data))
   }
   return (
-    <div className='pt-10 '>
+  <>
+  {isLoading?<Loading/>:(
+      <div className='pt-10 '>
       <PageInfor />
       <div className='flex h-full px-10 pt-14  max-[1440px]:px-5'>
         <div className=' flex flex-grow flex-col justify-between overflow-hidden'>
@@ -124,6 +128,9 @@ const AddServicePage = (props: Props) => {
         </div>
       </div>
     </div>
+  )}
+  
+  </>
   )
 }
 

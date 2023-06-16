@@ -2,11 +2,9 @@ import PageInfor from 'components/pageInfor/PageInfor'
 import ServiceDetailLeft from 'layouts/service/ServiceDetailLeft'
 import ServiceDetailRight from 'layouts/service/ServiceDetailRight'
 
-import Loading from 'components/loading/Loading'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useLocation } from 'react-router-dom'
-import { fetchDeviceDetail } from 'redux/action/devices/deviceDetail.action'
 import { AppDispatch, RootState } from 'redux/store'
 import { fetchServiceDetail } from 'redux/action/services/serviceDetail.action'
 type Props = {}
@@ -28,7 +26,7 @@ const ServiceDetailPage = (props: Props) => {
       <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
         <div className='w-full  flex-col justify-between overflow-hidden'>
           <h3 className='text-[25px] font-semibold text-primary min-[1500px]:text-[30px]'>Quản lý dịch vụ</h3>
-          <div className='flex gap-5'>
+          <div className='grid grid-cols-3 gap-5'>
             <ServiceDetailLeft
               maDichVu={serviceDetail.maDichVu}
               moTa={serviceDetail.moTa}
@@ -44,7 +42,7 @@ const ServiceDetailPage = (props: Props) => {
           <NavLink
             to={`/service/service-list/update-service?${serviceDetail.id}`}
             className={
-              'flex h-[80px] w-[150px] flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] text-primary shadow'
+              'flex h-[80px] w-[150px] justify-center flex-col items-center gap-2 rounded-lg bg-[#FFF2E7] text-primary shadow'
             }
           >
             <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>

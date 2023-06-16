@@ -3,8 +3,8 @@ import { IAuth } from 'constants/interface/auth.interface'
 import db from 'service/db.connect'
 import { collection, getDocs, DocumentData, addDoc, getDoc, doc, query, where, updateDoc } from 'firebase/firestore'
 import bcrypt from 'bcryptjs'
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { clearUserDetail } from 'redux/slice/userSlice'
-
 // ------------------------LẤY DANH SÁCH NGƯỜI DÙNG-------------------------
 export const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
   try {
@@ -158,3 +158,30 @@ export const updateUser = createAsyncThunk('user/updateUser', async (updatedUser
     throw error
   }
 })
+
+
+
+
+
+export const uploadAvatar = createAsyncThunk(
+  'user/uploadAvatar',
+  async ({ id, image }: { id: string; image: File }) => {
+    try {
+      // Tải ảnh lên Firebase Storage
+      const storage = getStorage()
+      const storageRef = ref(storage, `avatars/${id}`)
+      await uploadBytes(storageRef, image)
+
+      // Lấy URL của ảnh đã tải lên
+      const imageUrl = await getDownloadURL(storageRef)
+
+      // Cập nhật trường avatar trong Firestore
+      await updateDoc(doc(db, 'users', id), { avatar: imageUrl })
+
+      return { success: true, message: 'Cập nhật avatar thành công' }
+    } catch (error) {
+      console.error('Cập nhật avatar gặp lỗi:', error)
+      throw error
+    }
+  }
+)

@@ -7,3 +7,8 @@ export const ServiceShema = yup
     moTa: yup.string()
   })
   .required()
+export const UploadShema = yup
+  .object({
+   hinhAnh: yup.array().min(1, "Hình ảnh không được bỏ trống"),
+  })
+  .required()

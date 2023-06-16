@@ -26,7 +26,6 @@ export const fetchDeviceDetail = createAsyncThunk('auth/fetchDeviceDetail', asyn
 export const updateDevice = createAsyncThunk(
   'auth/updateDevice',
   async ({ id, updatedDeviceData }: { id: string; updatedDeviceData: Partial<IDeviceManagement> }) => {
-    console.log("file: deviceDetail.action.ts:26 ~ updatedDeviceData:", updatedDeviceData)
     try {
       const deviceDocRef = doc(db, 'devices', id)
       const deviceDoc = await getDoc(deviceDocRef)
@@ -44,4 +43,7 @@ export const updateDevice = createAsyncThunk(
     }
   }
 )
+
+
+
 

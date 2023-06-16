@@ -1,6 +1,8 @@
+import Loading from 'components/loading/Loading'
 import PageInfor from 'components/pageInfor/PageInfor'
 import CustomTable from 'components/table/CustomTable'
 import { IAuth } from 'constants/interface/auth.interface'
+import { useSearch } from 'hooks/useSearch'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
@@ -13,11 +15,12 @@ import getColumnDeviceConfig from 'utils/dataColumn'
 type Props = {}
 
 const UsernameListPage = React.memo((props: Props) => {
-  const { users, userRole, selectedRole } = useSelector((state: RootState) => state.user)
+  const { users, userRole, selectedRole,isLoading } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch<AppDispatch>()
   const [filteredData, setFilteredData] = useState<IAuth[]>(users)
   const [renderCount, setRenderCount] = useState(0)
   const MemoizedCustomTable = React.memo(CustomTable)
+  const [debouncedInput, handleSearch] = useSearch('', 500)
 
   const filterUser = useMemo(() => {
     let filterUser = users
@@ -25,9 +28,9 @@ const UsernameListPage = React.memo((props: Props) => {
     if (selectedRole !== 'all') {
       filterUser = filterUser.filter((user) => user.vaiTro === selectedRole)
     }
-
+    filterUser = filterUser.filter((user) => user?.soDienThoai?.toLowerCase().includes(debouncedInput.toLowerCase()))
     return filterUser
-  }, [users, selectedRole])
+  }, [users, selectedRole, debouncedInput])
 
   // ----- GỌI DANH SÁCH NGƯỜI DÙNG VÀ VAI TRÒ TỪ FIRESTORE--------------------
   useEffect(() => {
@@ -106,7 +109,9 @@ const UsernameListPage = React.memo((props: Props) => {
   // ----------------------------Thêm cột chi tiết và tùy chỉn ----------------
 
   return (
-    <div className='pt-10 '>
+  <>
+  {isLoading?<Loading/>:(
+      <div className='pt-10 '>
       <PageInfor />
       <div className='flex h-full pl-10 pt-14  max-[1440px]:pl-5'>
         <div className=' flex   flex-col justify-between overflow-hidden'>
@@ -125,7 +130,8 @@ const UsernameListPage = React.memo((props: Props) => {
                   <input
                     type='text'
                     className='w-full rounded-md border border-gray-300 bg-white p-2'
-                    placeholder='Nhập từ khóa'
+                    placeholder='Tìm số điện thoại'
+                    onChange={handleSearch}
                   />
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -178,6 +184,8 @@ const UsernameListPage = React.memo((props: Props) => {
         </div>
       </div>
     </div>
+  )}
+  </>
   )
 })
 

@@ -8,6 +8,7 @@ import Dropdown from '../select/Dropdown'
 import TreeSelect from 'components/select/TreeSelect'
 import CheckboxGroup from '../checkbox/Checkbox'
 import IOption from 'constants/interface/option.interface'
+import ImageUpload from 'components/uploadImage/ImageUpload'
 
 const Form = ({
   schema,
@@ -339,7 +340,14 @@ const Form = ({
                       type='datetime'
                       defaultValue={value}
                     />
-                  ) : type === 'number' ? (
+                  ): type === "file" ? (
+                    <ImageUpload
+                      name={name}
+                      control={control}
+                      errors={errors[name]}
+                      defaultValue={value}
+                    />
+                  )  : type === 'number' ? (
                     <input
                       type={type}
                       placeholder={placeholder}

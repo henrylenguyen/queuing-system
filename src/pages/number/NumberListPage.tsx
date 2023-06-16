@@ -3,6 +3,7 @@ import PageInfor from 'components/pageInfor/PageInfor'
 import CustomTable from 'components/table/CustomTable'
 import { INumber } from 'constants/interface/number.interface'
 import dayjs from 'dayjs'
+import { useSearch } from 'hooks/useSearch'
 import moment from 'moment'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -58,6 +59,8 @@ const NumberListPage = (props: Props) => {
   const [renderCount, setRenderCount] = useState(0) // để gán vào key của table
   const dispatch = useDispatch<AppDispatch>()
   const [filteredData, setFilteredData] = useState<INumber[]>(numbers)
+  const [debouncedInput, handleSearch] = useSearch('', 500)
+
   //-------------------------GỌI DỮ LIỆU TỪ FIRESTORE-----------------------
   useEffect(() => {
     dispatch(fetchNumbers())
@@ -133,9 +136,12 @@ const NumberListPage = (props: Props) => {
         )
       })
     }
+    filteredDevices = filteredDevices.filter((number) =>
+      number?.tenKhachHang?.toLowerCase().includes(debouncedInput.toLowerCase())
+    )
 
     return filteredDevices
-  }, [numbers, selectedServices, selectedStatus, selectedDevice, selectedDateRange])
+  }, [numbers, selectedServices, selectedStatus, selectedDevice, selectedDateRange, debouncedInput])
 
   // ---------------TĂNG ĐẾM ĐỂ GÁN VÀO KEY VÀ GÁN LẠI GIÁ TRỊ-----------------
   useEffect(() => {
@@ -275,7 +281,7 @@ const NumberListPage = (props: Props) => {
                     <DateRangePicker
                       handleChange={handleTimePickerChange}
                       placeholder={['Ngày bắt đầu', 'Ngày kết thúc']}
-                      className='h-[38px]'
+                      className=' h-[38px]'
                     />
                   </div>
                 </div>
@@ -286,7 +292,8 @@ const NumberListPage = (props: Props) => {
                   <input
                     type='text'
                     className='w-full rounded-md border border-gray-300 bg-white p-2'
-                    placeholder='Nhập từ khóa'
+                    placeholder='Tìm tên khách hàng'
+                    onChange={handleSearch}
                   />
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
