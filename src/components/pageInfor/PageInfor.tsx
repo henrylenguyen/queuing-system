@@ -71,8 +71,11 @@ const PageInfor = () => {
       case 'account':
         part = 'Quản lý tài khoản'
         break
-      case 'role-manegement':
+      case 'role':
         part = 'Quản lý vai trò'
+        break
+      case 'role-manegement':
+        part = 'Danh sách vai trò'
         break
       case 'add-role-manegement':
         part = 'Thêm vai trò'

@@ -24,6 +24,7 @@ import UpdateUsernamePage from 'pages/username/UpdateUsernamePage'
 import UserLog from 'pages/userLog/UserLog'
 import AddNumberPageLogin from 'pages/number/AddNumberPageLogin'
 import PageNotFound from 'pages/PageNotFound'
+import UpdateRolePage from 'pages/role/UpdateRolePage'
 export default function useRouteElement() {
   const routeElement = useRoutes([
     {
@@ -163,10 +164,18 @@ export default function useRouteElement() {
       )
     },
     {
-      path: '/role/role-manegement/add-role-manegement',
+      path: '/role/role-manegement/add-new-role',
       element: (
         <DashBoardLayout>
           <AddRolePage />
+        </DashBoardLayout>
+      )
+    },
+    {
+      path: '/role/role-manegement/update-role',
+      element: (
+        <DashBoardLayout>
+          <UpdateRolePage />
         </DashBoardLayout>
       )
     },

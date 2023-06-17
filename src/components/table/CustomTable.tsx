@@ -178,6 +178,7 @@ const CustomTable: React.FC<CustomTableProps> = React.memo(({ columns, data, Key
               col.key.toLowerCase() === 'diachiip' ||
               col.key.toLowerCase() === 'trangthaihoatdong' ||
               col.key.toLowerCase() === 'trangthaiketnoi'||
+              col.key.toLowerCase() === 'songuoidung'||
               col.key.toLowerCase() === 'trangthai'
             
             ) {
