@@ -8,7 +8,7 @@ import { fetchUserLogin } from 'redux/action/users/auth.action'
 import { uploadAvatar } from 'redux/action/users/users.action'
 import { AppDispatch, RootState } from 'redux/store'
 import { useLocalStorage } from 'usehooks-ts'
-
+import Icon, { CloseOutlined } from '@ant-design/icons'
 type Props = {
   image?: string
   name?: string
@@ -24,21 +24,20 @@ const ProfileImage = ({ image, name }: Props) => {
   const [updateSuccess, setUpdateSuccess] = useState(false)
   const [isLogin] = useLocalStorage('islogin', { islogin: false, id: null })
   const [open, setOpen] = useState(false)
-  const [isUploadSuccessChanged, setUploadSuccessChanged] = useState(false)
-  // Làm cho component render lại để hiển thị thông báo và  khi cập nhật thành công và fetch dữ liệu đăng nhập 1 lần nữa
+
   useEffect(() => {
-    if (isUploadSuccessChanged) {
-      if (isUploadSuccess.success) {
-        message.success(`${isUploadSuccess.message}`, 2)
-        if (isLogin.id) {
+    if (isUploadSuccess.success && updateSuccess) {
+      message.success(`${isUploadSuccess.message}`, 2)
+      if(isLogin.id){
           dispatch(fetchUserLogin(isLogin.id)) // Fetch dữ liệu đăng nhập 1 lần nữa
-        }
-      } else if (!isUploadSuccess.success && isUploadSuccess.message !== '') {
-        message.error(`${isUploadSuccess.message}`, 2)
+          setUpdateSuccess(false)
       }
-      setUploadSuccessChanged(false)
+      
+    } else if (!isUploadSuccess.success && isUploadSuccess.message !== '') {
+      message.error(`${isUploadSuccess.message}`, 2)
+      setUpdateSuccess(false)
     }
-  }, [isUploadSuccess, isUploadSuccessChanged])
+  }, [isUploadSuccess, updateSuccess])
 
   const handleUpload = (data: any) => {
     if (data) {
@@ -47,7 +46,6 @@ const ProfileImage = ({ image, name }: Props) => {
         dispatch(uploadAvatar(params))
         setOpen(false)
         setUpdateSuccess(true)
-        setUploadSuccessChanged(true)
       }
     }
   }
@@ -55,6 +53,7 @@ const ProfileImage = ({ image, name }: Props) => {
   const showModal = () => {
     setOpen(true)
   }
+
   const handleCancel = () => {
     setOpen(false)
   }
@@ -90,19 +89,16 @@ const ProfileImage = ({ image, name }: Props) => {
             </svg>
           </button>
         </div>
-
         <span className='text-[30px] font-semibold text-[#282739]'>{name}</span>
       </div>
-      <Modal open={open} onCancel={handleCancel} className='h-creen w-full' footer={null}>
+      <Modal open={open} closeIcon={<CloseOutlined className='text-primary'/>} onCancel={handleCancel} className='h-creen w-full' footer={null}>
         <div className='flex flex-col items-center justify-center gap-10'>
           <Form
             schema={UploadShema}
             fields={profileFieldsUpload}
             gap='30px'
-            titleButtonCancel='Hủy bỏ'
-            titleButton='Cập nhật'
+            titleButton='Lưu'
             handleSubmitForm={handleUpload}
-            handleCancelForm={handleCancel}
           />
         </div>
       </Modal>
