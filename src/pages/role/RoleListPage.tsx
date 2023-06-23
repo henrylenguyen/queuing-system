@@ -8,6 +8,7 @@ import dayjs from 'dayjs'
 import moment from 'moment'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import { fetchReport } from 'redux/action/report/report.action'
 import { fetchRoles } from 'redux/action/roles/roleList.action'
 import { onChangeNumberDatePickerReport } from 'redux/slice/report.slice'
@@ -110,15 +111,28 @@ const RoleListPage = (props: Props) => {
                     </div>
                   </div>
                 </div>
-                {roles.length > 0 ? (
-                  <CustomTable  data={roles} columns={columns} Key={'tenVaiTro'}></CustomTable>
-                ) : (
-                  ''
-                )}
+                {roles.length > 0 ? <CustomTable data={roles} columns={columns} Key={'tenVaiTro'}></CustomTable> : ''}
               </div>
             </div>
             <div className=' flex-shink-0 flex h-[350px] flex-col items-end gap-5 p-5'>
-            
+              <NavLink
+                to='/role/role-manegement/add-new-role'
+                className={'flex flex-col  items-center gap-2 rounded-lg bg-[#FFF2E7] px-5 py-2 text-primary shadow'}
+              >
+                <div className='flex h-[30px] w-[30px] items-center justify-center rounded-md bg-primary'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='#fff'
+                    className='h-6 w-6'
+                  >
+                    <path strokeLinecap='round' strokeLinejoin='round' d='M12 6v12m6-6H6' />
+                  </svg>
+                </div>
+                <span className='text-center'>Thêm vai trò</span>
+              </NavLink>
             </div>
           </div>
         </div>

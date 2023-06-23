@@ -175,7 +175,7 @@ export default function useRouteElement() {
       path: '/role/role-manegement/update-role',
       element: (
         <DashBoardLayout>
-          <UpdateRolePage />
+          <UpdateRolePage/>
         </DashBoardLayout>
       )
     },
