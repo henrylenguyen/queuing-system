@@ -77,7 +77,7 @@ const PageInfor = () => {
       case 'role-manegement':
         part = 'Danh sách vai trò'
         break
-      case 'add-role-manegement':
+      case 'add-new-role':
         part = 'Thêm vai trò'
         break
       case 'account-list':

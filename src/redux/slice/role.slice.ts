@@ -5,8 +5,8 @@ import { AddUserFulfilled, fetchUserRolesFulfilled, fetchUsersFulfilled } from '
 import { handleError, handlePending } from 'redux/handle'
 import { IHanle } from 'constants/interface/handle.interface'
 import { IRole } from 'constants/interface/role.interface'
-import { fetchRoles, fetchRolesName } from 'redux/action/roles/roleList.action'
-import { fetchRoleFulfilled, fetchRoleNameFulfilled } from 'redux/handle/role.handle'
+import { fetchRoleDetail, fetchRoles, fetchRolesName, postRole } from 'redux/action/roles/roleList.action'
+import { fetchAddRoleFulfilled, fetchRoleDetailFulfilled, fetchRoleFulfilled, fetchRoleNameFulfilled } from 'redux/handle/role.handle'
 
 export interface IRoleState extends IHanle {
   roles: IRole[]
@@ -14,17 +14,38 @@ export interface IRoleState extends IHanle {
     id: string
     tenVaiTro: string
   }[]
+  isAddSuccess: boolean
+  roleDetail: IRole
 }
 const initialState: IRoleState = {
   roles: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
-  roleName: []
+  roleName: [],
+  isAddSuccess: false,
+  roleDetail: {
+    moTa: '',
+    rule: '',
+    tenVaiTro: '',
+    soNguoiDung: 0
+  }
 }
 const roleSlice = createSlice({
   name: 'role',
   initialState,
-  reducers: {},
+  reducers: {
+    clearRoleStatus: (state) => {
+      state.isAddSuccess = false
+    },
+    clearRoleDetail: (state)=>{
+      state.roleDetail = {
+    moTa: '',
+    rule: '',
+    tenVaiTro: '',
+    soNguoiDung: 0
+  }
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchRoles.pending, handlePending)
@@ -33,8 +54,14 @@ const roleSlice = createSlice({
       .addCase(fetchRolesName.pending, handlePending)
       .addCase(fetchRolesName.fulfilled, fetchRoleNameFulfilled)
       .addCase(fetchRolesName.rejected, handleError)
+      .addCase(postRole.pending, handlePending)
+      .addCase(postRole.fulfilled, fetchAddRoleFulfilled)
+      .addCase(postRole.rejected, handleError)
+      .addCase(fetchRoleDetail.pending, handlePending)
+      .addCase(fetchRoleDetail.fulfilled, fetchRoleDetailFulfilled)
+      .addCase(fetchRoleDetail.rejected, handleError)
   }
 })
-export const {} = roleSlice.actions
+export const { clearRoleStatus,clearRoleDetail } = roleSlice.actions
 const roleReducer = roleSlice.reducer
 export default roleReducer
